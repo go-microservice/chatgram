@@ -3,9 +3,11 @@ package service
 import (
 	"context"
 
-	userv1 "github.com/go-microservice/user-service/api/micro/user/v1"
+	"github.com/jinzhu/copier"
 
-	pb "github.com/go-microservice/ins-api/api/user/v1"
+	userv1 "github.com/go-microservice/user-service/api/user/v1"
+
+	pb "github.com/go-microservice/ins-api/api/micro/user/v1"
 )
 
 var (
@@ -39,7 +41,18 @@ func (s *UserServiceServer) Register(ctx context.Context, req *pb.RegisterReques
 }
 
 func (s *UserServiceServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginReply, error) {
-	return &pb.LoginReply{}, nil
+	in := &userv1.LoginRequest{
+		Username: req.Username,
+		Email:    req.Email,
+		Password: req.Password,
+	}
+	out, err := s.userRPC.Login(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.LoginReply{
+		Token: out.GetToken(),
+	}, nil
 }
 func (s *UserServiceServer) Logout(ctx context.Context, req *pb.LogoutRequest) (*pb.LogoutReply, error) {
 	return &pb.LogoutReply{}, nil
@@ -48,7 +61,21 @@ func (s *UserServiceServer) CreateUser(ctx context.Context, req *pb.CreateUserRe
 	return &pb.CreateUserReply{}, nil
 }
 func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUserReply, error) {
-	return &pb.GetUserReply{}, nil
+	in := &userv1.GetUserRequest{
+		Id: 1,
+	}
+	out, err := s.userRPC.GetUser(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	user := pb.User{}
+	err = copier.Copy(&user, &out.User)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetUserReply{
+		User: &user,
+	}, nil
 }
 func (s *UserServiceServer) BatchGetUsers(ctx context.Context, req *pb.BatchGetUsersRequest) (*pb.BatchGetUsersReply, error) {
 	return &pb.BatchGetUsersReply{}, nil

@@ -5,7 +5,7 @@ import (
 	"github.com/go-eagle/eagle/pkg/transport/http"
 	"github.com/google/wire"
 
-	v1 "github.com/go-microservice/ins-api/api/user/v1"
+	v1 "github.com/go-microservice/ins-api/api/micro/user/v1"
 	"github.com/go-microservice/ins-api/internal/routers"
 	"github.com/go-microservice/ins-api/internal/service"
 )
