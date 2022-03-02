@@ -195,8 +195,8 @@ github.com/go-logr/logr v1.2.1/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbV
 github.com/go-logr/stdr v1.2.0 h1:j4LrlVXgrbIWO83mmQUnK0Hi+YnbD+vzrE1z/EphbFE=
 github.com/go-logr/stdr v1.2.0/go.mod h1:YkVgnZu1ZjjL7xTxrfm/LLZBfkhTqSR1ydtm6jTKKwI=
 github.com/go-mail/mail v2.3.1+incompatible/go.mod h1:VPWjmmNyRsWXQZHVHT3g0YbIINUkSmuKOiLIDkWbL6M=
-github.com/go-microservice/user-service v0.0.0-20220301142733-2f742ada7f10 h1:CEPx9yfmS6d4Bm/Pj+MZkGp8J/bgmigZdzgXmdranwI=
-github.com/go-microservice/user-service v0.0.0-20220301142733-2f742ada7f10/go.mod h1:KiZDM72MfJL5s8c3DGcFFvNNCSxaHcFfRbdnvG6gDUY=
+github.com/go-microservice/user-service v0.0.0-20220302120633-f1d2396e1c02 h1:zdUvAcSY2/cXHrHi/HjSssmudRsgjyAYeKcWTYvRtbo=
+github.com/go-microservice/user-service v0.0.0-20220302120633-f1d2396e1c02/go.mod h1:KiZDM72MfJL5s8c3DGcFFvNNCSxaHcFfRbdnvG6gDUY=
 github.com/go-ole/go-ole v1.2.5 h1:t4MGB5xEDZvXI+0rMjjsfBsD7yAgp/s9ZDkL1JndXwY=
 github.com/go-ole/go-ole v1.2.5/go.mod h1:pprOEPIfldk/42T2oK7lQ4v4JSDwmV0As9GaiUsvbm0=
 github.com/go-openapi/jsonpointer v0.17.0/go.mod h1:cOnomiV+CVVwFLk0A/MExoFMjwdsUdVpsRhURCKh+3M=

@@ -3,11 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/jinzhu/copier"
-
-	userv1 "github.com/go-microservice/user-service/api/user/v1"
-
 	pb "github.com/go-microservice/ins-api/api/micro/user/v1"
+	userv1 "github.com/go-microservice/user-service/api/user/v1"
+	"github.com/jinzhu/copier"
 )
 
 var (
@@ -55,6 +53,14 @@ func (s *UserServiceServer) Login(ctx context.Context, req *pb.LoginRequest) (*p
 	}, nil
 }
 func (s *UserServiceServer) Logout(ctx context.Context, req *pb.LogoutRequest) (*pb.LogoutReply, error) {
+	in := &userv1.LogoutRequest{
+		Id:    req.Id,
+		Token: req.Token,
+	}
+	_, err := s.userRPC.Logout(ctx, in)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.LogoutReply{}, nil
 }
 func (s *UserServiceServer) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserReply, error) {

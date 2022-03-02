@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-eagle/eagle v1.4.1-0.20220224145548-61d049898e7e
-	github.com/go-microservice/user-service v0.0.0-20220301142733-2f742ada7f10
+	github.com/go-microservice/user-service v0.0.0-20220302120633-f1d2396e1c02
 	github.com/google/wire v0.5.0
 	github.com/hibiken/asynq v0.22.0
 	github.com/jinzhu/copier v0.3.4

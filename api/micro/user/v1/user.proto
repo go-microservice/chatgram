@@ -109,7 +109,8 @@ message LoginReply {
 }
 
 message LogoutRequest {
-  string token = 1;
+  int64 id = 1;
+  string token = 2;
 }
 
 message LogoutReply {
