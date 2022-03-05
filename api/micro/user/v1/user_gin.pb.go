@@ -1,5 +1,5 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.3
+// protoc-gen-go-gin 0.0.4
 
 package v1
 
@@ -55,7 +55,7 @@ func (s *UserService) Register_0(ctx *gin.Context) {
 	var in RegisterRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -77,7 +77,7 @@ func (s *UserService) Login_0(ctx *gin.Context) {
 	var in LoginRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -99,7 +99,7 @@ func (s *UserService) Logout_0(ctx *gin.Context) {
 	var in LogoutRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -121,7 +121,7 @@ func (s *UserService) CreateUser_0(ctx *gin.Context) {
 	var in CreateUserRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -143,7 +143,7 @@ func (s *UserService) GetUser_0(ctx *gin.Context) {
 	var in GetUserRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -165,7 +165,7 @@ func (s *UserService) BatchGetUsers_0(ctx *gin.Context) {
 	var in BatchGetUsersRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -187,12 +187,12 @@ func (s *UserService) UpdateUser_0(ctx *gin.Context) {
 	var in UpdateUserRequest
 
 	if err := ctx.ShouldBindUri(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
 	if err := ctx.ShouldBind(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -214,12 +214,12 @@ func (s *UserService) UpdatePassword_0(ctx *gin.Context) {
 	var in UpdatePasswordRequest
 
 	if err := ctx.ShouldBindUri(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
 	if err := ctx.ShouldBind(&in); err != nil {
-		response.Error(ctx, errcode.ErrBind.WithDetails(err.Error()))
+		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 

@@ -3,9 +3,11 @@ package service
 import (
 	"context"
 
-	pb "github.com/go-microservice/ins-api/api/micro/user/v1"
 	userv1 "github.com/go-microservice/user-service/api/user/v1"
 	"github.com/jinzhu/copier"
+	"github.com/spf13/cast"
+
+	pb "github.com/go-microservice/ins-api/api/micro/user/v1"
 )
 
 var (
@@ -68,7 +70,7 @@ func (s *UserServiceServer) CreateUser(ctx context.Context, req *pb.CreateUserRe
 }
 func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUserReply, error) {
 	in := &userv1.GetUserRequest{
-		Id: 1,
+		Id: cast.ToInt64(req.GetId()),
 	}
 	out, err := s.userRPC.GetUser(ctx, in)
 	if err != nil {
