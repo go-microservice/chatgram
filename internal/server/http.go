@@ -5,7 +5,8 @@ import (
 	"github.com/go-eagle/eagle/pkg/transport/http"
 	"github.com/google/wire"
 
-	v1 "github.com/go-microservice/ins-api/api/micro/user/v1"
+	relationv1 "github.com/go-microservice/ins-api/api/micro/relation/v1"
+	userv1 "github.com/go-microservice/ins-api/api/micro/user/v1"
 	"github.com/go-microservice/ins-api/internal/routers"
 	"github.com/go-microservice/ins-api/internal/service"
 )
@@ -14,7 +15,10 @@ import (
 var ProviderSet = wire.NewSet(NewHTTPServer)
 
 // NewHTTPServer creates a HTTP server
-func NewHTTPServer(c *app.ServerConfig, svc *service.UserServiceServer) *http.Server {
+func NewHTTPServer(c *app.ServerConfig,
+	userSvc *service.UserServiceServer,
+	relSvc *service.RelationServiceServer,
+) *http.Server {
 	router := routers.NewRouter()
 
 	srv := http.NewServer(
@@ -25,7 +29,8 @@ func NewHTTPServer(c *app.ServerConfig, svc *service.UserServiceServer) *http.Se
 
 	srv.Handler = router
 
-	v1.RegisterUserServiceHTTPServer(router, svc)
+	userv1.RegisterUserServiceHTTPServer(router, userSvc)
+	relationv1.RegisterRelationServiceHTTPServer(router, relSvc)
 
 	return srv
 }
