@@ -21,7 +21,8 @@ import (
 func InitApp(cfg *app.Config, config *app.ServerConfig) (*app.App, error) {
 	userServiceClient := repository.NewUserClient()
 	userServiceServer := service.NewUserServiceServer(userServiceClient)
-	relationServiceServer := service.NewRelationServiceServer()
+	relationServiceClient := repository.NewRelationClient()
+	relationServiceServer := service.NewRelationServiceServer(relationServiceClient, userServiceClient)
 	httpServer := server.NewHTTPServer(config, userServiceServer, relationServiceServer)
 	appApp := newApp(cfg, httpServer)
 	return appApp, nil

@@ -3,6 +3,7 @@ syntax = "proto3";
 package micro.relation.v1;
 
 import "google/api/annotations.proto";
+import "api/micro/user/v1/user.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/relation/v1;v1";
 
@@ -21,13 +22,13 @@ service RelationService {
   }
   rpc GetFollowingUserList(GetFollowingUserListRequest) returns (GetFollowingUserListReply) {
     option (google.api.http) = {
-      post: "/v1/users/{user_id}/following"
+      get: "/v1/users/{user_id}/following"
       body: "*"
     };
   }
   rpc GetFollowerUserList(GetFollowerUserListRequest) returns(GetFollowerUserListReply) {
     option (google.api.http) = {
-      post: "/v1/users/{user_id}/follower"
+      get: "/v1/users/{user_id}/follower"
       body: "*"
     };
   }
@@ -50,12 +51,13 @@ message UnfollowReply {
 }
 
 message GetFollowingUserListRequest {
-  int64 user_id = 1;
-  int64 last_id = 2;
-  int64 limit = 3;
+  string user_id = 1;
+  string last_id = 2;
+  string limit = 3;
 }
 
 message GetFollowingUserListReply {
+  repeated micro.user.v1.User items = 1;
 }
 
 message GetFollowerUserListRequest {
@@ -65,5 +67,5 @@ message GetFollowerUserListRequest {
 }
 
 message GetFollowerUserListReply {
-//  repeated users = 1;
+  repeated micro.user.v1.User users = 1;
 }
