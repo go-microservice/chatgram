@@ -57,7 +57,10 @@ message GetFollowingUserListRequest {
 }
 
 message GetFollowingUserListReply {
-  repeated micro.user.v1.User items = 1;
+  int32 has_more = 1;
+  string last_id = 2;
+  repeated micro.user.v1.User items = 3;
+
 }
 
 message GetFollowerUserListRequest {
@@ -67,5 +70,7 @@ message GetFollowerUserListRequest {
 }
 
 message GetFollowerUserListReply {
-  repeated micro.user.v1.User users = 1;
+  int32 has_more = 1;
+  string last_id = 2;
+  repeated micro.user.v1.User items = 3;
 }

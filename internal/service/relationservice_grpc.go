@@ -39,6 +39,7 @@ func (s *RelationServiceServer) Follow(ctx context.Context, req *pb.FollowReques
 	}
 	return &pb.FollowReply{}, nil
 }
+
 func (s *RelationServiceServer) Unfollow(ctx context.Context, req *pb.UnfollowRequest) (*pb.UnfollowReply, error) {
 	in := &relationV1.UnfollowRequest{
 		UserId:      req.UserId,
@@ -50,24 +51,44 @@ func (s *RelationServiceServer) Unfollow(ctx context.Context, req *pb.UnfollowRe
 	}
 	return &pb.UnfollowReply{}, nil
 }
+
 func (s *RelationServiceServer) GetFollowingUserList(ctx context.Context, req *pb.GetFollowingUserListRequest) (*pb.GetFollowingUserListReply, error) {
+	// get relation data, support pagination
+	limit := cast.ToInt32(req.GetLimit())
 	in := &relationV1.FollowingListRequest{
 		UserId: cast.ToInt64(req.GetUserId()),
 		LastId: cast.ToInt64(req.GetLastId()),
-		Limit:  cast.ToInt32(req.GetLimit()),
+		Limit:  limit + 1,
 	}
 	ret, err := s.relationRPC.GetFollowingList(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	out, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: ret.UserIds})
+	relationRet := ret.GetResult()
+	var (
+		hasMore int32
+		lastId  string
+		userIDs []int64
+	)
+	if int32(len(relationRet)) > limit {
+		hasMore = 1
+		lastId = cast.ToString(relationRet[len(relationRet)-1].Id)
+		relationRet = relationRet[0 : len(relationRet)-1]
+	}
+	for _, v := range relationRet {
+		userIDs = append(userIDs, v.GetFollowedUid())
+	}
+
+	// get user info
+	out, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
 	if err != nil {
 		return nil, err
 	}
 
+	// convert to pb user
 	var users []*pbuser.User
-	for _, v := range out.Users {
+	for _, v := range out.GetUsers() {
 		user := pbuser.User{}
 		err = copier.Copy(&user, &v)
 		if err != nil {
@@ -77,18 +98,59 @@ func (s *RelationServiceServer) GetFollowingUserList(ctx context.Context, req *p
 	}
 
 	return &pb.GetFollowingUserListReply{
-		Users: users,
+		HasMore: hasMore,
+		LastId:  lastId,
+		Items:   users,
 	}, nil
 }
 func (s *RelationServiceServer) GetFollowerUserList(ctx context.Context, req *pb.GetFollowerUserListRequest) (*pb.GetFollowerUserListReply, error) {
+	// get relation data, support pagination
+	limit := cast.ToInt32(req.GetLimit())
 	in := &relationV1.FollowerListRequest{
-		UserId: req.GetUserId(),
-		LastId: req.GetLastId(),
-		Limit:  int32(req.GetLimit()),
+		UserId: cast.ToInt64(req.GetUserId()),
+		LastId: cast.ToInt64(req.GetLastId()),
+		Limit:  limit + 1,
 	}
-	_, err := s.relationRPC.GetFollowerList(ctx, in)
+	ret, err := s.relationRPC.GetFollowerList(ctx, in)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.GetFollowerUserListReply{}, nil
+
+	relationRet := ret.GetResult()
+	var (
+		hasMore int32
+		lastId  string
+		userIDs []int64
+	)
+	if int32(len(relationRet)) > limit {
+		hasMore = 1
+		lastId = cast.ToString(relationRet[len(relationRet)-1].Id)
+		relationRet = relationRet[0 : len(relationRet)-1]
+	}
+	for _, v := range relationRet {
+		userIDs = append(userIDs, v.GetFollowerUid())
+	}
+
+	// get user info
+	out, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
+	if err != nil {
+		return nil, err
+	}
+
+	// convert to pb user
+	var users []*pbuser.User
+	for _, v := range out.GetUsers() {
+		user := pbuser.User{}
+		err = copier.Copy(&user, &v)
+		if err != nil {
+			continue
+		}
+		users = append(users, &user)
+	}
+
+	return &pb.GetFollowerUserListReply{
+		HasMore: hasMore,
+		LastId:  lastId,
+		Items:   users,
+	}, nil
 }
