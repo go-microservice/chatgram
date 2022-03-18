@@ -51,8 +51,11 @@ message UnfollowReply {
 }
 
 message GetFollowingUserListRequest {
+  // @gotags: form:"user_id"
   string user_id = 1;
+  // @gotags: form:"last_id"
   string last_id = 2;
+  // @gotags: form:"limit"
   string limit = 3;
 }
 
@@ -64,9 +67,12 @@ message GetFollowingUserListReply {
 }
 
 message GetFollowerUserListRequest {
-  int64 user_id = 1;
-  int64 last_id = 2;
-  int64 limit = 3;
+  // @gotags: form:"user_id"
+  string user_id = 1;
+  // @gotags: form:"last_id"
+  string last_id = 2;
+  // @gotags: form:"limit"
+  string limit = 3;
 }
 
 message GetFollowerUserListReply {

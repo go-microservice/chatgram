@@ -18,6 +18,7 @@ GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 # proto
 APP_RELATIVE_PATH=$(shell a=`basename $$PWD` && echo $$b)
 API_PROTO_FILES=$(shell find api$(APP_RELATIVE_PATH) -name *.proto)
+API_PROTO_PB_FILES=$(shell find api$(APP_RELATIVE_PATH) -name *.pb.go)
 
 # init environment variables
 export PATH        := $(shell go env GOPATH)/bin:$(PATH)
@@ -142,6 +143,7 @@ init:
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	go get -v github.com/google/gnostic
 	go get -v github.com/google/gnostic/cmd/protoc-gen-openapi
+	go get -v github.com/favadi/protoc-go-inject-tag
 
 .PHONY: proto
 # generate proto struct only
@@ -168,6 +170,11 @@ http:
            --go_out=. --go_opt=paths=source_relative \
            --go-gin_out=. --go-gin_opt=paths=source_relative \
            $(API_PROTO_FILES)
+
+.PHONY: tag
+# add tag to pb struct
+tag:
+	protoc-go-inject-tag -input=$(API_PROTO_PB_FILES)
 
 .PHONY: openapi
 # generate openapi
