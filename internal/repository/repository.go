@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-eagle/eagle/pkg/transport/grpc"
 	"github.com/google/wire"
@@ -14,8 +15,11 @@ import (
 var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient)
 
 func NewUserClient() userv1.UserServiceClient {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
 	conn, err := grpc.DialInsecure(
-		context.Background(),
+		ctx,
 		grpc.WithEndpoint("localhost:9090"),
 	)
 	if err != nil {
@@ -26,8 +30,11 @@ func NewUserClient() userv1.UserServiceClient {
 }
 
 func NewRelationClient() relationV1.RelationServiceClient {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
 	conn, err := grpc.DialInsecure(
-		context.Background(),
+		ctx,
 		grpc.WithEndpoint("localhost:9091"),
 	)
 	if err != nil {
