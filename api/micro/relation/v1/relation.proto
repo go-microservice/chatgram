@@ -4,8 +4,30 @@ package micro.relation.v1;
 
 import "google/api/annotations.proto";
 import "api/micro/user/v1/user.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/relation/v1;v1";
+// see: https://github.com/grpc-ecosystem/grpc-gateway/blob/2ce32afe5735d0bfa28ee3369e5975dfb8192313/protoc-gen-openapiv2/options/openapiv2.proto
+// https://github.com/grpc-ecosystem/grpc-gateway/blob/2ce32afe5735d0bfa28ee3369e5975dfb8192313/examples/internal/proto/examplepb/a_bit_of_everything.proto
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Ins API";
+    version: "1.0";
+    description: "";
+    contact: {
+      name: "Ins project";
+      url: "https://github.com/go-microservices/ins-app";
+      email: "";
+    };
+    license: {
+      name: "MIT License";
+      url: "https://github.com/go-microservices/ins-app/blob/master/LICENSE.txt";
+    };
+  };
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+};
 
 service RelationService {
   rpc Follow(FollowRequest) returns (FollowReply) {
@@ -13,23 +35,27 @@ service RelationService {
       post: "/v1/users/follow"
       body: "*"
     };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      external_docs: {
+        url: "https://github.com/grpc-ecosystem/grpc-gateway";
+        description: "Follow Query";
+      }
+    };
   }
   rpc Unfollow(UnfollowRequest) returns (UnfollowReply) {
     option (google.api.http) = {
       post: "/v1/users/unfollow"
-      body: "*"
     };
   }
   rpc GetFollowingUserList(GetFollowingUserListRequest) returns (GetFollowingUserListReply) {
     option (google.api.http) = {
       get: "/v1/users/{user_id}/following"
-      body: "*"
     };
   }
   rpc GetFollowerUserList(GetFollowerUserListRequest) returns(GetFollowerUserListReply) {
     option (google.api.http) = {
       get: "/v1/users/{user_id}/follower"
-      body: "*"
     };
   }
 }

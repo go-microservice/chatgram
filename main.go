@@ -14,6 +14,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -35,12 +37,6 @@ var (
 	version = pflag.BoolP("version", "v", false, "show version info.")
 )
 
-// @title eagle docs api
-// @version 1.0
-// @description eagle demo
-
-// @host localhost:8080
-// @BasePath /v1
 func main() {
 	pflag.Parse()
 	if *version {
@@ -74,12 +70,12 @@ func main() {
 	gin.SetMode(cfg.Mode)
 
 	// init pprof server
-	//go func() {
-	//	fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)
-	//	if err := http.ListenAndServe(cfg.PprofPort, http.DefaultServeMux); err != nil && err != http.ErrServerClosed {
-	//		log.Fatalf("listen ListenAndServe for PProf, err: %s", err.Error())
-	//	}
-	//}()
+	go func() {
+		fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)
+		if err := http.ListenAndServe(cfg.PprofPort, http.DefaultServeMux); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen ListenAndServe for PProf, err: %s", err.Error())
+		}
+	}()
 
 	// start app
 	app, err := InitApp(&cfg, &cfg.HTTP)

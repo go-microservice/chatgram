@@ -34,6 +34,7 @@ func (s *UserServiceServer) Register(ctx context.Context, req *pb.RegisterReques
 	}
 	out, err := s.userRPC.Register(ctx, in)
 	if err != nil {
+		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
 		if ok && statusErr.Code() == codes.DeadlineExceeded {
 			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
@@ -56,6 +57,7 @@ func (s *UserServiceServer) Login(ctx context.Context, req *pb.LoginRequest) (*p
 	}
 	out, err := s.userRPC.Login(ctx, in)
 	if err != nil {
+		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
 		if ok && statusErr.Code() == codes.DeadlineExceeded {
 			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
@@ -73,6 +75,7 @@ func (s *UserServiceServer) Logout(ctx context.Context, req *pb.LogoutRequest) (
 	}
 	_, err := s.userRPC.Logout(ctx, in)
 	if err != nil {
+		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
 		if ok && statusErr.Code() == codes.DeadlineExceeded {
 			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
@@ -90,6 +93,7 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest)
 	}
 	out, err := s.userRPC.GetUser(ctx, in)
 	if err != nil {
+		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
 		if ok && statusErr.Code() == codes.DeadlineExceeded {
 			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")

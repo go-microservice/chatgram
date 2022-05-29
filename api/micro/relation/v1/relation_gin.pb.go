@@ -1,5 +1,5 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.4
+// protoc-gen-go-gin 0.0.5
 
 package v1
 
@@ -22,11 +22,8 @@ var response = app.NewResponse()
 
 type RelationServiceHTTPServer interface {
 	Follow(context.Context, *FollowRequest) (*FollowReply, error)
-
 	GetFollowerUserList(context.Context, *GetFollowerUserListRequest) (*GetFollowerUserListReply, error)
-
 	GetFollowingUserList(context.Context, *GetFollowingUserListRequest) (*GetFollowingUserListReply, error)
-
 	Unfollow(context.Context, *UnfollowRequest) (*UnfollowReply, error)
 }
 
@@ -142,13 +139,8 @@ func (s *RelationService) GetFollowerUserList_0(ctx *gin.Context) {
 }
 
 func (s *RelationService) RegisterService() {
-
 	s.router.Handle("POST", "/v1/users/follow", s.Follow_0)
-
 	s.router.Handle("POST", "/v1/users/unfollow", s.Unfollow_0)
-
 	s.router.Handle("GET", "/v1/users/:user_id/following", s.GetFollowingUserList_0)
-
 	s.router.Handle("GET", "/v1/users/:user_id/follower", s.GetFollowerUserList_0)
-
 }

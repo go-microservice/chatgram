@@ -1,6 +1,6 @@
-Name: eagle
+Name: ins-api
 Version: 1.0.0
-PprofPort: :5555
+PprofPort: :5556
 Mode: debug                 # debug, release, test
 JwtSecret: JWT_SECRET
 JwtTimeout: 86400

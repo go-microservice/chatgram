@@ -1,13 +1,15 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.4
+// protoc-gen-go-gin 0.0.5
 
 package v1
 
 import (
 	context "context"
+
 	gin "github.com/gin-gonic/gin"
 	app "github.com/go-eagle/eagle/pkg/app"
 	errcode "github.com/go-eagle/eagle/pkg/errcode"
+	"github.com/spf13/cast"
 	metadata "google.golang.org/grpc/metadata"
 )
 
@@ -22,19 +24,12 @@ var response = app.NewResponse()
 
 type UserServiceHTTPServer interface {
 	BatchGetUsers(context.Context, *BatchGetUsersRequest) (*BatchGetUsersReply, error)
-
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserReply, error)
-
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
-
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
-
 	Logout(context.Context, *LogoutRequest) (*LogoutReply, error)
-
 	Register(context.Context, *RegisterRequest) (*RegisterReply, error)
-
 	UpdatePassword(context.Context, *UpdatePasswordRequest) (*UpdatePasswordReply, error)
-
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error)
 }
 
@@ -142,10 +137,12 @@ func (s *UserService) CreateUser_0(ctx *gin.Context) {
 func (s *UserService) GetUser_0(ctx *gin.Context) {
 	var in GetUserRequest
 
+	id := ctx.DefaultQuery("id", "0")
 	if err := ctx.ShouldBindQuery(&in); err != nil {
 		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
+	in.Id = cast.ToInt64(id)
 
 	md := metadata.New(nil)
 	for k, v := range ctx.Request.Header {
@@ -238,21 +235,12 @@ func (s *UserService) UpdatePassword_0(ctx *gin.Context) {
 }
 
 func (s *UserService) RegisterService() {
-
 	s.router.Handle("POST", "/v1/auth/register", s.Register_0)
-
 	s.router.Handle("POST", "/v1/auth/login", s.Login_0)
-
 	s.router.Handle("POST", "/v1/auth/logout", s.Logout_0)
-
 	s.router.Handle("POST", "/v1/users", s.CreateUser_0)
-
 	s.router.Handle("GET", "/v1/users/detail", s.GetUser_0)
-
 	s.router.Handle("GET", "/v1/users/batch", s.BatchGetUsers_0)
-
 	s.router.Handle("PATCH", "/v1/users/:user_id", s.UpdateUser_0)
-
 	s.router.Handle("PATCH", "/v1/users/password/:user_id", s.UpdatePassword_0)
-
 }

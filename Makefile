@@ -108,10 +108,12 @@ docs:
   		echo "downloading swag"; \
   		go get -u github.com/swaggo/swag/cmd/swag; \
   	fi
-	@swag init
-	@mv docs/docs.go api/http
-	@mv docs/swagger.json api/http
-	@mv docs/swagger.yaml api/http
+	protoc --proto_path=. \
+		  --proto_path=./third_party \
+		  --openapiv2_out ./docs \
+		  --openapiv2_opt logtostderr=true \
+		  $(API_PROTO_FILES)
+	@#swag init
 	@echo "gen-docs done"
 	@echo "see docs by: http://localhost:8080/swagger/index.html"
 
