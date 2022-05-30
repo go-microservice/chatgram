@@ -6,9 +6,11 @@ import (
 
 	"github.com/go-eagle/eagle/pkg/client/consulclient"
 	"github.com/go-eagle/eagle/pkg/client/etcdclient"
+	"github.com/go-eagle/eagle/pkg/client/nacosclient"
 	"github.com/go-eagle/eagle/pkg/registry"
 	"github.com/go-eagle/eagle/pkg/registry/consul"
 	"github.com/go-eagle/eagle/pkg/registry/etcd"
+	"github.com/go-eagle/eagle/pkg/registry/nacos"
 	"github.com/go-eagle/eagle/pkg/transport/grpc"
 	"github.com/google/wire"
 
@@ -38,22 +40,30 @@ func getConsulDiscovery() registry.Discovery {
 	return consul.New(client)
 }
 
-// TODO
+// NOTE: endpoint is special, with suffix grpc
+// example: endpoint := "discovery:///user-svc.grpc"
 func getNacosDiscovery() registry.Discovery {
-
-	return nil
+	client, err := nacosclient.New()
+	if err != nil {
+		panic(err)
+	}
+	return nacos.New(client)
 }
 
 func NewUserClient() userv1.UserServiceClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	endpoint := "discovery:///user-svc"
-	//endpoint := "127.0.0.1:9090"
+	// etcd or consul
+	// endpoint := "discovery:///user-svc"
+	// NOTE: direct is without scheme
+	// endpoint := "127.0.0.1:9090"
+	// NOTE: nacos endpoint is special, with suffix grpc
+	endpoint := "discovery:///user-svc.grpc"
 	conn, err := grpc.DialInsecure(
 		ctx,
 		grpc.WithEndpoint(endpoint),
-		grpc.WithDiscovery(getConsulDiscovery()),
+		grpc.WithDiscovery(getNacosDiscovery()),
 	)
 	if err != nil {
 		panic(err)
