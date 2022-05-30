@@ -4,8 +4,10 @@ import (
 	"context"
 	"time"
 
+	"github.com/go-eagle/eagle/pkg/client/consulclient"
 	"github.com/go-eagle/eagle/pkg/client/etcdclient"
 	"github.com/go-eagle/eagle/pkg/registry"
+	"github.com/go-eagle/eagle/pkg/registry/consul"
 	"github.com/go-eagle/eagle/pkg/registry/etcd"
 	"github.com/go-eagle/eagle/pkg/transport/grpc"
 	"github.com/google/wire"
@@ -29,8 +31,11 @@ func getEtcdDiscovery() registry.Discovery {
 
 // TODO
 func getConsulDiscovery() registry.Discovery {
-
-	return nil
+	client, err := consulclient.New()
+	if err != nil {
+		panic(err)
+	}
+	return consul.New(client)
 }
 
 // TODO
@@ -48,7 +53,7 @@ func NewUserClient() userv1.UserServiceClient {
 	conn, err := grpc.DialInsecure(
 		ctx,
 		grpc.WithEndpoint(endpoint),
-		grpc.WithDiscovery(getEtcdDiscovery()),
+		grpc.WithDiscovery(getConsulDiscovery()),
 	)
 	if err != nil {
 		panic(err)
