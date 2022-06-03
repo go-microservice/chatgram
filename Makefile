@@ -169,7 +169,6 @@ grpc:
 http:
 	protoc --proto_path=. \
            --proto_path=./third_party \
-           --go_out=. --go_opt=paths=source_relative \
            --go-gin_out=. --go-gin_opt=paths=source_relative \
            $(API_PROTO_FILES)
 

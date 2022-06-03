@@ -36,12 +36,7 @@ service UserService {
   }
   rpc GetUser(GetUserRequest) returns (GetUserReply) {
     option (google.api.http) = {
-      get: "/v1/users/detail"
-    };
-  }
-  rpc BatchGetUsers(BatchGetUsersRequest) returns (BatchGetUsersReply) {
-    option (google.api.http) = {
-      get: "/v1/users/batch"
+      get: "/v1/users/info"
     };
   }
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserReply) {

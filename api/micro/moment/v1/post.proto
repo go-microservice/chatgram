@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package api.micro.moment.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.micro.moment.v1";
+
+service PostService {
+	rpc CreatePost (CreatePostRequest) returns (CreatePostReply) {
+		option (google.api.http) = {
+			post: "/v1/posts"
+			body: "*"
+		};
+	};
+	rpc UpdatePost (UpdatePostRequest) returns (UpdatePostReply) {
+		option (google.api.http) = {
+			patch: "/v1/posts"
+			body: "*"
+		};
+	};
+	rpc DeletePost (DeletePostRequest) returns (DeletePostReply) {
+		option (google.api.http) = {
+			delete: "/v1/posts"
+			body: "*"
+		};
+	};
+	rpc GetPost (GetPostRequest) returns (GetPostReply) {
+		option (google.api.http) = {
+			get: "/v1/posts/{id}"
+		};
+	};
+	rpc ListPost (ListPostRequest) returns (ListPostReply) {
+		option (google.api.http) = {
+			get: "/v1/posts"
+		};
+	};
+}
+
+message Post {
+	int64 id = 1;
+	int32 post_type = 2;
+	int64 user_id = 3;
+	string title = 4;
+	string content = 5;
+	int64 view_count = 6;
+	int64 like_count = 7;
+	int64 comment_count = 8;
+	int64 collect_count = 9;
+	int64 share_count = 10;
+	float longitude = 11;
+	float latitude = 12;
+	float position = 13;
+	int64 created_at = 14;
+	int64 updated_at = 15;
+}
+
+message CreatePostRequest {
+	int64 user_id = 1;
+	string title = 2;
+	string text = 3;
+	string pic_keys = 4;
+	string video_key = 5;
+	int32 video_duration = 6;
+	string cover_key = 7;
+	int32 cover_width = 8;
+	int32 cover_height = 9;
+	float longitude = 10;
+	float latitude = 11;
+	string position = 12;
+}
+message CreatePostReply {
+	Post post = 1;
+}
+
+message UpdatePostRequest {}
+message UpdatePostReply {}
+
+message DeletePostRequest {}
+message DeletePostReply {}
+
+message GetPostRequest {
+	// @gotags: uri:"id"
+	int64 id = 1;
+}
+message GetPostReply {
+	Post post = 1;
+}
+
+message ListPostRequest {
+	int64 last_id = 1;
+	int32 limit = 2;
+}
+message ListPostReply {
+	repeated Post items = 1;
+	int64 count = 2;
+	bool has_more = 3;
+	string last_id = 4;
+}

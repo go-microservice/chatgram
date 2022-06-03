@@ -18,28 +18,28 @@ import (
 // metadata.
 // gin.app.errcode.
 
-type RelationServiceHTTPServer interface {
-	Follow(context.Context, *FollowRequest) (*FollowReply, error)
-	GetFollowerUserList(context.Context, *GetFollowerUserListRequest) (*GetFollowerUserListReply, error)
-	GetFollowingUserList(context.Context, *GetFollowingUserListRequest) (*GetFollowingUserListReply, error)
-	Unfollow(context.Context, *UnfollowRequest) (*UnfollowReply, error)
+type LikeServiceHTTPServer interface {
+	CreateLike(context.Context, *CreateLikeRequest) (*CreateLikeReply, error)
+	DeleteLike(context.Context, *DeleteLikeRequest) (*DeleteLikeReply, error)
+	ListLike(context.Context, *ListLikeRequest) (*ListLikeReply, error)
+	UpdateLike(context.Context, *UpdateLikeRequest) (*UpdateLikeReply, error)
 }
 
-func RegisterRelationServiceHTTPServer(r gin.IRouter, srv RelationServiceHTTPServer) {
-	s := RelationService{
+func RegisterLikeServiceHTTPServer(r gin.IRouter, srv LikeServiceHTTPServer) {
+	s := LikeService{
 		server: srv,
 		router: r,
 	}
 	s.RegisterService()
 }
 
-type RelationService struct {
-	server RelationServiceHTTPServer
+type LikeService struct {
+	server LikeServiceHTTPServer
 	router gin.IRouter
 }
 
-func (s *RelationService) Follow_0(ctx *gin.Context) {
-	var in FollowRequest
+func (s *LikeService) CreateLike_0(ctx *gin.Context) {
+	var in CreateLikeRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
@@ -51,7 +51,7 @@ func (s *RelationService) Follow_0(ctx *gin.Context) {
 		md.Set(k, v...)
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(RelationServiceHTTPServer).Follow(newCtx, &in)
+	out, err := s.server.(LikeServiceHTTPServer).CreateLike(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -60,8 +60,8 @@ func (s *RelationService) Follow_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *RelationService) Unfollow_0(ctx *gin.Context) {
-	var in UnfollowRequest
+func (s *LikeService) UpdateLike_0(ctx *gin.Context) {
+	var in UpdateLikeRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
@@ -73,7 +73,7 @@ func (s *RelationService) Unfollow_0(ctx *gin.Context) {
 		md.Set(k, v...)
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(RelationServiceHTTPServer).Unfollow(newCtx, &in)
+	out, err := s.server.(LikeServiceHTTPServer).UpdateLike(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -82,10 +82,10 @@ func (s *RelationService) Unfollow_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *RelationService) GetFollowingUserList_0(ctx *gin.Context) {
-	var in GetFollowingUserListRequest
+func (s *LikeService) DeleteLike_0(ctx *gin.Context) {
+	var in DeleteLikeRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindJSON(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
@@ -95,7 +95,7 @@ func (s *RelationService) GetFollowingUserList_0(ctx *gin.Context) {
 		md.Set(k, v...)
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(RelationServiceHTTPServer).GetFollowingUserList(newCtx, &in)
+	out, err := s.server.(LikeServiceHTTPServer).DeleteLike(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -104,10 +104,10 @@ func (s *RelationService) GetFollowingUserList_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *RelationService) GetFollowerUserList_0(ctx *gin.Context) {
-	var in GetFollowerUserListRequest
+func (s *LikeService) ListLike_0(ctx *gin.Context) {
+	var in ListLikeRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindQuery(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
@@ -117,7 +117,7 @@ func (s *RelationService) GetFollowerUserList_0(ctx *gin.Context) {
 		md.Set(k, v...)
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(RelationServiceHTTPServer).GetFollowerUserList(newCtx, &in)
+	out, err := s.server.(LikeServiceHTTPServer).ListLike(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -126,9 +126,9 @@ func (s *RelationService) GetFollowerUserList_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *RelationService) RegisterService() {
-	s.router.Handle("POST", "/v1/users/follow", s.Follow_0)
-	s.router.Handle("POST", "/v1/users/unfollow", s.Unfollow_0)
-	s.router.Handle("GET", "/v1/users/:user_id/following", s.GetFollowingUserList_0)
-	s.router.Handle("GET", "/v1/users/:user_id/follower", s.GetFollowerUserList_0)
+func (s *LikeService) RegisterService() {
+	s.router.Handle("POST", "/v1/likes", s.CreateLike_0)
+	s.router.Handle("PATCH", "/v1/likes", s.UpdateLike_0)
+	s.router.Handle("DELETE", "/v1/likes", s.DeleteLike_0)
+	s.router.Handle("GET", "/v1/likes", s.ListLike_0)
 }

@@ -69,14 +69,6 @@ func main() {
 
 	gin.SetMode(cfg.Mode)
 
-	// init pprof server
-	go func() {
-		fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)
-		if err := http.ListenAndServe(cfg.PprofPort, http.DefaultServeMux); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("listen ListenAndServe for PProf, err: %s", err.Error())
-		}
-	}()
-
 	// start app
 	app, err := InitApp(&cfg, &cfg.HTTP)
 	if err != nil {
@@ -88,13 +80,19 @@ func main() {
 }
 
 func newApp(cfg *eagle.Config, httpSrv *transHttp.Server) *eagle.App {
+
+	// init pprof server
+	go func() {
+		fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)
+		if err := http.ListenAndServe(cfg.PprofPort, http.DefaultServeMux); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen ListenAndServe for PProf, err: %s", err.Error())
+		}
+	}()
+
 	return eagle.New(
 		eagle.WithName(cfg.Name),
 		eagle.WithVersion(cfg.Version),
 		eagle.WithLogger(logger.GetLogger()),
-		eagle.WithServer(
-			// init HTTP server
-			httpSrv,
-		),
+		eagle.WithServer(httpSrv),
 	)
 }

@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package api.micro.moment.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.micro.moment.v1";
+
+service CommentService {
+	rpc CreateComment (CreateCommentRequest) returns (CreateCommentReply) {
+		option (google.api.http) = {
+			post: "/v1/comments"
+			body: "*"
+		};
+	};
+	rpc UpdateComment (UpdateCommentRequest) returns (UpdateCommentReply) {
+		option (google.api.http) = {
+			patch: "/v1/comments"
+			body: "*"
+		};
+	};
+	rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply) {
+		option (google.api.http) = {
+			delete: "/v1/comments"
+			body: "*"
+		};
+	};
+	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
+		option (google.api.http) = {
+			get: "/v1/comments/{post_id}"
+		};
+	};
+	rpc ListComment (ListCommentRequest) returns (ListCommentReply) {
+		option (google.api.http) = {
+			get: "/v1/comments"
+		};
+	};
+}
+
+message CreateCommentRequest {}
+message CreateCommentReply {}
+
+message UpdateCommentRequest {}
+message UpdateCommentReply {}
+
+message DeleteCommentRequest {}
+message DeleteCommentReply {}
+
+message GetCommentRequest {}
+message GetCommentReply {}
+
+message ListCommentRequest {}
+message ListCommentReply {}

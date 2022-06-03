@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.7.3
-	github.com/go-eagle/eagle v1.4.1-0.20220530122715-ee4d43d37e53
+	github.com/go-eagle/eagle v1.4.1-0.20220602141800-057677bcf2e9
 	github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37
 	github.com/go-microservice/relation-service v0.0.0-20220317112517-9b8543b684ea
 	github.com/go-microservice/user-service v0.0.0-20220305115024-b6fcb9208365

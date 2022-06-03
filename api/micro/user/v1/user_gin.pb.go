@@ -1,15 +1,13 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.5
+// protoc-gen-go-gin 0.0.6
 
 package v1
 
 import (
 	context "context"
-
 	gin "github.com/gin-gonic/gin"
 	app "github.com/go-eagle/eagle/pkg/app"
 	errcode "github.com/go-eagle/eagle/pkg/errcode"
-	"github.com/spf13/cast"
 	metadata "google.golang.org/grpc/metadata"
 )
 
@@ -20,10 +18,7 @@ import (
 // metadata.
 // gin.app.errcode.
 
-var response = app.NewResponse()
-
 type UserServiceHTTPServer interface {
-	BatchGetUsers(context.Context, *BatchGetUsersRequest) (*BatchGetUsersReply, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserReply, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
@@ -50,7 +45,7 @@ func (s *UserService) Register_0(ctx *gin.Context) {
 	var in RegisterRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -61,18 +56,18 @@ func (s *UserService) Register_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).Register(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) Login_0(ctx *gin.Context) {
 	var in LoginRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -83,18 +78,18 @@ func (s *UserService) Login_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).Login(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) Logout_0(ctx *gin.Context) {
 	var in LogoutRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -105,18 +100,18 @@ func (s *UserService) Logout_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).Logout(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) CreateUser_0(ctx *gin.Context) {
 	var in CreateUserRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -127,22 +122,20 @@ func (s *UserService) CreateUser_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).CreateUser(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) GetUser_0(ctx *gin.Context) {
 	var in GetUserRequest
 
-	id := ctx.DefaultQuery("id", "0")
 	if err := ctx.ShouldBindQuery(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
-	in.Id = cast.ToInt64(id)
 
 	md := metadata.New(nil)
 	for k, v := range ctx.Request.Header {
@@ -151,45 +144,18 @@ func (s *UserService) GetUser_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).GetUser(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
-}
-
-func (s *UserService) BatchGetUsers_0(ctx *gin.Context) {
-	var in BatchGetUsersRequest
-
-	if err := ctx.ShouldBindQuery(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
-		return
-	}
-
-	md := metadata.New(nil)
-	for k, v := range ctx.Request.Header {
-		md.Set(k, v...)
-	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(UserServiceHTTPServer).BatchGetUsers(newCtx, &in)
-	if err != nil {
-		response.Error(ctx, err)
-		return
-	}
-
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) UpdateUser_0(ctx *gin.Context) {
 	var in UpdateUserRequest
 
 	if err := ctx.ShouldBindUri(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
-		return
-	}
-
-	if err := ctx.ShouldBind(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -200,23 +166,18 @@ func (s *UserService) UpdateUser_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).UpdateUser(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) UpdatePassword_0(ctx *gin.Context) {
 	var in UpdatePasswordRequest
 
 	if err := ctx.ShouldBindUri(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
-		return
-	}
-
-	if err := ctx.ShouldBind(&in); err != nil {
-		response.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
 
@@ -227,11 +188,11 @@ func (s *UserService) UpdatePassword_0(ctx *gin.Context) {
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(UserServiceHTTPServer).UpdatePassword(newCtx, &in)
 	if err != nil {
-		response.Error(ctx, err)
+		app.Error(ctx, err)
 		return
 	}
 
-	response.Success(ctx, out)
+	app.Success(ctx, out)
 }
 
 func (s *UserService) RegisterService() {
@@ -239,8 +200,7 @@ func (s *UserService) RegisterService() {
 	s.router.Handle("POST", "/v1/auth/login", s.Login_0)
 	s.router.Handle("POST", "/v1/auth/logout", s.Logout_0)
 	s.router.Handle("POST", "/v1/users", s.CreateUser_0)
-	s.router.Handle("GET", "/v1/users/detail", s.GetUser_0)
-	s.router.Handle("GET", "/v1/users/batch", s.BatchGetUsers_0)
+	s.router.Handle("GET", "/v1/users/info", s.GetUser_0)
 	s.router.Handle("PATCH", "/v1/users/:user_id", s.UpdateUser_0)
 	s.router.Handle("PATCH", "/v1/users/password/:user_id", s.UpdatePassword_0)
 }

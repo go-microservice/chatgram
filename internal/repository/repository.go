@@ -20,7 +20,7 @@ import (
 )
 
 // ProviderSet is repo providers.
-var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient)
+var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient, NewPostClient)
 
 func getEtcdDiscovery() registry.Discovery {
 	// create a etcd register
@@ -54,16 +54,13 @@ func NewUserClient() userv1.UserServiceClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	// etcd or consul
-	// endpoint := "discovery:///user-svc"
-	// NOTE: direct is without scheme
-	// endpoint := "127.0.0.1:9090"
-	// NOTE: nacos endpoint is special, with suffix grpc
-	endpoint := "discovery:///user-svc.grpc"
+	// etcd
+	endpoint := "discovery:///user-svc"
 	conn, err := grpc.DialInsecure(
 		ctx,
 		grpc.WithEndpoint(endpoint),
-		grpc.WithDiscovery(getNacosDiscovery()),
+		grpc.WithDiscovery(getConsulDiscovery()),
+		grpc.WithLog(),
 	)
 	if err != nil {
 		panic(err)
@@ -76,9 +73,11 @@ func NewRelationClient() relationV1.RelationServiceClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	endpoint := "discovery:///user-svc"
 	conn, err := grpc.DialInsecure(
 		ctx,
-		grpc.WithEndpoint("localhost:9091"),
+		grpc.WithEndpoint(endpoint),
+		grpc.WithDiscovery(getConsulDiscovery()),
 	)
 	if err != nil {
 		panic(err)

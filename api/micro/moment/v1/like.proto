@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package api.micro.moment.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.micro.moment.v1";
+
+service LikeService {
+	rpc CreateLike (CreateLikeRequest) returns (CreateLikeReply) {
+		option (google.api.http) = {
+			post: "/v1/likes"
+			body: "*"
+		};
+	};
+	rpc UpdateLike (UpdateLikeRequest) returns (UpdateLikeReply) {
+		option (google.api.http) = {
+			patch: "/v1/likes"
+			body: "*"
+		};
+	};
+	rpc DeleteLike (DeleteLikeRequest) returns (DeleteLikeReply) {
+		option (google.api.http) = {
+			delete: "/v1/likes"
+			body: "*"
+		};
+	};
+	rpc ListLike (ListLikeRequest) returns (ListLikeReply) {
+		option (google.api.http) = {
+			get: "/v1/likes"
+		};
+	};
+}
+
+message CreateLikeRequest {}
+message CreateLikeReply {}
+
+message UpdateLikeRequest {}
+message UpdateLikeReply {}
+
+message DeleteLikeRequest {}
+message DeleteLikeReply {}
+
+message ListLikeRequest {}
+message ListLikeReply {}
