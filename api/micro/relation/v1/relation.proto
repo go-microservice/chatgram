@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package micro.relation.v1;
+package api.micro.relation.v1;
 
 import "google/api/annotations.proto";
 import "api/micro/user/v1/user.proto";

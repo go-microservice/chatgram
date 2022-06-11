@@ -52,7 +52,7 @@ func NewRouter() *gin.Engine {
 	apiV1 := g.Group("/v1")
 	apiV1.Use()
 	{
-		// here to add biz router
+		apiV1.GET("/ping", handler.Ping)
 	}
 
 	return g

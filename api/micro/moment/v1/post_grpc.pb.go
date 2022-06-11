@@ -26,7 +26,8 @@ type PostServiceClient interface {
 	UpdatePost(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostReply, error)
 	DeletePost(ctx context.Context, in *DeletePostRequest, opts ...grpc.CallOption) (*DeletePostReply, error)
 	GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostReply, error)
-	ListPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error)
+	ListHotPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error)
+	ListLatestPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error)
 }
 
 type postServiceClient struct {
@@ -73,9 +74,18 @@ func (c *postServiceClient) GetPost(ctx context.Context, in *GetPostRequest, opt
 	return out, nil
 }
 
-func (c *postServiceClient) ListPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error) {
+func (c *postServiceClient) ListHotPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error) {
 	out := new(ListPostReply)
-	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.PostService/ListPost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.PostService/ListHotPost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) ListLatestPost(ctx context.Context, in *ListPostRequest, opts ...grpc.CallOption) (*ListPostReply, error) {
+	out := new(ListPostReply)
+	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.PostService/ListLatestPost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +100,8 @@ type PostServiceServer interface {
 	UpdatePost(context.Context, *UpdatePostRequest) (*UpdatePostReply, error)
 	DeletePost(context.Context, *DeletePostRequest) (*DeletePostReply, error)
 	GetPost(context.Context, *GetPostRequest) (*GetPostReply, error)
-	ListPost(context.Context, *ListPostRequest) (*ListPostReply, error)
+	ListHotPost(context.Context, *ListPostRequest) (*ListPostReply, error)
+	ListLatestPost(context.Context, *ListPostRequest) (*ListPostReply, error)
 	mustEmbedUnimplementedPostServiceServer()
 }
 
@@ -110,8 +121,11 @@ func (UnimplementedPostServiceServer) DeletePost(context.Context, *DeletePostReq
 func (UnimplementedPostServiceServer) GetPost(context.Context, *GetPostRequest) (*GetPostReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPost not implemented")
 }
-func (UnimplementedPostServiceServer) ListPost(context.Context, *ListPostRequest) (*ListPostReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPost not implemented")
+func (UnimplementedPostServiceServer) ListHotPost(context.Context, *ListPostRequest) (*ListPostReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListHotPost not implemented")
+}
+func (UnimplementedPostServiceServer) ListLatestPost(context.Context, *ListPostRequest) (*ListPostReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLatestPost not implemented")
 }
 func (UnimplementedPostServiceServer) mustEmbedUnimplementedPostServiceServer() {}
 
@@ -198,20 +212,38 @@ func _PostService_GetPost_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PostService_ListPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PostService_ListHotPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListPostRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PostServiceServer).ListPost(ctx, in)
+		return srv.(PostServiceServer).ListHotPost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.micro.moment.v1.PostService/ListPost",
+		FullMethod: "/api.micro.moment.v1.PostService/ListHotPost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).ListPost(ctx, req.(*ListPostRequest))
+		return srv.(PostServiceServer).ListHotPost(ctx, req.(*ListPostRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_ListLatestPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPostRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).ListLatestPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.micro.moment.v1.PostService/ListLatestPost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).ListLatestPost(ctx, req.(*ListPostRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -240,8 +272,12 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PostService_GetPost_Handler,
 		},
 		{
-			MethodName: "ListPost",
-			Handler:    _PostService_ListPost_Handler,
+			MethodName: "ListHotPost",
+			Handler:    _PostService_ListHotPost_Handler,
+		},
+		{
+			MethodName: "ListLatestPost",
+			Handler:    _PostService_ListLatestPost_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

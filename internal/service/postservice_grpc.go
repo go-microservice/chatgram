@@ -2,7 +2,12 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"sync"
+	"time"
 
+	"github.com/go-eagle/eagle/pkg/log"
+	userv1 "github.com/go-microservice/user-service/api/user/v1"
 	"github.com/spf13/cast"
 
 	"github.com/jinzhu/copier"
@@ -23,11 +28,13 @@ type PostServiceServer struct {
 	pb.UnimplementedPostServiceServer
 
 	momentRPC momentv1.PostServiceClient
+	userRPC   userv1.UserServiceClient
 }
 
-func NewPostServiceServer(repo momentv1.PostServiceClient) *PostServiceServer {
+func NewPostServiceServer(repo momentv1.PostServiceClient, userRepo userv1.UserServiceClient) *PostServiceServer {
 	return &PostServiceServer{
 		momentRPC: repo,
+		userRPC:   userRepo,
 	}
 }
 
@@ -87,16 +94,17 @@ func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest)
 		}
 		return nil, err
 	}
-	post := pb.Post{}
-	err = copier.Copy(&post, &out.Post)
+	post, err := convertPost(out.Post)
 	if err != nil {
 		return nil, err
 	}
+
 	return &pb.GetPostReply{
-		Post: &post,
+		Post: post,
 	}, nil
 }
-func (s *PostServiceServer) ListPost(ctx context.Context, req *pb.ListPostRequest) (*pb.ListPostReply, error) {
+
+func (s *PostServiceServer) ListHotPost(ctx context.Context, req *pb.ListPostRequest) (*pb.ListPostReply, error) {
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	in := &momentv1.ListHotPostRequest{
@@ -108,30 +116,157 @@ func (s *PostServiceServer) ListPost(ctx context.Context, req *pb.ListPostReques
 		return nil, err
 	}
 
-	out := ret.GetItems()
+	posts := ret.GetItems()
 	var (
 		hasMore bool
 		lastId  string
 	)
-	if int32(len(out)) > limit {
+	if int32(len(posts)) > limit {
 		hasMore = true
-		lastId = cast.ToString(out[len(out)-1].Id)
-		out = out[0 : len(out)-1]
+		lastId = cast.ToString(posts[len(posts)-1].Id)
+		posts = posts[0 : len(posts)-1]
+	}
+	pbPosts, err := s.assembleData(ctx, posts)
+	if err != nil {
+		return nil, err
 	}
 
-	// convert to pb user
-	var posts []*pb.Post
-	for _, v := range ret.GetItems() {
-		post := pb.Post{}
-		err = copier.Copy(&post, &v)
-		if err != nil {
-			continue
-		}
-		posts = append(posts, &post)
-	}
 	return &pb.ListPostReply{
 		HasMore: hasMore,
 		LastId:  lastId,
-		Items:   posts,
+		Items:   pbPosts,
 	}, nil
+}
+
+func (s *PostServiceServer) ListLatestPost(ctx context.Context, req *pb.ListPostRequest) (*pb.ListPostReply, error) {
+	// get data, support pagination
+	limit := cast.ToInt32(req.GetLimit())
+	in := &momentv1.ListLatestPostRequest{
+		LastId: cast.ToInt64(req.GetLastId()),
+		Limit:  limit + 1,
+	}
+	ret, err := s.momentRPC.ListLatestPost(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	posts := ret.GetItems()
+	var (
+		hasMore bool
+		lastId  string
+	)
+	if int32(len(posts)) > limit {
+		hasMore = true
+		lastId = cast.ToString(posts[len(posts)-1].Id)
+		posts = posts[0 : len(posts)-1]
+	}
+
+	pbPosts, err := s.assembleData(ctx, posts)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.ListPostReply{
+		HasMore: hasMore,
+		LastId:  lastId,
+		Items:   pbPosts,
+	}, nil
+}
+
+func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.Post) ([]*pb.Post, error) {
+	// batch get user data
+	var (
+		userIDs []int64
+	)
+	for _, v := range posts {
+		userIDs = append(userIDs, v.UserId)
+	}
+
+	userReply, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
+	if err != nil {
+		return nil, err
+	}
+	users := userReply.GetUsers()
+	// to map
+	userMap := make(map[int64]*userv1.User)
+	for _, v := range users {
+		userMap[v.Id] = v
+	}
+
+	var (
+		pbPosts []*pb.Post
+		m       sync.Map
+		mu      sync.Mutex
+	)
+
+	wg := sync.WaitGroup{}
+	errChan := make(chan error, 1)
+	finished := make(chan bool, 1)
+
+	go func() {
+		select {
+		case <-finished:
+			return
+		case err := <-errChan:
+			if err != nil {
+				// NOTE: if need, record log to file
+			}
+		case <-time.After(3 * time.Second):
+			log.Warn(fmt.Errorf("list users timeout after 3 seconds"))
+			return
+		}
+	}()
+
+	for _, post := range posts {
+		wg.Add(1)
+		post := post
+		go func(info *momentv1.Post) {
+			defer func() {
+				wg.Done()
+			}()
+
+			mu.Lock()
+			defer mu.Unlock()
+
+			pbPost, err := convertPost(info)
+			if err != nil {
+				return
+			}
+			// user
+			user, ok := userMap[post.UserId]
+			if !ok {
+				return
+			}
+			pbPost.User, err = convertUser(user)
+			if err != nil {
+				errChan <- err
+			}
+
+			m.Store(info.Id, pbPost)
+		}(post)
+
+	}
+
+	wg.Wait()
+	close(errChan)
+	close(finished)
+
+	for _, pid := range posts {
+		post, _ := m.Load(pid.Id)
+		if post == nil {
+			continue
+		}
+		pbPosts = append(pbPosts, post.(*pb.Post))
+	}
+
+	return pbPosts, nil
+}
+
+func convertPost(p *momentv1.Post) (*pb.Post, error) {
+	post := pb.Post{}
+	err := copier.Copy(&post, &p)
+	if err != nil {
+		return nil, err
+	}
+	return &post, nil
 }

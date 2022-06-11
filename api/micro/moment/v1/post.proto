@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.micro.moment.v1;
 
 import "google/api/annotations.proto";
+import "api/micro/user/v1/user.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
 option java_multiple_files = true;
@@ -32,9 +33,14 @@ service PostService {
 			get: "/v1/posts/{id}"
 		};
 	};
-	rpc ListPost (ListPostRequest) returns (ListPostReply) {
+	rpc ListHotPost (ListPostRequest) returns (ListPostReply) {
 		option (google.api.http) = {
-			get: "/v1/posts"
+			get: "/v1/posts/hot"
+		};
+	};
+	rpc ListLatestPost (ListPostRequest) returns (ListPostReply) {
+		option (google.api.http) = {
+			get: "/v1/posts/latest"
 		};
 	};
 }
@@ -42,7 +48,7 @@ service PostService {
 message Post {
 	int64 id = 1;
 	int32 post_type = 2;
-	int64 user_id = 3;
+	api.micro.user.v1.User user = 3;
 	string title = 4;
 	string content = 5;
 	int64 view_count = 6;

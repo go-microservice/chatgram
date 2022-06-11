@@ -38,7 +38,7 @@ func NewRelationServiceClient(cc grpc.ClientConnInterface) RelationServiceClient
 
 func (c *relationServiceClient) Follow(ctx context.Context, in *FollowRequest, opts ...grpc.CallOption) (*FollowReply, error) {
 	out := new(FollowReply)
-	err := c.cc.Invoke(ctx, "/micro.relation.v1.RelationService/Follow", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.micro.relation.v1.RelationService/Follow", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *relationServiceClient) Follow(ctx context.Context, in *FollowRequest, o
 
 func (c *relationServiceClient) Unfollow(ctx context.Context, in *UnfollowRequest, opts ...grpc.CallOption) (*UnfollowReply, error) {
 	out := new(UnfollowReply)
-	err := c.cc.Invoke(ctx, "/micro.relation.v1.RelationService/Unfollow", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.micro.relation.v1.RelationService/Unfollow", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *relationServiceClient) Unfollow(ctx context.Context, in *UnfollowReques
 
 func (c *relationServiceClient) GetFollowingUserList(ctx context.Context, in *GetFollowingUserListRequest, opts ...grpc.CallOption) (*GetFollowingUserListReply, error) {
 	out := new(GetFollowingUserListReply)
-	err := c.cc.Invoke(ctx, "/micro.relation.v1.RelationService/GetFollowingUserList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.micro.relation.v1.RelationService/GetFollowingUserList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *relationServiceClient) GetFollowingUserList(ctx context.Context, in *Ge
 
 func (c *relationServiceClient) GetFollowerUserList(ctx context.Context, in *GetFollowerUserListRequest, opts ...grpc.CallOption) (*GetFollowerUserListReply, error) {
 	out := new(GetFollowerUserListReply)
-	err := c.cc.Invoke(ctx, "/micro.relation.v1.RelationService/GetFollowerUserList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.micro.relation.v1.RelationService/GetFollowerUserList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func _RelationService_Follow_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/micro.relation.v1.RelationService/Follow",
+		FullMethod: "/api.micro.relation.v1.RelationService/Follow",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RelationServiceServer).Follow(ctx, req.(*FollowRequest))
@@ -140,7 +140,7 @@ func _RelationService_Unfollow_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/micro.relation.v1.RelationService/Unfollow",
+		FullMethod: "/api.micro.relation.v1.RelationService/Unfollow",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RelationServiceServer).Unfollow(ctx, req.(*UnfollowRequest))
@@ -158,7 +158,7 @@ func _RelationService_GetFollowingUserList_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/micro.relation.v1.RelationService/GetFollowingUserList",
+		FullMethod: "/api.micro.relation.v1.RelationService/GetFollowingUserList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RelationServiceServer).GetFollowingUserList(ctx, req.(*GetFollowingUserListRequest))
@@ -176,7 +176,7 @@ func _RelationService_GetFollowerUserList_Handler(srv interface{}, ctx context.C
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/micro.relation.v1.RelationService/GetFollowerUserList",
+		FullMethod: "/api.micro.relation.v1.RelationService/GetFollowerUserList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RelationServiceServer).GetFollowerUserList(ctx, req.(*GetFollowerUserListRequest))
@@ -188,7 +188,7 @@ func _RelationService_GetFollowerUserList_Handler(srv interface{}, ctx context.C
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RelationService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "micro.relation.v1.RelationService",
+	ServiceName: "api.micro.relation.v1.RelationService",
 	HandlerType: (*RelationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

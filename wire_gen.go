@@ -24,7 +24,7 @@ func InitApp(cfg *app.Config, config *app.ServerConfig) (*app.App, error) {
 	relationServiceClient := repository.NewRelationClient()
 	relationServiceServer := service.NewRelationServiceServer(relationServiceClient, userServiceClient)
 	postServiceClient := repository.NewPostClient()
-	postServiceServer := service.NewPostServiceServer(postServiceClient)
+	postServiceServer := service.NewPostServiceServer(postServiceClient, userServiceClient)
 	httpServer := server.NewHTTPServer(config, userServiceServer, relationServiceServer, postServiceServer)
 	appApp := newApp(cfg, httpServer)
 	return appApp, nil

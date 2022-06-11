@@ -5,6 +5,7 @@ package v1
 
 import (
 	context "context"
+
 	gin "github.com/gin-gonic/gin"
 	app "github.com/go-eagle/eagle/pkg/app"
 	errcode "github.com/go-eagle/eagle/pkg/errcode"
@@ -22,7 +23,8 @@ type PostServiceHTTPServer interface {
 	CreatePost(context.Context, *CreatePostRequest) (*CreatePostReply, error)
 	DeletePost(context.Context, *DeletePostRequest) (*DeletePostReply, error)
 	GetPost(context.Context, *GetPostRequest) (*GetPostReply, error)
-	ListPost(context.Context, *ListPostRequest) (*ListPostReply, error)
+	ListHotPost(context.Context, *ListPostRequest) (*ListPostReply, error)
+	ListLatestPost(context.Context, *ListPostRequest) (*ListPostReply, error)
 	UpdatePost(context.Context, *UpdatePostRequest) (*UpdatePostReply, error)
 }
 
@@ -127,7 +129,7 @@ func (s *PostService) GetPost_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *PostService) ListPost_0(ctx *gin.Context) {
+func (s *PostService) ListHotPost_0(ctx *gin.Context) {
 	var in ListPostRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
@@ -140,7 +142,29 @@ func (s *PostService) ListPost_0(ctx *gin.Context) {
 		md.Set(k, v...)
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(PostServiceHTTPServer).ListPost(newCtx, &in)
+	out, err := s.server.(PostServiceHTTPServer).ListHotPost(newCtx, &in)
+	if err != nil {
+		app.Error(ctx, err)
+		return
+	}
+
+	app.Success(ctx, out)
+}
+
+func (s *PostService) ListLatestPost_0(ctx *gin.Context) {
+	var in ListPostRequest
+
+	if err := ctx.ShouldBindQuery(&in); err != nil {
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		return
+	}
+
+	md := metadata.New(nil)
+	for k, v := range ctx.Request.Header {
+		md.Set(k, v...)
+	}
+	newCtx := metadata.NewIncomingContext(ctx, md)
+	out, err := s.server.(PostServiceHTTPServer).ListLatestPost(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -154,5 +178,6 @@ func (s *PostService) RegisterService() {
 	s.router.Handle("PATCH", "/v1/posts", s.UpdatePost_0)
 	s.router.Handle("DELETE", "/v1/posts", s.DeletePost_0)
 	s.router.Handle("GET", "/v1/posts/:id", s.GetPost_0)
-	s.router.Handle("GET", "/v1/posts", s.ListPost_0)
+	s.router.Handle("GET", "/v1/posts/hot", s.ListHotPost_0)
+	s.router.Handle("GET", "/v1/posts/latest", s.ListLatestPost_0)
 }

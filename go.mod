@@ -7,7 +7,7 @@ require (
 	github.com/go-eagle/eagle v1.4.1-0.20220602141800-057677bcf2e9
 	github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37
 	github.com/go-microservice/relation-service v0.0.0-20220317112517-9b8543b684ea
-	github.com/go-microservice/user-service v0.0.0-20220305115024-b6fcb9208365
+	github.com/go-microservice/user-service v0.0.0-20220601151749-eca738b1adf8
 	github.com/google/wire v0.5.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.1
 	github.com/hibiken/asynq v0.22.0

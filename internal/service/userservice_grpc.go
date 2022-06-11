@@ -100,13 +100,12 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest)
 		}
 		return nil, err
 	}
-	user := pb.User{}
-	err = copier.Copy(&user, &out.User)
+	user, err := convertUser(out.User)
 	if err != nil {
 		return nil, err
 	}
 	return &pb.GetUserReply{
-		User: &user,
+		User: user,
 	}, nil
 }
 func (s *UserServiceServer) BatchGetUsers(ctx context.Context, req *pb.BatchGetUsersRequest) (*pb.BatchGetUsersReply, error) {
@@ -117,4 +116,13 @@ func (s *UserServiceServer) UpdateUser(ctx context.Context, req *pb.UpdateUserRe
 }
 func (s *UserServiceServer) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.UpdatePasswordReply, error) {
 	return &pb.UpdatePasswordReply{}, nil
+}
+
+func convertUser(u *userv1.User) (*pb.User, error) {
+	user := pb.User{}
+	err := copier.Copy(&user, &u)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }

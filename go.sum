@@ -186,7 +186,7 @@ github.com/gin-gonic/gin v1.7.2/go.mod h1:jD2toBW3GZUr5UMcdrwQA10I7RuaFOl/SGeDjX
 github.com/gin-gonic/gin v1.7.3 h1:aMBzLJ/GMEYmv1UWs2FFTcPISLrQH2mRgL9Glz8xows=
 github.com/gin-gonic/gin v1.7.3/go.mod h1:jD2toBW3GZUr5UMcdrwQA10I7RuaFOl/SGeDjXkfUtY=
 github.com/go-eagle/eagle v1.4.1-0.20220212135746-5819a33442b6/go.mod h1:vXBnmtlEWq0FeGhghL9PU/xQdLaigdp/5thzDpmkwRc=
-github.com/go-eagle/eagle v1.4.1-0.20220305034704-369d5658fd1e/go.mod h1:1jX7MA0p57Rh4O/5neBAKzFtSDTmI6MkXhx9i+BaP8U=
+github.com/go-eagle/eagle v1.4.1-0.20220530122715-ee4d43d37e53/go.mod h1:wQrXLMEMZ20uklVincNI+LX9OatGG5iqx2y2FoOxNRE=
 github.com/go-eagle/eagle v1.4.1-0.20220602141800-057677bcf2e9 h1:9vU6vTU91IOHp+QZkZYk7JJ+chnWv6vm+FnlM2CpxwQ=
 github.com/go-eagle/eagle v1.4.1-0.20220602141800-057677bcf2e9/go.mod h1:wQrXLMEMZ20uklVincNI+LX9OatGG5iqx2y2FoOxNRE=
 github.com/go-errors/errors v1.0.1 h1:LUHzmkK3GUKUrL/1gfBUxAHzcev3apQlezX/+O7ma6w=
@@ -212,8 +212,8 @@ github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37 h1:
 github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37/go.mod h1:WNHiTn93y4Zx1Pjk86koQUdh4NreUy3IJbTzPR6vPsI=
 github.com/go-microservice/relation-service v0.0.0-20220317112517-9b8543b684ea h1:6D7vFaIehB5+gpC3Cr2vBEvbyVBwLi7oCYQVmlkNFGw=
 github.com/go-microservice/relation-service v0.0.0-20220317112517-9b8543b684ea/go.mod h1:d98M4PBLdcMIl9bc59hVELGesUIEL7F3QfjyAGmmSPI=
-github.com/go-microservice/user-service v0.0.0-20220305115024-b6fcb9208365 h1:pSOnqZGeHTf8bgoKElWxD6zGDsnW1grKrdrCajtHKE8=
-github.com/go-microservice/user-service v0.0.0-20220305115024-b6fcb9208365/go.mod h1:SEsJ0ckrqlTHcWUZljJl+pnVhlyirm6ObtbUwdXS1TU=
+github.com/go-microservice/user-service v0.0.0-20220601151749-eca738b1adf8 h1:CfoxVYLci0r+z7JPf1LenfF3iXB9CnKJA2U9agveA2M=
+github.com/go-microservice/user-service v0.0.0-20220601151749-eca738b1adf8/go.mod h1:3Zcrpj9QYk2LEzdpXI136Dfx8uXIcVFWXitfUzIBEsc=
 github.com/go-ole/go-ole v1.2.5 h1:t4MGB5xEDZvXI+0rMjjsfBsD7yAgp/s9ZDkL1JndXwY=
 github.com/go-ole/go-ole v1.2.5/go.mod h1:pprOEPIfldk/42T2oK7lQ4v4JSDwmV0As9GaiUsvbm0=
 github.com/go-openapi/jsonpointer v0.17.0/go.mod h1:cOnomiV+CVVwFLk0A/MExoFMjwdsUdVpsRhURCKh+3M=
