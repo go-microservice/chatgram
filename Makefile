@@ -164,8 +164,6 @@ grpc:
            --go-grpc_out=. --go-grpc_opt=paths=source_relative \
            $(API_PROTO_FILES)
 
-	protoc-go-inject-tag -input=$(API_PROTO_PB_FILES)
-
 .PHONY: http
 # generate http code
 http:

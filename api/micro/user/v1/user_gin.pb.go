@@ -132,7 +132,7 @@ func (s *UserService) CreateUser_0(ctx *gin.Context) {
 func (s *UserService) GetUser_0(ctx *gin.Context) {
 	var in GetUserRequest
 
-	if err := ctx.ShouldBindQuery(&in); err != nil {
+	if err := ctx.ShouldBindUri(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
@@ -200,7 +200,7 @@ func (s *UserService) RegisterService() {
 	s.router.Handle("POST", "/v1/auth/login", s.Login_0)
 	s.router.Handle("POST", "/v1/auth/logout", s.Logout_0)
 	s.router.Handle("POST", "/v1/users", s.CreateUser_0)
-	s.router.Handle("GET", "/v1/users/info", s.GetUser_0)
-	s.router.Handle("PATCH", "/v1/users/:user_id", s.UpdateUser_0)
-	s.router.Handle("PATCH", "/v1/users/password/:user_id", s.UpdatePassword_0)
+	s.router.Handle("GET", "/v1/users/:id", s.GetUser_0)
+	s.router.Handle("PUT", "/v1/users/:id", s.UpdateUser_0)
+	s.router.Handle("PATCH", "/v1/users/password/:id", s.UpdatePassword_0)
 }

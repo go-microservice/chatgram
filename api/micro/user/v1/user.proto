@@ -36,18 +36,18 @@ service UserService {
   }
   rpc GetUser(GetUserRequest) returns (GetUserReply) {
     option (google.api.http) = {
-      get: "/v1/users/info"
+      get: "/v1/users/{id}"
     };
   }
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserReply) {
     option (google.api.http) = {
-      patch: "/v1/users/{user_id}"
+      put: "/v1/users/{id}"
       body: "*"
     };
   }
   rpc UpdatePassword(UpdatePasswordRequest) returns (UpdatePasswordReply) {
     option (google.api.http) = {
-      patch: "/v1/users/password/{user_id}"
+      patch: "/v1/users/password/{id}"
       body: "*"
     };
   }
@@ -152,6 +152,7 @@ message UpdatePasswordReply {
 }
 
 message GetUserRequest {
+  // @gotags: uri:"id"
   int64 id = 1;
 }
 

@@ -32,30 +32,23 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 service RelationService {
   rpc Follow(FollowRequest) returns (FollowReply) {
     option (google.api.http) = {
-      post: "/v1/users/follow"
+      post: "/v1/relation/follow"
       body: "*"
-    };
-
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      external_docs: {
-        url: "https://github.com/grpc-ecosystem/grpc-gateway";
-        description: "Follow Query";
-      }
     };
   }
   rpc Unfollow(UnfollowRequest) returns (UnfollowReply) {
     option (google.api.http) = {
-      post: "/v1/users/unfollow"
+      post: "/v1/relation/unfollow"
     };
   }
   rpc GetFollowingUserList(GetFollowingUserListRequest) returns (GetFollowingUserListReply) {
     option (google.api.http) = {
-      get: "/v1/users/{user_id}/following"
+      get: "/v1/relation/{id}/following"
     };
   }
   rpc GetFollowerUserList(GetFollowerUserListRequest) returns(GetFollowerUserListReply) {
     option (google.api.http) = {
-      get: "/v1/users/{user_id}/follower"
+      get: "/v1/relation/{id}/follower"
     };
   }
 }

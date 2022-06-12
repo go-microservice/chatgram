@@ -96,7 +96,9 @@ message GetPostReply {
 }
 
 message ListPostRequest {
+	// @gotags: form:"last_id"
 	int64 last_id = 1;
+	// @gotags: form:"limit"
 	int32 limit = 2;
 }
 message ListPostReply {
