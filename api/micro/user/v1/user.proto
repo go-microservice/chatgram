@@ -28,12 +28,6 @@ service UserService {
   }
 
   // user
-  rpc CreateUser(CreateUserRequest) returns(CreateUserReply) {
-    option (google.api.http) = {
-      post: "/v1/users"
-      body: "*"
-    };
-  }
   rpc GetUser(GetUserRequest) returns (GetUserReply) {
     option (google.api.http) = {
       get: "/v1/users/{id}"

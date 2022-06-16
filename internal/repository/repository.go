@@ -73,7 +73,7 @@ func NewRelationClient() relationV1.RelationServiceClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	endpoint := "discovery:///user-svc"
+	endpoint := "discovery:///relation-svc"
 	conn, err := grpc.DialInsecure(
 		ctx,
 		grpc.WithEndpoint(endpoint),
@@ -90,9 +90,11 @@ func NewPostClient() momentv1.PostServiceClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	endpoint := "discovery:///moment-svc"
 	conn, err := grpc.DialInsecure(
 		ctx,
-		grpc.WithEndpoint("localhost:9092"),
+		grpc.WithEndpoint(endpoint),
+		grpc.WithDiscovery(getConsulDiscovery()),
 	)
 	if err != nil {
 		panic(err)
@@ -105,9 +107,11 @@ func NewCommentClient() momentv1.CommentServiceClient {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	endpoint := "discovery:///moment-svc"
 	conn, err := grpc.DialInsecure(
 		ctx,
-		grpc.WithEndpoint("localhost:9093"),
+		grpc.WithEndpoint(endpoint),
+		grpc.WithDiscovery(getConsulDiscovery()),
 	)
 	if err != nil {
 		panic(err)

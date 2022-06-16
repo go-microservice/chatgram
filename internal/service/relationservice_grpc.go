@@ -56,7 +56,7 @@ func (s *RelationServiceServer) GetFollowingUserList(ctx context.Context, req *p
 	// get relation data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	in := &relationV1.FollowingListRequest{
-		UserId: cast.ToInt64(req.GetUserId()),
+		UserId: cast.ToInt64(req.GetId()),
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}

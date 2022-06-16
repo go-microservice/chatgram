@@ -68,6 +68,7 @@ func (s *UserServiceServer) Login(ctx context.Context, req *pb.LoginRequest) (*p
 		Token: out.GetToken(),
 	}, nil
 }
+
 func (s *UserServiceServer) Logout(ctx context.Context, req *pb.LogoutRequest) (*pb.LogoutReply, error) {
 	in := &userv1.LogoutRequest{
 		Id:    req.Id,
@@ -84,9 +85,7 @@ func (s *UserServiceServer) Logout(ctx context.Context, req *pb.LogoutRequest) (
 	}
 	return &pb.LogoutReply{}, nil
 }
-func (s *UserServiceServer) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserReply, error) {
-	return &pb.CreateUserReply{}, nil
-}
+
 func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUserReply, error) {
 	in := &userv1.GetUserRequest{
 		Id: cast.ToInt64(req.GetId()),
@@ -108,12 +107,11 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest)
 		User: user,
 	}, nil
 }
-func (s *UserServiceServer) BatchGetUsers(ctx context.Context, req *pb.BatchGetUsersRequest) (*pb.BatchGetUsersReply, error) {
-	return &pb.BatchGetUsersReply{}, nil
-}
+
 func (s *UserServiceServer) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.UpdateUserReply, error) {
 	return &pb.UpdateUserReply{}, nil
 }
+
 func (s *UserServiceServer) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.UpdatePasswordReply, error) {
 	return &pb.UpdatePasswordReply{}, nil
 }

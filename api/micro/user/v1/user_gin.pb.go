@@ -19,7 +19,6 @@ import (
 // gin.app.errcode.
 
 type UserServiceHTTPServer interface {
-	CreateUser(context.Context, *CreateUserRequest) (*CreateUserReply, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutReply, error)
@@ -107,28 +106,6 @@ func (s *UserService) Logout_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *UserService) CreateUser_0(ctx *gin.Context) {
-	var in CreateUserRequest
-
-	if err := ctx.ShouldBindJSON(&in); err != nil {
-		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
-		return
-	}
-
-	md := metadata.New(nil)
-	for k, v := range ctx.Request.Header {
-		md.Set(k, v...)
-	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(UserServiceHTTPServer).CreateUser(newCtx, &in)
-	if err != nil {
-		app.Error(ctx, err)
-		return
-	}
-
-	app.Success(ctx, out)
-}
-
 func (s *UserService) GetUser_0(ctx *gin.Context) {
 	var in GetUserRequest
 
@@ -199,7 +176,6 @@ func (s *UserService) RegisterService() {
 	s.router.Handle("POST", "/v1/auth/register", s.Register_0)
 	s.router.Handle("POST", "/v1/auth/login", s.Login_0)
 	s.router.Handle("POST", "/v1/auth/logout", s.Logout_0)
-	s.router.Handle("POST", "/v1/users", s.CreateUser_0)
 	s.router.Handle("GET", "/v1/users/:id", s.GetUser_0)
 	s.router.Handle("PUT", "/v1/users/:id", s.UpdateUser_0)
 	s.router.Handle("PATCH", "/v1/users/password/:id", s.UpdatePassword_0)

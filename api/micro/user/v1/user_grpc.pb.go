@@ -27,7 +27,6 @@ type UserServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutReply, error)
 	// user
-	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserReply, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserReply, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserReply, error)
 	UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*UpdatePasswordReply, error)
@@ -62,15 +61,6 @@ func (c *userServiceClient) Login(ctx context.Context, in *LoginRequest, opts ..
 func (c *userServiceClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutReply, error) {
 	out := new(LogoutReply)
 	err := c.cc.Invoke(ctx, "/api.micro.user.v1.UserService/Logout", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserReply, error) {
-	out := new(CreateUserReply)
-	err := c.cc.Invoke(ctx, "/api.micro.user.v1.UserService/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +103,6 @@ type UserServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutReply, error)
 	// user
-	CreateUser(context.Context, *CreateUserRequest) (*CreateUserReply, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserReply, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error)
 	UpdatePassword(context.Context, *UpdatePasswordRequest) (*UpdatePasswordReply, error)
@@ -132,9 +121,6 @@ func (UnimplementedUserServiceServer) Login(context.Context, *LoginRequest) (*Lo
 }
 func (UnimplementedUserServiceServer) Logout(context.Context, *LogoutRequest) (*LogoutReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
-}
-func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
 func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) (*GetUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
@@ -212,24 +198,6 @@ func _UserService_Logout_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).CreateUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.micro.user.v1.UserService/CreateUser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserRequest)
 	if err := dec(in); err != nil {
@@ -302,10 +270,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Logout",
 			Handler:    _UserService_Logout_Handler,
-		},
-		{
-			MethodName: "CreateUser",
-			Handler:    _UserService_CreateUser_Handler,
 		},
 		{
 			MethodName: "GetUser",

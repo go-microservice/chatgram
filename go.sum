@@ -210,8 +210,8 @@ github.com/go-logr/stdr v1.2.0/go.mod h1:YkVgnZu1ZjjL7xTxrfm/LLZBfkhTqSR1ydtm6jT
 github.com/go-mail/mail v2.3.1+incompatible/go.mod h1:VPWjmmNyRsWXQZHVHT3g0YbIINUkSmuKOiLIDkWbL6M=
 github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37 h1:tw+2Tk2iyOeDGAdB9R0+7TJRTnpMcIBStNYPTBFtW50=
 github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37/go.mod h1:WNHiTn93y4Zx1Pjk86koQUdh4NreUy3IJbTzPR6vPsI=
-github.com/go-microservice/relation-service v0.0.0-20220317112517-9b8543b684ea h1:6D7vFaIehB5+gpC3Cr2vBEvbyVBwLi7oCYQVmlkNFGw=
-github.com/go-microservice/relation-service v0.0.0-20220317112517-9b8543b684ea/go.mod h1:d98M4PBLdcMIl9bc59hVELGesUIEL7F3QfjyAGmmSPI=
+github.com/go-microservice/relation-service v0.0.0-20220615144835-aa0a69fbee93 h1:TW4ItyaVjjSbG4z2mwPV4uIBA4gcufloklpJKKOvB3M=
+github.com/go-microservice/relation-service v0.0.0-20220615144835-aa0a69fbee93/go.mod h1:bhRjI9f+tWHB0WbNKs9f3HLq4eVn6pYImLw1eM58ats=
 github.com/go-microservice/user-service v0.0.0-20220601151749-eca738b1adf8 h1:CfoxVYLci0r+z7JPf1LenfF3iXB9CnKJA2U9agveA2M=
 github.com/go-microservice/user-service v0.0.0-20220601151749-eca738b1adf8/go.mod h1:3Zcrpj9QYk2LEzdpXI136Dfx8uXIcVFWXitfUzIBEsc=
 github.com/go-ole/go-ole v1.2.5 h1:t4MGB5xEDZvXI+0rMjjsfBsD7yAgp/s9ZDkL1JndXwY=

@@ -70,8 +70,8 @@ message UnfollowReply {
 }
 
 message GetFollowingUserListRequest {
-  // @gotags: form:"user_id"
-  string user_id = 1;
+  // @gotags: uri:"id"
+  string id = 1;
   // @gotags: form:"last_id"
   string last_id = 2;
   // @gotags: form:"limit"
