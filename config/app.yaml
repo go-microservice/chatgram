@@ -1,6 +1,6 @@
 Name: ins-api
 Version: 1.0.0
-PprofPort: :5556
+PprofPort: :5656
 Mode: debug                 # debug, release, test
 JwtSecret: JWT_SECRET
 JwtTimeout: 86400

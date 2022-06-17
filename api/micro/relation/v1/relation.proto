@@ -43,12 +43,12 @@ service RelationService {
   }
   rpc GetFollowingUserList(GetFollowingUserListRequest) returns (GetFollowingUserListReply) {
     option (google.api.http) = {
-      get: "/v1/relation/{id}/following"
+      get: "/v1/relation/following"
     };
   }
   rpc GetFollowerUserList(GetFollowerUserListRequest) returns(GetFollowerUserListReply) {
     option (google.api.http) = {
-      get: "/v1/relation/{id}/follower"
+      get: "/v1/relation/follower"
     };
   }
 }
@@ -70,7 +70,7 @@ message UnfollowReply {
 }
 
 message GetFollowingUserListRequest {
-  // @gotags: uri:"id"
+  // @gotags: form:"user_id"
   string id = 1;
   // @gotags: form:"last_id"
   string last_id = 2;

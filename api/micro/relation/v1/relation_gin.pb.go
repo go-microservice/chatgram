@@ -85,7 +85,7 @@ func (s *RelationService) Unfollow_0(ctx *gin.Context) {
 func (s *RelationService) GetFollowingUserList_0(ctx *gin.Context) {
 	var in GetFollowingUserListRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindQuery(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
@@ -107,7 +107,7 @@ func (s *RelationService) GetFollowingUserList_0(ctx *gin.Context) {
 func (s *RelationService) GetFollowerUserList_0(ctx *gin.Context) {
 	var in GetFollowerUserListRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindQuery(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
@@ -129,6 +129,6 @@ func (s *RelationService) GetFollowerUserList_0(ctx *gin.Context) {
 func (s *RelationService) RegisterService() {
 	s.router.Handle("POST", "/v1/relation/follow", s.Follow_0)
 	s.router.Handle("POST", "/v1/relation/unfollow", s.Unfollow_0)
-	s.router.Handle("GET", "/v1/relation/:id/following", s.GetFollowingUserList_0)
-	s.router.Handle("GET", "/v1/relation/:id/follower", s.GetFollowerUserList_0)
+	s.router.Handle("GET", "/v1/relation/following", s.GetFollowingUserList_0)
+	s.router.Handle("GET", "/v1/relation/follower", s.GetFollowerUserList_0)
 }
