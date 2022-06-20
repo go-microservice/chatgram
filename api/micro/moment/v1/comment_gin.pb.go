@@ -22,8 +22,10 @@ type CommentServiceHTTPServer interface {
 	CreateComment(context.Context, *CreateCommentRequest) (*CreateCommentReply, error)
 	DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentReply, error)
 	GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error)
-	ListComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
-	UpdateComment(context.Context, *UpdateCommentRequest) (*UpdateCommentReply, error)
+	ListHotComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	ListLatestComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	ListReply(context.Context, *ListReplyRequest) (*ListReplyReply, error)
+	ReplyComment(context.Context, *ReplyCommentRequest) (*ReplyCommentReply, error)
 }
 
 func RegisterCommentServiceHTTPServer(r gin.IRouter, srv CommentServiceHTTPServer) {
@@ -53,28 +55,6 @@ func (s *CommentService) CreateComment_0(ctx *gin.Context) {
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
 	out, err := s.server.(CommentServiceHTTPServer).CreateComment(newCtx, &in)
-	if err != nil {
-		app.Error(ctx, err)
-		return
-	}
-
-	app.Success(ctx, out)
-}
-
-func (s *CommentService) UpdateComment_0(ctx *gin.Context) {
-	var in UpdateCommentRequest
-
-	if err := ctx.ShouldBindJSON(&in); err != nil {
-		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
-		return
-	}
-
-	md := metadata.New(nil)
-	for k, v := range ctx.Request.Header {
-		md.Set(k, v...)
-	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(CommentServiceHTTPServer).UpdateComment(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -127,7 +107,7 @@ func (s *CommentService) GetComment_0(ctx *gin.Context) {
 	app.Success(ctx, out)
 }
 
-func (s *CommentService) ListComment_0(ctx *gin.Context) {
+func (s *CommentService) ListHotComment_0(ctx *gin.Context) {
 	var in ListCommentRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
@@ -140,7 +120,73 @@ func (s *CommentService) ListComment_0(ctx *gin.Context) {
 		md.Set(k, v...)
 	}
 	newCtx := metadata.NewIncomingContext(ctx, md)
-	out, err := s.server.(CommentServiceHTTPServer).ListComment(newCtx, &in)
+	out, err := s.server.(CommentServiceHTTPServer).ListHotComment(newCtx, &in)
+	if err != nil {
+		app.Error(ctx, err)
+		return
+	}
+
+	app.Success(ctx, out)
+}
+
+func (s *CommentService) ListLatestComment_0(ctx *gin.Context) {
+	var in ListCommentRequest
+
+	if err := ctx.ShouldBindQuery(&in); err != nil {
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		return
+	}
+
+	md := metadata.New(nil)
+	for k, v := range ctx.Request.Header {
+		md.Set(k, v...)
+	}
+	newCtx := metadata.NewIncomingContext(ctx, md)
+	out, err := s.server.(CommentServiceHTTPServer).ListLatestComment(newCtx, &in)
+	if err != nil {
+		app.Error(ctx, err)
+		return
+	}
+
+	app.Success(ctx, out)
+}
+
+func (s *CommentService) ReplyComment_0(ctx *gin.Context) {
+	var in ReplyCommentRequest
+
+	if err := ctx.ShouldBindJSON(&in); err != nil {
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		return
+	}
+
+	md := metadata.New(nil)
+	for k, v := range ctx.Request.Header {
+		md.Set(k, v...)
+	}
+	newCtx := metadata.NewIncomingContext(ctx, md)
+	out, err := s.server.(CommentServiceHTTPServer).ReplyComment(newCtx, &in)
+	if err != nil {
+		app.Error(ctx, err)
+		return
+	}
+
+	app.Success(ctx, out)
+}
+
+func (s *CommentService) ListReply_0(ctx *gin.Context) {
+	var in ListReplyRequest
+
+	if err := ctx.ShouldBindQuery(&in); err != nil {
+		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
+		return
+	}
+
+	md := metadata.New(nil)
+	for k, v := range ctx.Request.Header {
+		md.Set(k, v...)
+	}
+	newCtx := metadata.NewIncomingContext(ctx, md)
+	out, err := s.server.(CommentServiceHTTPServer).ListReply(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
 		return
@@ -151,8 +197,10 @@ func (s *CommentService) ListComment_0(ctx *gin.Context) {
 
 func (s *CommentService) RegisterService() {
 	s.router.Handle("POST", "/v1/comments", s.CreateComment_0)
-	s.router.Handle("PATCH", "/v1/comments", s.UpdateComment_0)
 	s.router.Handle("DELETE", "/v1/comments", s.DeleteComment_0)
-	s.router.Handle("GET", "/v1/comments/:post_id", s.GetComment_0)
-	s.router.Handle("GET", "/v1/comments", s.ListComment_0)
+	s.router.Handle("GET", "/v1/comments/:id", s.GetComment_0)
+	s.router.Handle("GET", "/v1/comments/hot", s.ListHotComment_0)
+	s.router.Handle("GET", "/v1/comments/latest", s.ListLatestComment_0)
+	s.router.Handle("POST", "/v1/comments/reply", s.ReplyComment_0)
+	s.router.Handle("GET", "/v1/comments/reply", s.ListReply_0)
 }

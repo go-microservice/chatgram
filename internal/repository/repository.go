@@ -20,7 +20,7 @@ import (
 )
 
 // ProviderSet is repo providers.
-var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient, NewPostClient)
+var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient, NewPostClient, NewCommentClient)
 
 func getEtcdDiscovery() registry.Discovery {
 	// create a etcd register

@@ -23,10 +23,12 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommentServiceClient interface {
 	CreateComment(ctx context.Context, in *CreateCommentRequest, opts ...grpc.CallOption) (*CreateCommentReply, error)
-	UpdateComment(ctx context.Context, in *UpdateCommentRequest, opts ...grpc.CallOption) (*UpdateCommentReply, error)
 	DeleteComment(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentReply, error)
 	GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentReply, error)
-	ListComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error)
+	ListHotComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error)
+	ListLatestComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error)
+	ReplyComment(ctx context.Context, in *ReplyCommentRequest, opts ...grpc.CallOption) (*ReplyCommentReply, error)
+	ListReply(ctx context.Context, in *ListReplyRequest, opts ...grpc.CallOption) (*ListReplyReply, error)
 }
 
 type commentServiceClient struct {
@@ -40,15 +42,6 @@ func NewCommentServiceClient(cc grpc.ClientConnInterface) CommentServiceClient {
 func (c *commentServiceClient) CreateComment(ctx context.Context, in *CreateCommentRequest, opts ...grpc.CallOption) (*CreateCommentReply, error) {
 	out := new(CreateCommentReply)
 	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/CreateComment", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *commentServiceClient) UpdateComment(ctx context.Context, in *UpdateCommentRequest, opts ...grpc.CallOption) (*UpdateCommentReply, error) {
-	out := new(UpdateCommentReply)
-	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/UpdateComment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,9 +66,36 @@ func (c *commentServiceClient) GetComment(ctx context.Context, in *GetCommentReq
 	return out, nil
 }
 
-func (c *commentServiceClient) ListComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error) {
+func (c *commentServiceClient) ListHotComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error) {
 	out := new(ListCommentReply)
-	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/ListComment", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/ListHotComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentServiceClient) ListLatestComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error) {
+	out := new(ListCommentReply)
+	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/ListLatestComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentServiceClient) ReplyComment(ctx context.Context, in *ReplyCommentRequest, opts ...grpc.CallOption) (*ReplyCommentReply, error) {
+	out := new(ReplyCommentReply)
+	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/ReplyComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentServiceClient) ListReply(ctx context.Context, in *ListReplyRequest, opts ...grpc.CallOption) (*ListReplyReply, error) {
+	out := new(ListReplyReply)
+	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/ListReply", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,10 +107,12 @@ func (c *commentServiceClient) ListComment(ctx context.Context, in *ListCommentR
 // for forward compatibility
 type CommentServiceServer interface {
 	CreateComment(context.Context, *CreateCommentRequest) (*CreateCommentReply, error)
-	UpdateComment(context.Context, *UpdateCommentRequest) (*UpdateCommentReply, error)
 	DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentReply, error)
 	GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error)
-	ListComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	ListHotComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	ListLatestComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	ReplyComment(context.Context, *ReplyCommentRequest) (*ReplyCommentReply, error)
+	ListReply(context.Context, *ListReplyRequest) (*ListReplyReply, error)
 	mustEmbedUnimplementedCommentServiceServer()
 }
 
@@ -101,17 +123,23 @@ type UnimplementedCommentServiceServer struct {
 func (UnimplementedCommentServiceServer) CreateComment(context.Context, *CreateCommentRequest) (*CreateCommentReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateComment not implemented")
 }
-func (UnimplementedCommentServiceServer) UpdateComment(context.Context, *UpdateCommentRequest) (*UpdateCommentReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
-}
 func (UnimplementedCommentServiceServer) DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
 }
 func (UnimplementedCommentServiceServer) GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComment not implemented")
 }
-func (UnimplementedCommentServiceServer) ListComment(context.Context, *ListCommentRequest) (*ListCommentReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListComment not implemented")
+func (UnimplementedCommentServiceServer) ListHotComment(context.Context, *ListCommentRequest) (*ListCommentReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListHotComment not implemented")
+}
+func (UnimplementedCommentServiceServer) ListLatestComment(context.Context, *ListCommentRequest) (*ListCommentReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLatestComment not implemented")
+}
+func (UnimplementedCommentServiceServer) ReplyComment(context.Context, *ReplyCommentRequest) (*ReplyCommentReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReplyComment not implemented")
+}
+func (UnimplementedCommentServiceServer) ListReply(context.Context, *ListReplyRequest) (*ListReplyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListReply not implemented")
 }
 func (UnimplementedCommentServiceServer) mustEmbedUnimplementedCommentServiceServer() {}
 
@@ -140,24 +168,6 @@ func _CommentService_CreateComment_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CommentServiceServer).CreateComment(ctx, req.(*CreateCommentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CommentService_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCommentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CommentServiceServer).UpdateComment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.micro.moment.v1.CommentService/UpdateComment",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).UpdateComment(ctx, req.(*UpdateCommentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -198,20 +208,74 @@ func _CommentService_GetComment_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentService_ListComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentService_ListHotComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListCommentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentServiceServer).ListComment(ctx, in)
+		return srv.(CommentServiceServer).ListHotComment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.micro.moment.v1.CommentService/ListComment",
+		FullMethod: "/api.micro.moment.v1.CommentService/ListHotComment",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).ListComment(ctx, req.(*ListCommentRequest))
+		return srv.(CommentServiceServer).ListHotComment(ctx, req.(*ListCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentService_ListLatestComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentServiceServer).ListLatestComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.micro.moment.v1.CommentService/ListLatestComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentServiceServer).ListLatestComment(ctx, req.(*ListCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentService_ReplyComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReplyCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentServiceServer).ReplyComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.micro.moment.v1.CommentService/ReplyComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentServiceServer).ReplyComment(ctx, req.(*ReplyCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentService_ListReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListReplyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentServiceServer).ListReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.micro.moment.v1.CommentService/ListReply",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentServiceServer).ListReply(ctx, req.(*ListReplyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -228,10 +292,6 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CommentService_CreateComment_Handler,
 		},
 		{
-			MethodName: "UpdateComment",
-			Handler:    _CommentService_UpdateComment_Handler,
-		},
-		{
 			MethodName: "DeleteComment",
 			Handler:    _CommentService_DeleteComment_Handler,
 		},
@@ -240,8 +300,20 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CommentService_GetComment_Handler,
 		},
 		{
-			MethodName: "ListComment",
-			Handler:    _CommentService_ListComment_Handler,
+			MethodName: "ListHotComment",
+			Handler:    _CommentService_ListHotComment_Handler,
+		},
+		{
+			MethodName: "ListLatestComment",
+			Handler:    _CommentService_ListLatestComment_Handler,
+		},
+		{
+			MethodName: "ReplyComment",
+			Handler:    _CommentService_ReplyComment_Handler,
+		},
+		{
+			MethodName: "ListReply",
+			Handler:    _CommentService_ListReply_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

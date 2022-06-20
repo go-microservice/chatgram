@@ -521,7 +521,7 @@ type GetPostRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// @gotags: uri:"id"
-	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" uri:"id"`
 }
 
 func (x *GetPostRequest) Reset() {
@@ -616,9 +616,9 @@ type ListPostRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// @gotags: form:"last_id"
-	LastId int64 `protobuf:"varint,1,opt,name=last_id,json=lastId,proto3" json:"last_id,omitempty"`
+	LastId int64 `protobuf:"varint,1,opt,name=last_id,json=lastId,proto3" json:"last_id,omitempty" form:"last_id"`
 	// @gotags: form:"limit"
-	Limit int32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Limit int32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty" form:"limit"`
 }
 
 func (x *ListPostRequest) Reset() {

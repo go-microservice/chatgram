@@ -20,6 +20,7 @@ func NewHTTPServer(c *app.ServerConfig,
 	userSvc *service.UserServiceServer,
 	relSvc *service.RelationServiceServer,
 	postSvc *service.PostServiceServer,
+	commentSvc *service.CommentServiceServer,
 ) *http.Server {
 	router := routers.NewRouter()
 
@@ -34,6 +35,7 @@ func NewHTTPServer(c *app.ServerConfig,
 	userv1.RegisterUserServiceHTTPServer(router, userSvc)
 	relationv1.RegisterRelationServiceHTTPServer(router, relSvc)
 	momentv1.RegisterPostServiceHTTPServer(router, postSvc)
+	momentv1.RegisterCommentServiceHTTPServer(router, commentSvc)
 
 	return srv
 }

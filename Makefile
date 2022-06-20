@@ -175,7 +175,10 @@ http:
 .PHONY: tag
 # add tag to pb struct
 tag:
-	protoc-go-inject-tag -input=$(API_PROTO_PB_FILES)
+	protoc-go-inject-tag -input=./api/micro/user/v1/user.pb.go
+	protoc-go-inject-tag -input=./api/micro/relation/v1/relation.pb.go
+	protoc-go-inject-tag -input=./api/micro/moment/v1/post.pb.go
+	protoc-go-inject-tag -input=./api/micro/moment/v1/comment.pb.go
 
 .PHONY: openapi
 # generate openapi

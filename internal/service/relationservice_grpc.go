@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	relationV1 "github.com/go-microservice/relation-service/api/relation/v1"
 	userv1 "github.com/go-microservice/user-service/api/user/v1"
@@ -56,14 +55,12 @@ func (s *RelationServiceServer) Unfollow(ctx context.Context, req *pb.UnfollowRe
 func (s *RelationServiceServer) GetFollowingUserList(ctx context.Context, req *pb.GetFollowingUserListRequest) (*pb.GetFollowingUserListReply, error) {
 	// get relation data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
-	fmt.Println("=====limit=====", limit)
 
 	in := &relationV1.FollowingListRequest{
 		UserId: cast.ToInt64(req.GetId()),
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}
-	fmt.Println("==========", in)
 	ret, err := s.relationRPC.GetFollowingList(ctx, in)
 	if err != nil {
 		return nil, err

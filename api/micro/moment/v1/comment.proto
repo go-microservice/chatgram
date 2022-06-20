@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.micro.moment.v1;
 
 import "google/api/annotations.proto";
+import "api/micro/user/v1/user.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
 option java_multiple_files = true;
@@ -15,12 +16,6 @@ service CommentService {
 			body: "*"
 		};
 	};
-	rpc UpdateComment (UpdateCommentRequest) returns (UpdateCommentReply) {
-		option (google.api.http) = {
-			patch: "/v1/comments"
-			body: "*"
-		};
-	};
 	rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply) {
 		option (google.api.http) = {
 			delete: "/v1/comments"
@@ -29,27 +24,121 @@ service CommentService {
 	};
 	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
 		option (google.api.http) = {
-			get: "/v1/comments/{post_id}"
+			get: "/v1/comments/{id}"
 		};
 	};
-	rpc ListComment (ListCommentRequest) returns (ListCommentReply) {
+	rpc ListHotComment (ListCommentRequest) returns (ListCommentReply) {
 		option (google.api.http) = {
-			get: "/v1/comments"
+			get: "/v1/comments/hot"
+		};
+	};
+	rpc ListLatestComment (ListCommentRequest) returns (ListCommentReply) {
+		option (google.api.http) = {
+			get: "/v1/comments/latest"
+		};
+	};
+	rpc ReplyComment (ReplyCommentRequest) returns (ReplyCommentReply) {
+		option (google.api.http) = {
+			post: "/v1/comments/reply"
+			body: "*"
+		};
+	};
+	rpc ListReply (ListReplyRequest) returns (ListReplyReply) {
+		option (google.api.http) = {
+			get: "/v1/comments/reply"
 		};
 	};
 }
 
-message CreateCommentRequest {}
-message CreateCommentReply {}
+
+message Comment {
+	int64 id = 1;
+	int64 post_id = 2;
+	api.micro.user.v1.User user = 3;
+	string content = 4;
+	int64 root_id = 5;
+	int64 parent_id = 6;
+	int32 like_count = 7;
+	int32 reply_count = 8;
+	int64 score = 9;
+	int32 del_flag = 10;
+	string created_at = 11;
+	string updated_at = 12;
+	string device_type = 13;
+	string ip = 14;
+}
+
+message CreateCommentRequest {
+	int64 post_id = 1;
+	int64 user_id = 2;
+	string content = 3;
+	int64 root_id = 4;
+	int64 parent_id = 5;
+	string device_type = 6;
+	string ip = 7;
+}
+message CreateCommentReply {
+	Comment comment = 1;
+}
 
 message UpdateCommentRequest {}
 message UpdateCommentReply {}
 
-message DeleteCommentRequest {}
+message DeleteCommentRequest {
+	int64 id = 1;
+	int64 user_id = 2;
+	int32 del_flag = 3;
+}
 message DeleteCommentReply {}
 
-message GetCommentRequest {}
-message GetCommentReply {}
+message GetCommentRequest {
+	// @gotags: uri:"id"
+	int64 id = 1;
+}
+message GetCommentReply {
+	Comment comment = 1;
+}
 
-message ListCommentRequest {}
-message ListCommentReply {}
+message ListCommentRequest {
+	// @gotags: form:"last_id"
+	int64 last_id = 1;
+	// @gotags: form:"limit"
+	int32 limit = 2;
+	// @gotags: form:"post_id"
+	int64 post_id = 3;
+}
+message ListCommentReply {
+	repeated Comment items = 1;
+	int64 count = 2;
+	bool has_more = 3;
+	string last_id = 4;
+}
+
+message ReplyCommentRequest {
+	int64 comment_id = 1;
+	int64 user_id = 2;
+	string content = 3;
+	int64 root_id = 4;
+	int64 parent_id = 5;
+	string device_type = 6;
+	string ip = 7;
+}
+message ReplyCommentReply {
+	Comment comment = 1;
+}
+
+message ListReplyRequest {
+	// @gotags: form:"last_id"
+	int64 last_id = 1;
+	// @gotags: form:"limit"
+	int32 limit = 2;
+	// @gotags: form:"comment_id"
+	int64 comment_id = 3;
+}
+
+message ListReplyReply {
+	repeated Comment items = 1;
+	int64 count = 2;
+	bool has_more = 3;
+	string last_id = 4;
+}

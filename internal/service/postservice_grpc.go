@@ -7,15 +7,12 @@ import (
 	"time"
 
 	"github.com/go-eagle/eagle/pkg/log"
+	momentv1 "github.com/go-microservice/moment-service/api/moment/v1"
 	userv1 "github.com/go-microservice/user-service/api/user/v1"
-	"github.com/spf13/cast"
-
 	"github.com/jinzhu/copier"
-
+	"github.com/spf13/cast"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-
-	momentv1 "github.com/go-microservice/moment-service/api/moment/v1"
 
 	pb "github.com/go-microservice/ins-api/api/micro/moment/v1"
 )
@@ -79,6 +76,7 @@ func (s *PostServiceServer) UpdatePost(ctx context.Context, req *pb.UpdatePostRe
 	return &pb.UpdatePostReply{}, nil
 }
 func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRequest) (*pb.DeletePostReply, error) {
+
 	return &pb.DeletePostReply{}, nil
 }
 func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest) (*pb.GetPostReply, error) {
