@@ -84,7 +84,11 @@ message CreatePostReply {
 message UpdatePostRequest {}
 message UpdatePostReply {}
 
-message DeletePostRequest {}
+message DeletePostRequest {
+	int64 id = 1;
+	int64 user_id = 2;
+	int32 del_flag = 3;
+}
 message DeletePostReply {}
 
 message GetPostRequest {

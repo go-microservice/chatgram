@@ -21,14 +21,14 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateLikeRequest struct {
+type CreatePostLikeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *CreateLikeRequest) Reset() {
-	*x = CreateLikeRequest{}
+func (x *CreatePostLikeRequest) Reset() {
+	*x = CreatePostLikeRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -36,13 +36,13 @@ func (x *CreateLikeRequest) Reset() {
 	}
 }
 
-func (x *CreateLikeRequest) String() string {
+func (x *CreatePostLikeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateLikeRequest) ProtoMessage() {}
+func (*CreatePostLikeRequest) ProtoMessage() {}
 
-func (x *CreateLikeRequest) ProtoReflect() protoreflect.Message {
+func (x *CreatePostLikeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -54,19 +54,19 @@ func (x *CreateLikeRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateLikeRequest.ProtoReflect.Descriptor instead.
-func (*CreateLikeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreatePostLikeRequest.ProtoReflect.Descriptor instead.
+func (*CreatePostLikeRequest) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{0}
 }
 
-type CreateLikeReply struct {
+type CreatePostLikeReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *CreateLikeReply) Reset() {
-	*x = CreateLikeReply{}
+func (x *CreatePostLikeReply) Reset() {
+	*x = CreatePostLikeReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -74,13 +74,13 @@ func (x *CreateLikeReply) Reset() {
 	}
 }
 
-func (x *CreateLikeReply) String() string {
+func (x *CreatePostLikeReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateLikeReply) ProtoMessage() {}
+func (*CreatePostLikeReply) ProtoMessage() {}
 
-func (x *CreateLikeReply) ProtoReflect() protoreflect.Message {
+func (x *CreatePostLikeReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -92,19 +92,19 @@ func (x *CreateLikeReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateLikeReply.ProtoReflect.Descriptor instead.
-func (*CreateLikeReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreatePostLikeReply.ProtoReflect.Descriptor instead.
+func (*CreatePostLikeReply) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{1}
 }
 
-type UpdateLikeRequest struct {
+type DeletePostLikeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *UpdateLikeRequest) Reset() {
-	*x = UpdateLikeRequest{}
+func (x *DeletePostLikeRequest) Reset() {
+	*x = DeletePostLikeRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -112,13 +112,13 @@ func (x *UpdateLikeRequest) Reset() {
 	}
 }
 
-func (x *UpdateLikeRequest) String() string {
+func (x *DeletePostLikeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateLikeRequest) ProtoMessage() {}
+func (*DeletePostLikeRequest) ProtoMessage() {}
 
-func (x *UpdateLikeRequest) ProtoReflect() protoreflect.Message {
+func (x *DeletePostLikeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -130,19 +130,19 @@ func (x *UpdateLikeRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateLikeRequest.ProtoReflect.Descriptor instead.
-func (*UpdateLikeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeletePostLikeRequest.ProtoReflect.Descriptor instead.
+func (*DeletePostLikeRequest) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{2}
 }
 
-type UpdateLikeReply struct {
+type DeletePostLikeReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *UpdateLikeReply) Reset() {
-	*x = UpdateLikeReply{}
+func (x *DeletePostLikeReply) Reset() {
+	*x = DeletePostLikeReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -150,13 +150,13 @@ func (x *UpdateLikeReply) Reset() {
 	}
 }
 
-func (x *UpdateLikeReply) String() string {
+func (x *DeletePostLikeReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateLikeReply) ProtoMessage() {}
+func (*DeletePostLikeReply) ProtoMessage() {}
 
-func (x *UpdateLikeReply) ProtoReflect() protoreflect.Message {
+func (x *DeletePostLikeReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -168,19 +168,19 @@ func (x *UpdateLikeReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateLikeReply.ProtoReflect.Descriptor instead.
-func (*UpdateLikeReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeletePostLikeReply.ProtoReflect.Descriptor instead.
+func (*DeletePostLikeReply) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{3}
 }
 
-type DeleteLikeRequest struct {
+type ListPostLikeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *DeleteLikeRequest) Reset() {
-	*x = DeleteLikeRequest{}
+func (x *ListPostLikeRequest) Reset() {
+	*x = ListPostLikeRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -188,13 +188,13 @@ func (x *DeleteLikeRequest) Reset() {
 	}
 }
 
-func (x *DeleteLikeRequest) String() string {
+func (x *ListPostLikeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteLikeRequest) ProtoMessage() {}
+func (*ListPostLikeRequest) ProtoMessage() {}
 
-func (x *DeleteLikeRequest) ProtoReflect() protoreflect.Message {
+func (x *ListPostLikeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -206,19 +206,19 @@ func (x *DeleteLikeRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteLikeRequest.ProtoReflect.Descriptor instead.
-func (*DeleteLikeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListPostLikeRequest.ProtoReflect.Descriptor instead.
+func (*ListPostLikeRequest) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{4}
 }
 
-type DeleteLikeReply struct {
+type ListPostLikeReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *DeleteLikeReply) Reset() {
-	*x = DeleteLikeReply{}
+func (x *ListPostLikeReply) Reset() {
+	*x = ListPostLikeReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -226,13 +226,13 @@ func (x *DeleteLikeReply) Reset() {
 	}
 }
 
-func (x *DeleteLikeReply) String() string {
+func (x *ListPostLikeReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteLikeReply) ProtoMessage() {}
+func (*ListPostLikeReply) ProtoMessage() {}
 
-func (x *DeleteLikeReply) ProtoReflect() protoreflect.Message {
+func (x *ListPostLikeReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -244,19 +244,19 @@ func (x *DeleteLikeReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteLikeReply.ProtoReflect.Descriptor instead.
-func (*DeleteLikeReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListPostLikeReply.ProtoReflect.Descriptor instead.
+func (*ListPostLikeReply) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{5}
 }
 
-type ListLikeRequest struct {
+type CreateCommentLikeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *ListLikeRequest) Reset() {
-	*x = ListLikeRequest{}
+func (x *CreateCommentLikeRequest) Reset() {
+	*x = CreateCommentLikeRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -264,13 +264,13 @@ func (x *ListLikeRequest) Reset() {
 	}
 }
 
-func (x *ListLikeRequest) String() string {
+func (x *CreateCommentLikeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListLikeRequest) ProtoMessage() {}
+func (*CreateCommentLikeRequest) ProtoMessage() {}
 
-func (x *ListLikeRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateCommentLikeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -282,19 +282,19 @@ func (x *ListLikeRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListLikeRequest.ProtoReflect.Descriptor instead.
-func (*ListLikeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateCommentLikeRequest.ProtoReflect.Descriptor instead.
+func (*CreateCommentLikeRequest) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{6}
 }
 
-type ListLikeReply struct {
+type CreateCommentLikeReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *ListLikeReply) Reset() {
-	*x = ListLikeReply{}
+func (x *CreateCommentLikeReply) Reset() {
+	*x = CreateCommentLikeReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_api_micro_moment_v1_like_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -302,13 +302,13 @@ func (x *ListLikeReply) Reset() {
 	}
 }
 
-func (x *ListLikeReply) String() string {
+func (x *CreateCommentLikeReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListLikeReply) ProtoMessage() {}
+func (*CreateCommentLikeReply) ProtoMessage() {}
 
-func (x *ListLikeReply) ProtoReflect() protoreflect.Message {
+func (x *CreateCommentLikeReply) ProtoReflect() protoreflect.Message {
 	mi := &file_api_micro_moment_v1_like_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -320,9 +320,161 @@ func (x *ListLikeReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListLikeReply.ProtoReflect.Descriptor instead.
-func (*ListLikeReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateCommentLikeReply.ProtoReflect.Descriptor instead.
+func (*CreateCommentLikeReply) Descriptor() ([]byte, []int) {
 	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{7}
+}
+
+type DeleteCommentLikeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeleteCommentLikeRequest) Reset() {
+	*x = DeleteCommentLikeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_micro_moment_v1_like_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCommentLikeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCommentLikeRequest) ProtoMessage() {}
+
+func (x *DeleteCommentLikeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_micro_moment_v1_like_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCommentLikeRequest.ProtoReflect.Descriptor instead.
+func (*DeleteCommentLikeRequest) Descriptor() ([]byte, []int) {
+	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{8}
+}
+
+type DeleteCommentLikeReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeleteCommentLikeReply) Reset() {
+	*x = DeleteCommentLikeReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_micro_moment_v1_like_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCommentLikeReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCommentLikeReply) ProtoMessage() {}
+
+func (x *DeleteCommentLikeReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_micro_moment_v1_like_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCommentLikeReply.ProtoReflect.Descriptor instead.
+func (*DeleteCommentLikeReply) Descriptor() ([]byte, []int) {
+	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{9}
+}
+
+type ListCommentLikeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListCommentLikeRequest) Reset() {
+	*x = ListCommentLikeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_micro_moment_v1_like_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCommentLikeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCommentLikeRequest) ProtoMessage() {}
+
+func (x *ListCommentLikeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_micro_moment_v1_like_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCommentLikeRequest.ProtoReflect.Descriptor instead.
+func (*ListCommentLikeRequest) Descriptor() ([]byte, []int) {
+	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{10}
+}
+
+type ListCommentLikeReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListCommentLikeReply) Reset() {
+	*x = ListCommentLikeReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_micro_moment_v1_like_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCommentLikeReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCommentLikeReply) ProtoMessage() {}
+
+func (x *ListCommentLikeReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_micro_moment_v1_like_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCommentLikeReply.ProtoReflect.Descriptor instead.
+func (*ListCommentLikeReply) Descriptor() ([]byte, []int) {
+	return file_api_micro_moment_v1_like_proto_rawDescGZIP(), []int{11}
 }
 
 var File_api_micro_moment_v1_like_proto protoreflect.FileDescriptor
@@ -333,45 +485,77 @@ var file_api_micro_moment_v1_like_proto_rawDesc = []byte{
 	0x12, 0x13, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65,
 	0x6e, 0x74, 0x2e, 0x76, 0x31, 0x1a, 0x1c, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x61, 0x70,
 	0x69, 0x2f, 0x61, 0x6e, 0x6e, 0x6f, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0x13, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x11, 0x0a, 0x0f, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x13, 0x0a, 0x11, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x22, 0x11, 0x0a, 0x0f, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x22, 0x13, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4c, 0x69, 0x6b,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x11, 0x0a, 0x0f, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x11, 0x0a, 0x0f, 0x4c,
-	0x69, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x0f,
-	0x0a, 0x0d, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x32,
-	0xcc, 0x03, 0x0a, 0x0b, 0x4c, 0x69, 0x6b, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
-	0x70, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x12, 0x26, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74,
-	0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72,
-	0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x14, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x0e, 0x22, 0x09, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x6b, 0x65, 0x73, 0x3a, 0x01,
-	0x2a, 0x12, 0x70, 0x0a, 0x0a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x12,
-	0x26, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65,
-	0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69,
-	0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x14, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x0e, 0x32, 0x09, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x6b, 0x65, 0x73,
-	0x3a, 0x01, 0x2a, 0x12, 0x70, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4c, 0x69, 0x6b,
-	0x65, 0x12, 0x26, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f,
-	0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4c, 0x69,
-	0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x6f, 0x74, 0x6f, 0x22, 0x17, 0x0a, 0x15, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73,
+	0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x15, 0x0a, 0x13,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65,
+	0x70, 0x6c, 0x79, 0x22, 0x17, 0x0a, 0x15, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x73,
+	0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x15, 0x0a, 0x13,
+	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65,
+	0x70, 0x6c, 0x79, 0x22, 0x15, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x6f, 0x73, 0x74, 0x4c,
+	0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x13, 0x0a, 0x11, 0x4c, 0x69,
+	0x73, 0x74, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22,
+	0x1a, 0x0a, 0x18, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74,
+	0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x18, 0x0a, 0x16, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65,
+	0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x1a, 0x0a, 0x18, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43,
+	0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x22, 0x18, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65,
+	0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x18, 0x0a, 0x16, 0x4c,
+	0x69, 0x73, 0x74, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x16, 0x0a, 0x14, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6d,
+	0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x32, 0xbe, 0x06,
+	0x0a, 0x0b, 0x4c, 0x69, 0x6b, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x81, 0x01,
+	0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65,
+	0x12, 0x2a, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d,
+	0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73,
+	0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e,
+	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b,
+	0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x19, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x13, 0x22, 0x0e,
+	0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x2f, 0x6c, 0x69, 0x6b, 0x65, 0x3a, 0x01,
+	0x2a, 0x12, 0x84, 0x01, 0x0a, 0x0e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x73, 0x74,
+	0x4c, 0x69, 0x6b, 0x65, 0x12, 0x2a, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f,
+	0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x28, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d,
+	0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x6f, 0x73,
+	0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x16, 0x22, 0x11, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x2f, 0x64, 0x69,
+	0x73, 0x6c, 0x69, 0x6b, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x79, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74,
+	0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x12, 0x28, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d,
+	0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x50, 0x6f, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x26, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d,
+	0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x6f, 0x73,
+	0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x17, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x11, 0x12, 0x0f, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x2f, 0x6c, 0x69,
+	0x6b, 0x65, 0x73, 0x12, 0x8d, 0x01, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f,
+	0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x12, 0x2d, 0x2e, 0x61, 0x70, 0x69, 0x2e,
 	0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22,
-	0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0e, 0x2a, 0x09, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x6b,
-	0x65, 0x73, 0x3a, 0x01, 0x2a, 0x12, 0x67, 0x0a, 0x08, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x69, 0x6b,
-	0x65, 0x12, 0x24, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f,
-	0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d,
+	0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65,
+	0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x16, 0x22, 0x11, 0x2f,
+	0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x6c, 0x69, 0x6b, 0x65,
+	0x3a, 0x01, 0x2a, 0x12, 0x90, 0x01, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f,
+	0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x12, 0x2d, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e,
+	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d,
+	0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65,
+	0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x1f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x19, 0x22, 0x14, 0x2f,
+	0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x64, 0x69, 0x73, 0x6c,
+	0x69, 0x6b, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x85, 0x01, 0x0a, 0x0f, 0x4c, 0x69, 0x73, 0x74, 0x43,
+	0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x12, 0x2b, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31,
+	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69,
 	0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
-	0x73, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x11, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x0b, 0x12, 0x09, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x69, 0x6b, 0x65, 0x73, 0x42, 0x52,
+	0x73, 0x74, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x70,
+	0x6c, 0x79, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x12, 0x12, 0x2f, 0x76, 0x31, 0x2f,
+	0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x6c, 0x69, 0x6b, 0x65, 0x73, 0x42, 0x52,
 	0x0a, 0x13, 0x61, 0x70, 0x69, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x6d, 0x6f, 0x6d, 0x65,
 	0x6e, 0x74, 0x2e, 0x76, 0x31, 0x50, 0x01, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
 	0x63, 0x6f, 0x6d, 0x2f, 0x67, 0x6f, 0x2d, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x73, 0x65, 0x72, 0x76,
@@ -392,31 +576,39 @@ func file_api_micro_moment_v1_like_proto_rawDescGZIP() []byte {
 	return file_api_micro_moment_v1_like_proto_rawDescData
 }
 
-var file_api_micro_moment_v1_like_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_api_micro_moment_v1_like_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_api_micro_moment_v1_like_proto_goTypes = []interface{}{
-	(*CreateLikeRequest)(nil), // 0: api.micro.moment.v1.CreateLikeRequest
-	(*CreateLikeReply)(nil),   // 1: api.micro.moment.v1.CreateLikeReply
-	(*UpdateLikeRequest)(nil), // 2: api.micro.moment.v1.UpdateLikeRequest
-	(*UpdateLikeReply)(nil),   // 3: api.micro.moment.v1.UpdateLikeReply
-	(*DeleteLikeRequest)(nil), // 4: api.micro.moment.v1.DeleteLikeRequest
-	(*DeleteLikeReply)(nil),   // 5: api.micro.moment.v1.DeleteLikeReply
-	(*ListLikeRequest)(nil),   // 6: api.micro.moment.v1.ListLikeRequest
-	(*ListLikeReply)(nil),     // 7: api.micro.moment.v1.ListLikeReply
+	(*CreatePostLikeRequest)(nil),    // 0: api.micro.moment.v1.CreatePostLikeRequest
+	(*CreatePostLikeReply)(nil),      // 1: api.micro.moment.v1.CreatePostLikeReply
+	(*DeletePostLikeRequest)(nil),    // 2: api.micro.moment.v1.DeletePostLikeRequest
+	(*DeletePostLikeReply)(nil),      // 3: api.micro.moment.v1.DeletePostLikeReply
+	(*ListPostLikeRequest)(nil),      // 4: api.micro.moment.v1.ListPostLikeRequest
+	(*ListPostLikeReply)(nil),        // 5: api.micro.moment.v1.ListPostLikeReply
+	(*CreateCommentLikeRequest)(nil), // 6: api.micro.moment.v1.CreateCommentLikeRequest
+	(*CreateCommentLikeReply)(nil),   // 7: api.micro.moment.v1.CreateCommentLikeReply
+	(*DeleteCommentLikeRequest)(nil), // 8: api.micro.moment.v1.DeleteCommentLikeRequest
+	(*DeleteCommentLikeReply)(nil),   // 9: api.micro.moment.v1.DeleteCommentLikeReply
+	(*ListCommentLikeRequest)(nil),   // 10: api.micro.moment.v1.ListCommentLikeRequest
+	(*ListCommentLikeReply)(nil),     // 11: api.micro.moment.v1.ListCommentLikeReply
 }
 var file_api_micro_moment_v1_like_proto_depIdxs = []int32{
-	0, // 0: api.micro.moment.v1.LikeService.CreateLike:input_type -> api.micro.moment.v1.CreateLikeRequest
-	2, // 1: api.micro.moment.v1.LikeService.UpdateLike:input_type -> api.micro.moment.v1.UpdateLikeRequest
-	4, // 2: api.micro.moment.v1.LikeService.DeleteLike:input_type -> api.micro.moment.v1.DeleteLikeRequest
-	6, // 3: api.micro.moment.v1.LikeService.ListLike:input_type -> api.micro.moment.v1.ListLikeRequest
-	1, // 4: api.micro.moment.v1.LikeService.CreateLike:output_type -> api.micro.moment.v1.CreateLikeReply
-	3, // 5: api.micro.moment.v1.LikeService.UpdateLike:output_type -> api.micro.moment.v1.UpdateLikeReply
-	5, // 6: api.micro.moment.v1.LikeService.DeleteLike:output_type -> api.micro.moment.v1.DeleteLikeReply
-	7, // 7: api.micro.moment.v1.LikeService.ListLike:output_type -> api.micro.moment.v1.ListLikeReply
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: api.micro.moment.v1.LikeService.CreatePostLike:input_type -> api.micro.moment.v1.CreatePostLikeRequest
+	2,  // 1: api.micro.moment.v1.LikeService.DeletePostLike:input_type -> api.micro.moment.v1.DeletePostLikeRequest
+	4,  // 2: api.micro.moment.v1.LikeService.ListPostLike:input_type -> api.micro.moment.v1.ListPostLikeRequest
+	6,  // 3: api.micro.moment.v1.LikeService.CreateCommentLike:input_type -> api.micro.moment.v1.CreateCommentLikeRequest
+	8,  // 4: api.micro.moment.v1.LikeService.DeleteCommentLike:input_type -> api.micro.moment.v1.DeleteCommentLikeRequest
+	10, // 5: api.micro.moment.v1.LikeService.ListCommentLike:input_type -> api.micro.moment.v1.ListCommentLikeRequest
+	1,  // 6: api.micro.moment.v1.LikeService.CreatePostLike:output_type -> api.micro.moment.v1.CreatePostLikeReply
+	3,  // 7: api.micro.moment.v1.LikeService.DeletePostLike:output_type -> api.micro.moment.v1.DeletePostLikeReply
+	5,  // 8: api.micro.moment.v1.LikeService.ListPostLike:output_type -> api.micro.moment.v1.ListPostLikeReply
+	7,  // 9: api.micro.moment.v1.LikeService.CreateCommentLike:output_type -> api.micro.moment.v1.CreateCommentLikeReply
+	9,  // 10: api.micro.moment.v1.LikeService.DeleteCommentLike:output_type -> api.micro.moment.v1.DeleteCommentLikeReply
+	11, // 11: api.micro.moment.v1.LikeService.ListCommentLike:output_type -> api.micro.moment.v1.ListCommentLikeReply
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_api_micro_moment_v1_like_proto_init() }
@@ -426,7 +618,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_api_micro_moment_v1_like_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateLikeRequest); i {
+			switch v := v.(*CreatePostLikeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -438,7 +630,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateLikeReply); i {
+			switch v := v.(*CreatePostLikeReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -450,7 +642,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateLikeRequest); i {
+			switch v := v.(*DeletePostLikeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -462,7 +654,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateLikeReply); i {
+			switch v := v.(*DeletePostLikeReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -474,7 +666,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteLikeRequest); i {
+			switch v := v.(*ListPostLikeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -486,7 +678,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteLikeReply); i {
+			switch v := v.(*ListPostLikeReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -498,7 +690,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListLikeRequest); i {
+			switch v := v.(*CreateCommentLikeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -510,7 +702,55 @@ func file_api_micro_moment_v1_like_proto_init() {
 			}
 		}
 		file_api_micro_moment_v1_like_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListLikeReply); i {
+			switch v := v.(*CreateCommentLikeReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_micro_moment_v1_like_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCommentLikeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_micro_moment_v1_like_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCommentLikeReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_micro_moment_v1_like_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListCommentLikeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_micro_moment_v1_like_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListCommentLikeReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -528,7 +768,7 @@ func file_api_micro_moment_v1_like_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_micro_moment_v1_like_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

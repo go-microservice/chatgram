@@ -179,6 +179,7 @@ tag:
 	protoc-go-inject-tag -input=./api/micro/relation/v1/relation.pb.go
 	protoc-go-inject-tag -input=./api/micro/moment/v1/post.pb.go
 	protoc-go-inject-tag -input=./api/micro/moment/v1/comment.pb.go
+	protoc-go-inject-tag -input=./api/micro/moment/v1/like.pb.go
 
 .PHONY: openapi
 # generate openapi

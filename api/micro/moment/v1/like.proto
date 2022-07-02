@@ -9,39 +9,56 @@ option java_multiple_files = true;
 option java_package = "api.micro.moment.v1";
 
 service LikeService {
-	rpc CreateLike (CreateLikeRequest) returns (CreateLikeReply) {
+	rpc CreatePostLike (CreatePostLikeRequest) returns (CreatePostLikeReply) {
 		option (google.api.http) = {
-			post: "/v1/likes"
+			post: "/v1/posts/like"
 			body: "*"
 		};
 	};
-	rpc UpdateLike (UpdateLikeRequest) returns (UpdateLikeReply) {
+	rpc DeletePostLike (DeletePostLikeRequest) returns (DeletePostLikeReply) {
 		option (google.api.http) = {
-			patch: "/v1/likes"
+			post: "/v1/posts/dislike"
 			body: "*"
 		};
 	};
-	rpc DeleteLike (DeleteLikeRequest) returns (DeleteLikeReply) {
+	rpc ListPostLike (ListPostLikeRequest) returns (ListPostLikeReply) {
 		option (google.api.http) = {
-			delete: "/v1/likes"
+			get: "/v1/posts/likes"
+		};
+	};
+	rpc CreateCommentLike (CreateCommentLikeRequest) returns (CreateCommentLikeReply) {
+		option (google.api.http) = {
+			post: "/v1/comments/like"
 			body: "*"
 		};
 	};
-	rpc ListLike (ListLikeRequest) returns (ListLikeReply) {
+	rpc DeleteCommentLike (DeleteCommentLikeRequest) returns (DeleteCommentLikeReply) {
 		option (google.api.http) = {
-			get: "/v1/likes"
+			post: "/v1/comments/dislike"
+			body: "*"
+		};
+	};
+	rpc ListCommentLike (ListCommentLikeRequest) returns (ListCommentLikeReply) {
+		option (google.api.http) = {
+			get: "/v1/comments/likes"
 		};
 	};
 }
 
-message CreateLikeRequest {}
-message CreateLikeReply {}
+message CreatePostLikeRequest {}
+message CreatePostLikeReply {}
 
-message UpdateLikeRequest {}
-message UpdateLikeReply {}
+message DeletePostLikeRequest {}
+message DeletePostLikeReply {}
 
-message DeleteLikeRequest {}
-message DeleteLikeReply {}
+message ListPostLikeRequest {}
+message ListPostLikeReply {}
 
-message ListLikeRequest {}
-message ListLikeReply {}
+message CreateCommentLikeRequest {}
+message CreateCommentLikeReply {}
+
+message DeleteCommentLikeRequest {}
+message DeleteCommentLikeReply {}
+
+message ListCommentLikeRequest {}
+message ListCommentLikeReply {}

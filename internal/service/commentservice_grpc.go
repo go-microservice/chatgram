@@ -172,11 +172,70 @@ func (s *CommentServiceServer) ListLatestComment(ctx context.Context, req *pb.Li
 		Items:   pbComments,
 	}, nil
 }
+
 func (s *CommentServiceServer) ReplyComment(ctx context.Context, req *pb.ReplyCommentRequest) (*pb.ReplyCommentReply, error) {
-	return &pb.ReplyCommentReply{}, nil
+	in := &momentv1.ReplyCommentRequest{
+		CommentId:  req.GetCommentId(),
+		RootId:     req.GetRootId(),
+		UserId:     req.GetUserId(),
+		Content:    req.GetContent(),
+		DeviceType: "",
+		Ip:         "",
+	}
+	out, err := s.momentRPC.ReplyComment(ctx, in)
+	if err != nil {
+		// check client if deadline exceeded
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.DeadlineExceeded {
+			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
+		}
+
+		return nil, err
+	}
+
+	comment := pb.Comment{}
+	err = copier.Copy(&comment, &out.Comment)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.ReplyCommentReply{
+		Comment: &comment,
+	}, nil
 }
+
 func (s *CommentServiceServer) ListReply(ctx context.Context, req *pb.ListReplyRequest) (*pb.ListReplyReply, error) {
-	return &pb.ListReplyReply{}, nil
+	// get data, support pagination
+	limit := cast.ToInt32(req.GetLimit())
+	in := &momentv1.ListReplyCommentRequest{
+		CommentId: req.GetCommentId(),
+		LastId:    cast.ToInt64(req.GetLastId()),
+		Limit:     limit + 1,
+	}
+	ret, err := s.momentRPC.ListReplyComment(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	comments := ret.GetItems()
+	var (
+		hasMore bool
+		lastId  string
+	)
+	if int32(len(comments)) > limit {
+		hasMore = true
+		lastId = cast.ToString(comments[len(comments)-1].Id)
+		comments = comments[0 : len(comments)-1]
+	}
+	pbComments, err := s.assembleData(ctx, comments)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.ListReplyReply{
+		HasMore: hasMore,
+		LastId:  lastId,
+		Items:   pbComments,
+	}, nil
 }
 
 func (s *CommentServiceServer) assembleData(ctx context.Context, comments []*momentv1.Comment) ([]*pb.Comment, error) {

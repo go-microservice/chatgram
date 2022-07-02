@@ -75,10 +75,25 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRe
 func (s *PostServiceServer) UpdatePost(ctx context.Context, req *pb.UpdatePostRequest) (*pb.UpdatePostReply, error) {
 	return &pb.UpdatePostReply{}, nil
 }
-func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRequest) (*pb.DeletePostReply, error) {
 
+func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRequest) (*pb.DeletePostReply, error) {
+	in := &momentv1.DeletePostRequest{
+		Id:      req.GetId(),
+		UserId:  req.GetUserId(),
+		DelFlag: req.GetDelFlag(),
+	}
+	_, err := s.momentRPC.DeletePost(ctx, in)
+	if err != nil {
+		// check client if deadline exceeded
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.DeadlineExceeded {
+			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
+		}
+		return nil, err
+	}
 	return &pb.DeletePostReply{}, nil
 }
+
 func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest) (*pb.GetPostReply, error) {
 	in := &momentv1.GetPostRequest{
 		Id: req.GetId(),
