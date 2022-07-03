@@ -80,7 +80,6 @@ func main() {
 }
 
 func newApp(cfg *eagle.Config, httpSrv *transHttp.Server) *eagle.App {
-
 	// init pprof server
 	go func() {
 		fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)

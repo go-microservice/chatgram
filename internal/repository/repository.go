@@ -20,7 +20,7 @@ import (
 )
 
 // ProviderSet is repo providers.
-var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient, NewPostClient, NewCommentClient)
+var ProviderSet = wire.NewSet(NewUserClient, NewRelationClient, NewPostClient, NewCommentClient, NewLikeClient)
 
 func getEtcdDiscovery() registry.Discovery {
 	// create a etcd register
@@ -117,5 +117,22 @@ func NewCommentClient() momentv1.CommentServiceClient {
 		panic(err)
 	}
 	c := momentv1.NewCommentServiceClient(conn)
+	return c
+}
+
+func NewLikeClient() momentv1.LikeServiceClient {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	endpoint := "discovery:///moment-svc"
+	conn, err := grpc.DialInsecure(
+		ctx,
+		grpc.WithEndpoint(endpoint),
+		grpc.WithDiscovery(getConsulDiscovery()),
+	)
+	if err != nil {
+		panic(err)
+	}
+	c := momentv1.NewLikeServiceClient(conn)
 	return c
 }

@@ -8,4 +8,5 @@ var ProviderSet = wire.NewSet(
 	NewRelationServiceServer,
 	NewPostServiceServer,
 	NewCommentServiceServer,
+	NewLikeServiceServer,
 )

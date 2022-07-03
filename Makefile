@@ -174,7 +174,7 @@ http:
 
 .PHONY: tag
 # add tag to pb struct
-tag:
+tag: grpc http
 	protoc-go-inject-tag -input=./api/micro/user/v1/user.pb.go
 	protoc-go-inject-tag -input=./api/micro/relation/v1/relation.pb.go
 	protoc-go-inject-tag -input=./api/micro/moment/v1/post.pb.go

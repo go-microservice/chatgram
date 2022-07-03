@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.micro.moment.v1;
 
 import "google/api/annotations.proto";
+import "api/micro/user/v1/user.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
 option java_multiple_files = true;
@@ -45,20 +46,61 @@ service LikeService {
 	};
 }
 
-message CreatePostLikeRequest {}
+message Like {
+	int64 id = 1;
+	api.micro.user.v1.User user = 2;
+}
+
+message CreatePostLikeRequest {
+	int64 user_id = 1;
+	int64 post_id = 2;
+}
 message CreatePostLikeReply {}
 
-message DeletePostLikeRequest {}
+message DeletePostLikeRequest {
+	int64 user_id = 1;
+	int64 post_id = 2;
+}
 message DeletePostLikeReply {}
 
-message ListPostLikeRequest {}
-message ListPostLikeReply {}
+message ListPostLikeRequest {
+	// @gotags: form:"post_id"
+	int64 post_id = 1;
+	// @gotags: form:"last_id"
+	int64 last_id = 2;
+	// @gotags: form:"limit"
+	int32 limit = 3;
+}
+message ListPostLikeReply {
+	repeated Like items = 1;
+	int64 count = 2;
+	bool has_more = 3;
+	string last_id = 4;
+}
 
-message CreateCommentLikeRequest {}
+message CreateCommentLikeRequest {
+	int64 user_id = 1;
+	int64 comment_id = 2;
+}
 message CreateCommentLikeReply {}
 
-message DeleteCommentLikeRequest {}
+message DeleteCommentLikeRequest {
+	int64 user_id = 1;
+	int64 comment_id = 2;
+}
 message DeleteCommentLikeReply {}
 
-message ListCommentLikeRequest {}
-message ListCommentLikeReply {}
+message ListCommentLikeRequest {
+	// @gotags: form:"comment_id"
+	int64 comment_id = 1;
+	// @gotags: form:"last_id"
+	int64 last_id = 2;
+	// @gotags: form:"limit"
+	int32 limit = 3;
+}
+message ListCommentLikeReply {
+	repeated Like items = 1;
+	int64 count = 2;
+	bool has_more = 3;
+	string last_id = 4;
+}
