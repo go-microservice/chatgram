@@ -4,13 +4,13 @@ go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.7.3
-	github.com/go-eagle/eagle v1.4.1-0.20220602141800-057677bcf2e9
+	github.com/go-eagle/eagle v1.6.1-0.20220903142440-31bc8e749623
 	github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37
 	github.com/go-microservice/relation-service v0.0.0-20220615144835-aa0a69fbee93
 	github.com/go-microservice/user-service v0.0.0-20220601151749-eca738b1adf8
 	github.com/google/wire v0.5.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.1
-	github.com/hibiken/asynq v0.22.0
+	github.com/hibiken/asynq v0.23.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/prometheus/client_golang v1.11.0
 	github.com/spf13/cast v1.4.1
