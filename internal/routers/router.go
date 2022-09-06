@@ -26,6 +26,7 @@ func NewRouter() *gin.Engine {
 	g.Use(middleware.RequestID())
 	g.Use(middleware.Metrics(app.Conf.Name))
 	g.Use(middleware.Tracing(app.Conf.Name))
+	g.Use(middleware.Auth([]string{"/v1/auth/register", "/v1/auth/login"}))
 
 	// 404 Handler.
 	g.NoRoute(app.RouteNotFound)
