@@ -1,10 +1,11 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.6
+// protoc-gen-go-gin 0.0.11
 
 package v1
 
 import (
 	context "context"
+
 	gin "github.com/gin-gonic/gin"
 	app "github.com/go-eagle/eagle/pkg/app"
 	errcode "github.com/go-eagle/eagle/pkg/errcode"
@@ -109,7 +110,7 @@ func (s *UserService) Logout_0(ctx *gin.Context) {
 func (s *UserService) GetUser_0(ctx *gin.Context) {
 	var in GetUserRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindQuery(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
@@ -131,10 +132,12 @@ func (s *UserService) GetUser_0(ctx *gin.Context) {
 func (s *UserService) UpdateUser_0(ctx *gin.Context) {
 	var in UpdateUserRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindJSON(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
+
+	in.Id = ctx.Param("id")
 
 	md := metadata.New(nil)
 	for k, v := range ctx.Request.Header {
@@ -153,10 +156,12 @@ func (s *UserService) UpdateUser_0(ctx *gin.Context) {
 func (s *UserService) UpdatePassword_0(ctx *gin.Context) {
 	var in UpdatePasswordRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindJSON(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
+
+	in.Id = ctx.Param("id")
 
 	md := metadata.New(nil)
 	for k, v := range ctx.Request.Header {

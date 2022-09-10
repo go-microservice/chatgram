@@ -109,10 +109,43 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest)
 }
 
 func (s *UserServiceServer) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.UpdateUserReply, error) {
+	in := &userv1.UpdateUserRequest{
+		UserId:   cast.ToInt64(req.GetId()),
+		Email:    req.Email,
+		Phone:    req.Phone,
+		Nickname: req.GetNickname(),
+		Avatar:   req.GetAvatar(),
+		Birthday: req.GetBirthday(),
+		Bio:      req.GetBio(),
+	}
+	_, err := s.userRPC.UpdateUser(ctx, in)
+	if err != nil {
+		// check client if deadline exceeded
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.DeadlineExceeded {
+			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
+		}
+		return nil, err
+	}
 	return &pb.UpdateUserReply{}, nil
 }
 
 func (s *UserServiceServer) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.UpdatePasswordReply, error) {
+	in := &userv1.UpdatePasswordRequest{
+		Id:              req.GetId(),
+		OldPassword:     req.GetOldPassword(),
+		NewPassword:     req.GetNewPassword(),
+		ConfirmPassword: req.GetConfirmPassword(),
+	}
+	_, err := s.userRPC.UpdatePassword(ctx, in)
+	if err != nil {
+		// check client if deadline exceeded
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.DeadlineExceeded {
+			return nil, status.Error(codes.DeadlineExceeded, "deadline exceeded")
+		}
+		return nil, err
+	}
 	return &pb.UpdatePasswordReply{}, nil
 }
 

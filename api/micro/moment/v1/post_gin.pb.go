@@ -1,5 +1,5 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.6
+// protoc-gen-go-gin 0.0.11
 
 package v1
 
@@ -109,7 +109,7 @@ func (s *PostService) DeletePost_0(ctx *gin.Context) {
 func (s *PostService) GetPost_0(ctx *gin.Context) {
 	var in GetPostRequest
 
-	if err := ctx.ShouldBindUri(&in); err != nil {
+	if err := ctx.ShouldBindQuery(&in); err != nil {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}

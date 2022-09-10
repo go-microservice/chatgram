@@ -118,7 +118,7 @@ message CreateUserReply {
 }
 
 message UpdateUserRequest {
-  int64 user_id = 1;
+  string id = 1;
   string username = 2;
   string email = 3;
   string phone = 4;
@@ -137,8 +137,10 @@ message UpdateUserReply {
 }
 
 message UpdatePasswordRequest {
-  int64 user_id = 1;
-  string password = 2;
+  string id = 1;
+  string old_password = 2;
+  string new_password = 3;
+  string confirm_password = 4;
 }
 
 message UpdatePasswordReply {

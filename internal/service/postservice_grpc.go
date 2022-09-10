@@ -37,7 +37,7 @@ func NewPostServiceServer(repo momentv1.PostServiceClient, userRepo userv1.UserS
 
 func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRequest) (*pb.CreatePostReply, error) {
 	in := &momentv1.CreatePostRequest{
-		UserId:        req.UserId,
+		UserId:        GetCurrentUserID(ctx),
 		Title:         req.Title,
 		Text:          req.Text,
 		PicKeys:       req.PicKeys,
@@ -63,6 +63,17 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRe
 
 	post := pb.Post{}
 	err = copier.Copy(&post, &out.Post)
+	if err != nil {
+		return nil, err
+	}
+
+	// ger user info
+	userIn := &userv1.GetUserRequest{Id: GetCurrentUserID(ctx)}
+	user, err := s.userRPC.GetUser(ctx, userIn)
+	if err != nil {
+		return nil, err
+	}
+	post.User, err = convertUser(user.GetUser())
 	if err != nil {
 		return nil, err
 	}

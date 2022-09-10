@@ -1,5 +1,5 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.6
+// protoc-gen-go-gin 0.0.11
 
 package v1
 
