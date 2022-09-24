@@ -39,18 +39,11 @@ func (s *RelationServiceServer) Follow(ctx context.Context, req *pb.FollowReques
 	if user == nil {
 		return nil, errcode.ErrInvalidParam
 	}
-	user, err = s.userRPC.GetUser(ctx, &userv1.GetUserRequest{Id: req.GetFollowedUid()})
-	if err != nil {
-		return nil, errcode.ErrInvalidParam
-	}
-	if user == nil {
-		return nil, errcode.ErrInvalidParam
-	}
 
 	// exec follow logic
 	in := &relationV1.FollowRequest{
-		UserId:      req.UserId,
-		FollowedUid: req.FollowedUid,
+		UserId:      GetCurrentUserID(ctx),
+		FollowedUid: req.UserId,
 	}
 	_, err = s.relationRPC.Follow(ctx, in)
 	if err != nil {
@@ -68,17 +61,10 @@ func (s *RelationServiceServer) Unfollow(ctx context.Context, req *pb.UnfollowRe
 	if user == nil {
 		return nil, errcode.ErrInvalidParam
 	}
-	user, err = s.userRPC.GetUser(ctx, &userv1.GetUserRequest{Id: req.GetFollowedUid()})
-	if err != nil {
-		return nil, errcode.ErrInvalidParam
-	}
-	if user == nil {
-		return nil, errcode.ErrInvalidParam
-	}
 
 	in := &relationV1.UnfollowRequest{
-		UserId:      req.UserId,
-		FollowedUid: req.FollowedUid,
+		UserId:      GetCurrentUserID(ctx),
+		FollowedUid: req.GetUserId(),
 	}
 	_, err = s.relationRPC.Unfollow(ctx, in)
 	if err != nil {
@@ -122,14 +108,19 @@ func (s *RelationServiceServer) GetFollowingUserList(ctx context.Context, req *p
 		userIDs = append(userIDs, v.GetFollowedUid())
 	}
 
+	var users []*pbuser.User
+
 	// get user info
 	out, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
 	if err != nil {
-		return nil, err
+		return &pb.GetFollowingUserListReply{
+			HasMore: hasMore,
+			LastId:  lastId,
+			Items:   users,
+		}, nil
 	}
 
 	// convert to pb user
-	var users []*pbuser.User
 	for _, v := range out.GetUsers() {
 		user := pbuser.User{}
 		err = copier.Copy(&user, &v)
@@ -179,14 +170,19 @@ func (s *RelationServiceServer) GetFollowerUserList(ctx context.Context, req *pb
 		userIDs = append(userIDs, v.GetFollowerUid())
 	}
 
+	var users []*pbuser.User
+
 	// get user info
 	out, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
 	if err != nil {
-		return nil, err
+		return &pb.GetFollowerUserListReply{
+			HasMore: hasMore,
+			LastId:  lastId,
+			Items:   users,
+		}, nil
 	}
 
 	// convert to pb user
-	var users []*pbuser.User
 	for _, v := range out.GetUsers() {
 		user := pbuser.User{}
 		err = copier.Copy(&user, &v)

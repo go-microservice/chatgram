@@ -5,7 +5,6 @@ package v1
 
 import (
 	context "context"
-
 	gin "github.com/gin-gonic/gin"
 	app "github.com/go-eagle/eagle/pkg/app"
 	errcode "github.com/go-eagle/eagle/pkg/errcode"

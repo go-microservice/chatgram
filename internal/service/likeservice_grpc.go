@@ -44,7 +44,7 @@ func NewLikeServiceServer(repo momentv1.LikeServiceClient, userRepo userv1.UserS
 
 func (s *LikeServiceServer) CreatePostLike(ctx context.Context, req *pb.CreatePostLikeRequest) (*pb.CreatePostLikeReply, error) {
 	in := &momentv1.CreateLikeRequest{
-		UserId:  req.GetUserId(),
+		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypePost,
 		ObjId:   req.GetPostId(),
 	}
@@ -64,7 +64,7 @@ func (s *LikeServiceServer) CreatePostLike(ctx context.Context, req *pb.CreatePo
 
 func (s *LikeServiceServer) DeletePostLike(ctx context.Context, req *pb.DeletePostLikeRequest) (*pb.DeletePostLikeReply, error) {
 	in := &momentv1.DeleteLikeRequest{
-		UserId:  req.GetUserId(),
+		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypePost,
 		ObjId:   req.GetPostId(),
 	}
@@ -125,7 +125,7 @@ func (s *LikeServiceServer) ListPostLike(ctx context.Context, req *pb.ListPostLi
 
 func (s *LikeServiceServer) CreateCommentLike(ctx context.Context, req *pb.CreateCommentLikeRequest) (*pb.CreateCommentLikeReply, error) {
 	in := &momentv1.CreateLikeRequest{
-		UserId:  req.GetUserId(),
+		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypeComment,
 		ObjId:   req.GetCommentId(),
 	}
@@ -145,7 +145,7 @@ func (s *LikeServiceServer) CreateCommentLike(ctx context.Context, req *pb.Creat
 
 func (s *LikeServiceServer) DeleteCommentLike(ctx context.Context, req *pb.DeleteCommentLikeRequest) (*pb.DeleteCommentLikeReply, error) {
 	in := &momentv1.DeleteLikeRequest{
-		UserId:  req.GetUserId(),
+		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypeComment,
 		ObjId:   req.GetCommentId(),
 	}

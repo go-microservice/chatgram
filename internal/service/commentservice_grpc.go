@@ -39,7 +39,7 @@ func NewCommentServiceServer(repo momentv1.CommentServiceClient, userRepo userv1
 func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.CreateCommentRequest) (*pb.CreateCommentReply, error) {
 	in := &momentv1.CreateCommentRequest{
 		PostId:  req.PostId,
-		UserId:  req.UserId,
+		UserId:  GetCurrentUserID(ctx),
 		Content: req.Content,
 	}
 	out, err := s.momentRPC.CreateComment(ctx, in)
@@ -59,6 +59,17 @@ func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.Create
 		return nil, err
 	}
 
+	// ger user info
+	userIn := &userv1.GetUserRequest{Id: GetCurrentUserID(ctx)}
+	user, err := s.userRPC.GetUser(ctx, userIn)
+	if err != nil {
+		return nil, err
+	}
+	comment.User, err = convertUser(user.GetUser())
+	if err != nil {
+		return nil, err
+	}
+
 	return &pb.CreateCommentReply{
 		Comment: &comment,
 	}, nil
@@ -67,7 +78,7 @@ func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.Create
 func (s *CommentServiceServer) DeleteComment(ctx context.Context, req *pb.DeleteCommentRequest) (*pb.DeleteCommentReply, error) {
 	in := &momentv1.DeleteCommentRequest{
 		Id:      req.GetId(),
-		UserId:  req.GetUserId(),
+		UserId:  GetCurrentUserID(ctx),
 		DelFlag: req.GetDelFlag(),
 	}
 	_, err := s.momentRPC.DeleteComment(ctx, in)
@@ -100,6 +111,17 @@ func (s *CommentServiceServer) GetComment(ctx context.Context, req *pb.GetCommen
 		return nil, err
 	}
 
+	// ger user info
+	userIn := &userv1.GetUserRequest{Id: out.GetComment().UserId}
+	user, err := s.userRPC.GetUser(ctx, userIn)
+	if err != nil {
+		return nil, err
+	}
+	comment.User, err = convertUser(user.GetUser())
+	if err != nil {
+		return nil, err
+	}
+
 	return &pb.GetCommentReply{
 		Comment: comment,
 	}, nil
@@ -107,6 +129,9 @@ func (s *CommentServiceServer) GetComment(ctx context.Context, req *pb.GetCommen
 func (s *CommentServiceServer) ListHotComment(ctx context.Context, req *pb.ListCommentRequest) (*pb.ListCommentReply, error) {
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
+	if limit == 0 {
+		limit = 10
+	}
 	in := &momentv1.ListCommentRequest{
 		PostId: req.GetPostId(),
 		LastId: cast.ToInt64(req.GetLastId()),
@@ -141,6 +166,9 @@ func (s *CommentServiceServer) ListHotComment(ctx context.Context, req *pb.ListC
 func (s *CommentServiceServer) ListLatestComment(ctx context.Context, req *pb.ListCommentRequest) (*pb.ListCommentReply, error) {
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
+	if limit == 0 {
+		limit = 10
+	}
 	in := &momentv1.ListCommentRequest{
 		PostId: req.GetPostId(),
 		LastId: cast.ToInt64(req.GetLastId()),
@@ -177,9 +205,9 @@ func (s *CommentServiceServer) ReplyComment(ctx context.Context, req *pb.ReplyCo
 	in := &momentv1.ReplyCommentRequest{
 		CommentId:  req.GetCommentId(),
 		RootId:     req.GetRootId(),
-		UserId:     req.GetUserId(),
+		UserId:     GetCurrentUserID(ctx),
 		Content:    req.GetContent(),
-		DeviceType: "",
+		DeviceType: req.GetDeviceType(),
 		Ip:         "",
 	}
 	out, err := s.momentRPC.ReplyComment(ctx, in)
@@ -206,6 +234,9 @@ func (s *CommentServiceServer) ReplyComment(ctx context.Context, req *pb.ReplyCo
 func (s *CommentServiceServer) ListReply(ctx context.Context, req *pb.ListReplyRequest) (*pb.ListReplyReply, error) {
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
+	if limit == 0 {
+		limit = 10
+	}
 	in := &momentv1.ListReplyCommentRequest{
 		CommentId: req.GetCommentId(),
 		LastId:    cast.ToInt64(req.GetLastId()),

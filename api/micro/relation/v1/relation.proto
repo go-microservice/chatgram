@@ -54,16 +54,16 @@ service RelationService {
 }
 
 message FollowRequest {
+  // 被关注人uid
   int64 user_id = 1;
-  int64 followed_uid = 2;
 }
 
 message FollowReply {
 }
 
 message UnfollowRequest {
+  // 被取消关注人uid
   int64 user_id = 1;
-  int64 followed_uid = 2;
 }
 
 message UnfollowReply {

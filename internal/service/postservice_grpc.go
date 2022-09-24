@@ -90,7 +90,7 @@ func (s *PostServiceServer) UpdatePost(ctx context.Context, req *pb.UpdatePostRe
 func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRequest) (*pb.DeletePostReply, error) {
 	in := &momentv1.DeletePostRequest{
 		Id:      req.GetId(),
-		UserId:  req.GetUserId(),
+		UserId:  GetCurrentUserID(ctx),
 		DelFlag: req.GetDelFlag(),
 	}
 	_, err := s.momentRPC.DeletePost(ctx, in)
@@ -123,6 +123,17 @@ func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest)
 		return nil, err
 	}
 
+	// ger user info
+	userIn := &userv1.GetUserRequest{Id: out.GetPost().UserId}
+	user, err := s.userRPC.GetUser(ctx, userIn)
+	if err != nil {
+		return nil, err
+	}
+	post.User, err = convertUser(user.GetUser())
+	if err != nil {
+		return nil, err
+	}
+
 	return &pb.GetPostReply{
 		Post: post,
 	}, nil
@@ -131,6 +142,9 @@ func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest)
 func (s *PostServiceServer) ListHotPost(ctx context.Context, req *pb.ListPostRequest) (*pb.ListPostReply, error) {
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
+	if limit == 0 {
+		limit = 10
+	}
 	in := &momentv1.ListHotPostRequest{
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
@@ -165,6 +179,9 @@ func (s *PostServiceServer) ListHotPost(ctx context.Context, req *pb.ListPostReq
 func (s *PostServiceServer) ListLatestPost(ctx context.Context, req *pb.ListPostRequest) (*pb.ListPostReply, error) {
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
+	if limit == 0 {
+		limit = 10
+	}
 	in := &momentv1.ListLatestPostRequest{
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,

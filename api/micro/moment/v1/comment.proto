@@ -86,8 +86,7 @@ message UpdateCommentReply {}
 
 message DeleteCommentRequest {
 	int64 id = 1;
-	int64 user_id = 2;
-	int32 del_flag = 3;
+	int32 del_flag = 2;
 }
 message DeleteCommentReply {}
 

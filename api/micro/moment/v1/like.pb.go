@@ -269,11 +269,11 @@ type ListPostLikeRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// @gotags: form:"post_id"
-	PostId int64 `protobuf:"varint,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
+	PostId int64 `protobuf:"varint,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty" form:"post_id"`
 	// @gotags: form:"last_id"
-	LastId int64 `protobuf:"varint,2,opt,name=last_id,json=lastId,proto3" json:"last_id,omitempty"`
+	LastId int64 `protobuf:"varint,2,opt,name=last_id,json=lastId,proto3" json:"last_id,omitempty" form:"last_id"`
 	// @gotags: form:"limit"
-	Limit int32 `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	Limit int32 `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty" form:"limit"`
 }
 
 func (x *ListPostLikeRequest) Reset() {
@@ -592,11 +592,11 @@ type ListCommentLikeRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// @gotags: form:"comment_id"
-	CommentId int64 `protobuf:"varint,1,opt,name=comment_id,json=commentId,proto3" json:"comment_id,omitempty"`
+	CommentId int64 `protobuf:"varint,1,opt,name=comment_id,json=commentId,proto3" json:"comment_id,omitempty" form:"comment_id"`
 	// @gotags: form:"last_id"
-	LastId int64 `protobuf:"varint,2,opt,name=last_id,json=lastId,proto3" json:"last_id,omitempty"`
+	LastId int64 `protobuf:"varint,2,opt,name=last_id,json=lastId,proto3" json:"last_id,omitempty" form:"last_id"`
 	// @gotags: form:"limit"
-	Limit int32 `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	Limit int32 `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty" form:"limit"`
 }
 
 func (x *ListCommentLikeRequest) Reset() {

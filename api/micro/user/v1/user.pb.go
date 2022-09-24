@@ -998,7 +998,7 @@ type GetUserRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// @gotags: uri:"id"
-	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" uri:"id"`
 }
 
 func (x *GetUserRequest) Reset() {
