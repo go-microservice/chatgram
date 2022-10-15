@@ -1,5 +1,5 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.11
+// protoc-gen-go-gin 0.0.14
 
 package v1
 
@@ -114,6 +114,9 @@ func (s *UserService) GetUser_0(ctx *gin.Context) {
 		return
 	}
 
+	// make sure the uri include :id
+	in.Id = ctx.Param("id")
+
 	md := metadata.New(nil)
 	for k, v := range ctx.Request.Header {
 		md.Set(k, v...)
@@ -136,6 +139,7 @@ func (s *UserService) UpdateUser_0(ctx *gin.Context) {
 		return
 	}
 
+	// make sure the uri include :id
 	in.Id = ctx.Param("id")
 
 	md := metadata.New(nil)
@@ -160,6 +164,7 @@ func (s *UserService) UpdatePassword_0(ctx *gin.Context) {
 		return
 	}
 
+	// make sure the uri include :id
 	in.Id = ctx.Param("id")
 
 	md := metadata.New(nil)

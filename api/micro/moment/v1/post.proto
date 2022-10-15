@@ -46,7 +46,7 @@ service PostService {
 }
 
 message Post {
-	int64 id = 1;
+	string id = 1;
 	int32 post_type = 2;
 	api.micro.user.v1.User user = 3;
 	string title = 4;
@@ -85,14 +85,14 @@ message UpdatePostRequest {}
 message UpdatePostReply {}
 
 message DeletePostRequest {
-	int64 id = 1;
+	string id = 1;
 	int32 del_flag = 2;
 }
 message DeletePostReply {}
 
 message GetPostRequest {
 	// @gotags: uri:"id"
-	int64 id = 1;
+	string id = 1;
 }
 message GetPostReply {
 	Post post = 1;

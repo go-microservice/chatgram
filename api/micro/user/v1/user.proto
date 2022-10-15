@@ -61,7 +61,7 @@ enum GenderType {
 
 // user info
 message User {
-  int64 id = 1;
+  string id = 1;
   string username = 2;
   string email =3;
   string phone = 4;
@@ -149,7 +149,7 @@ message UpdatePasswordReply {
 
 message GetUserRequest {
   // @gotags: uri:"id"
-  int64 id = 1;
+  string id = 1;
 }
 
 message GetUserReply {

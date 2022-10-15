@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-microservice/ins-api/internal/ecode"
+
 	"github.com/go-eagle/eagle/pkg/log"
 	"github.com/spf13/cast"
 
@@ -25,24 +27,44 @@ var (
 type CommentServiceServer struct {
 	pb.UnimplementedCommentServiceServer
 
-	momentRPC momentv1.CommentServiceClient
-	userRPC   userv1.UserServiceClient
+	commentRPC momentv1.CommentServiceClient
+	postRPC    momentv1.PostServiceClient
+	userRPC    userv1.UserServiceClient
 }
 
-func NewCommentServiceServer(repo momentv1.CommentServiceClient, userRepo userv1.UserServiceClient) *CommentServiceServer {
+func NewCommentServiceServer(
+	repo momentv1.CommentServiceClient,
+	postRPC momentv1.PostServiceClient,
+	userRepo userv1.UserServiceClient,
+) *CommentServiceServer {
 	return &CommentServiceServer{
-		momentRPC: repo,
-		userRPC:   userRepo,
+		commentRPC: repo,
+		postRPC:    postRPC,
+		userRPC:    userRepo,
 	}
 }
 
 func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.CreateCommentRequest) (*pb.CreateCommentReply, error) {
+	// check post if exist
+	postReq := &momentv1.GetPostRequest{
+		Id: req.GetPostId(),
+	}
+	_, err := s.postRPC.GetPost(ctx, postReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrPostNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.CreateCommentRequest{
 		PostId:  req.PostId,
 		UserId:  GetCurrentUserID(ctx),
 		Content: req.Content,
 	}
-	out, err := s.momentRPC.CreateComment(ctx, in)
+	out, err := s.commentRPC.CreateComment(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -77,11 +99,11 @@ func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.Create
 
 func (s *CommentServiceServer) DeleteComment(ctx context.Context, req *pb.DeleteCommentRequest) (*pb.DeleteCommentReply, error) {
 	in := &momentv1.DeleteCommentRequest{
-		Id:      req.GetId(),
+		Id:      cast.ToInt64(req.GetId()),
 		UserId:  GetCurrentUserID(ctx),
 		DelFlag: req.GetDelFlag(),
 	}
-	_, err := s.momentRPC.DeleteComment(ctx, in)
+	_, err := s.commentRPC.DeleteComment(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -95,9 +117,9 @@ func (s *CommentServiceServer) DeleteComment(ctx context.Context, req *pb.Delete
 }
 func (s *CommentServiceServer) GetComment(ctx context.Context, req *pb.GetCommentRequest) (*pb.GetCommentReply, error) {
 	in := &momentv1.GetCommentRequest{
-		Id: req.GetId(),
+		Id: cast.ToInt64(req.GetId()),
 	}
-	out, err := s.momentRPC.GetComment(ctx, in)
+	out, err := s.commentRPC.GetComment(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -127,6 +149,20 @@ func (s *CommentServiceServer) GetComment(ctx context.Context, req *pb.GetCommen
 	}, nil
 }
 func (s *CommentServiceServer) ListHotComment(ctx context.Context, req *pb.ListCommentRequest) (*pb.ListCommentReply, error) {
+	// check post if exist
+	postReq := &momentv1.GetPostRequest{
+		Id: req.GetPostId(),
+	}
+	_, err := s.postRPC.GetPost(ctx, postReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrPostNotFound
+		}
+		return nil, err
+	}
+
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	if limit == 0 {
@@ -137,7 +173,7 @@ func (s *CommentServiceServer) ListHotComment(ctx context.Context, req *pb.ListC
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}
-	ret, err := s.momentRPC.ListHotComment(ctx, in)
+	ret, err := s.commentRPC.ListHotComment(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -164,6 +200,20 @@ func (s *CommentServiceServer) ListHotComment(ctx context.Context, req *pb.ListC
 	}, nil
 }
 func (s *CommentServiceServer) ListLatestComment(ctx context.Context, req *pb.ListCommentRequest) (*pb.ListCommentReply, error) {
+	// check post if exist
+	postReq := &momentv1.GetPostRequest{
+		Id: req.GetPostId(),
+	}
+	_, err := s.postRPC.GetPost(ctx, postReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrPostNotFound
+		}
+		return nil, err
+	}
+
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	if limit == 0 {
@@ -174,7 +224,7 @@ func (s *CommentServiceServer) ListLatestComment(ctx context.Context, req *pb.Li
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}
-	ret, err := s.momentRPC.ListLatestComment(ctx, in)
+	ret, err := s.commentRPC.ListLatestComment(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +260,7 @@ func (s *CommentServiceServer) ReplyComment(ctx context.Context, req *pb.ReplyCo
 		DeviceType: req.GetDeviceType(),
 		Ip:         "",
 	}
-	out, err := s.momentRPC.ReplyComment(ctx, in)
+	out, err := s.commentRPC.ReplyComment(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -242,7 +292,7 @@ func (s *CommentServiceServer) ListReply(ctx context.Context, req *pb.ListReplyR
 		LastId:    cast.ToInt64(req.GetLastId()),
 		Limit:     limit + 1,
 	}
-	ret, err := s.momentRPC.ListReplyComment(ctx, in)
+	ret, err := s.commentRPC.ListReplyComment(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -364,5 +414,6 @@ func convertComment(p *momentv1.Comment) (*pb.Comment, error) {
 	if err != nil {
 		return nil, err
 	}
+	comment.Id = cast.ToString(p.Id)
 	return &comment, nil
 }

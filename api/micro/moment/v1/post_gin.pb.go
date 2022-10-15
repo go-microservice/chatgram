@@ -1,5 +1,5 @@
 // Code generated protoc-gen-go-gin. DO NOT EDIT.
-// protoc-gen-go-gin 0.0.11
+// protoc-gen-go-gin 0.0.14
 
 package v1
 
@@ -113,6 +113,9 @@ func (s *PostService) GetPost_0(ctx *gin.Context) {
 		app.Error(ctx, errcode.ErrInvalidParam.WithDetails(err.Error()))
 		return
 	}
+
+	// make sure the uri include :id
+	in.Id = ctx.Param("id")
 
 	md := metadata.New(nil)
 	for k, v := range ctx.Request.Header {

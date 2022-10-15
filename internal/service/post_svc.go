@@ -89,7 +89,7 @@ func (s *PostServiceServer) UpdatePost(ctx context.Context, req *pb.UpdatePostRe
 
 func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRequest) (*pb.DeletePostReply, error) {
 	in := &momentv1.DeletePostRequest{
-		Id:      req.GetId(),
+		Id:      cast.ToInt64(req.GetId()),
 		UserId:  GetCurrentUserID(ctx),
 		DelFlag: req.GetDelFlag(),
 	}
@@ -107,7 +107,7 @@ func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRe
 
 func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest) (*pb.GetPostReply, error) {
 	in := &momentv1.GetPostRequest{
-		Id: req.GetId(),
+		Id: cast.ToInt64(req.GetId()),
 	}
 	out, err := s.momentRPC.GetPost(ctx, in)
 	if err != nil {
@@ -309,5 +309,7 @@ func convertPost(p *momentv1.Post) (*pb.Post, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	post.Id = cast.ToString(p.Id)
 	return &post, nil
 }

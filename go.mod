@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.7.3
-	github.com/go-eagle/eagle v1.6.1-0.20220909072553-0bc78b0b1a97
+	github.com/go-eagle/eagle v1.6.1-0.20221015135241-6c521297801a
 	github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37
 	github.com/go-microservice/relation-service v0.0.0-20220615144835-aa0a69fbee93
 	github.com/go-microservice/user-service v0.0.0-20220910042840-7d4aa0f70888
@@ -16,7 +16,7 @@ require (
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/pflag v1.0.5
 	github.com/swaggo/gin-swagger v1.2.0
-	go.uber.org/automaxprocs v1.4.0
+	go.uber.org/automaxprocs v1.5.1
 	google.golang.org/genproto v0.0.0-20220519153652-3a47de7e79bd
 	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.0

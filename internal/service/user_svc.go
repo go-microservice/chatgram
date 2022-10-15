@@ -132,7 +132,7 @@ func (s *UserServiceServer) UpdateUser(ctx context.Context, req *pb.UpdateUserRe
 
 func (s *UserServiceServer) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.UpdatePasswordReply, error) {
 	in := &userv1.UpdatePasswordRequest{
-		Id:              req.GetId(),
+		Id:              cast.ToString(req.GetId()),
 		OldPassword:     req.GetOldPassword(),
 		NewPassword:     req.GetNewPassword(),
 		ConfirmPassword: req.GetConfirmPassword(),
@@ -155,5 +155,6 @@ func convertUser(u *userv1.User) (*pb.User, error) {
 	if err != nil {
 		return nil, err
 	}
+	user.Id = cast.ToString(u.Id)
 	return &user, nil
 }

@@ -52,7 +52,7 @@ service CommentService {
 
 
 message Comment {
-	int64 id = 1;
+	string id = 1;
 	int64 post_id = 2;
 	api.micro.user.v1.User user = 3;
 	string content = 4;
@@ -85,14 +85,14 @@ message UpdateCommentRequest {}
 message UpdateCommentReply {}
 
 message DeleteCommentRequest {
-	int64 id = 1;
+	string id = 1;
 	int32 del_flag = 2;
 }
 message DeleteCommentReply {}
 
 message GetCommentRequest {
 	// @gotags: uri:"id"
-	int64 id = 1;
+	string id = 1;
 }
 message GetCommentReply {
 	Comment comment = 1;
