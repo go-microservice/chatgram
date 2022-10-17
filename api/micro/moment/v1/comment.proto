@@ -62,8 +62,8 @@ message Comment {
 	int32 reply_count = 8;
 	int64 score = 9;
 	int32 del_flag = 10;
-	string created_at = 11;
-	string updated_at = 12;
+	int64 created_at = 11;
+	int64 updated_at = 12;
 	string device_type = 13;
 	string ip = 14;
 }

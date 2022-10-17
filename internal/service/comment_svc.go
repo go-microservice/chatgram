@@ -75,8 +75,7 @@ func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.Create
 		return nil, err
 	}
 
-	comment := pb.Comment{}
-	err = copier.Copy(&comment, &out.Comment)
+	comment, err := convertComment(out.GetComment())
 	if err != nil {
 		return nil, err
 	}
@@ -93,17 +92,31 @@ func (s *CommentServiceServer) CreateComment(ctx context.Context, req *pb.Create
 	}
 
 	return &pb.CreateCommentReply{
-		Comment: &comment,
+		Comment: comment,
 	}, nil
 }
 
 func (s *CommentServiceServer) DeleteComment(ctx context.Context, req *pb.DeleteCommentRequest) (*pb.DeleteCommentReply, error) {
+	// check comment if exist
+	commentReq := &momentv1.GetCommentRequest{
+		Id: cast.ToInt64(req.GetId()),
+	}
+	_, err := s.commentRPC.GetComment(ctx, commentReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrCommentNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.DeleteCommentRequest{
 		Id:      cast.ToInt64(req.GetId()),
 		UserId:  GetCurrentUserID(ctx),
 		DelFlag: req.GetDelFlag(),
 	}
-	_, err := s.commentRPC.DeleteComment(ctx, in)
+	_, err = s.commentRPC.DeleteComment(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -252,6 +265,20 @@ func (s *CommentServiceServer) ListLatestComment(ctx context.Context, req *pb.Li
 }
 
 func (s *CommentServiceServer) ReplyComment(ctx context.Context, req *pb.ReplyCommentRequest) (*pb.ReplyCommentReply, error) {
+	// check comment if exist
+	commentReq := &momentv1.GetCommentRequest{
+		Id: req.GetCommentId(),
+	}
+	_, err := s.commentRPC.GetComment(ctx, commentReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrCommentNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.ReplyCommentRequest{
 		CommentId:  req.GetCommentId(),
 		RootId:     req.GetRootId(),
@@ -271,17 +298,31 @@ func (s *CommentServiceServer) ReplyComment(ctx context.Context, req *pb.ReplyCo
 		return nil, err
 	}
 
-	comment := pb.Comment{}
-	err = copier.Copy(&comment, &out.Comment)
+	comment, err := convertComment(out.GetComment())
 	if err != nil {
 		return nil, err
 	}
+
 	return &pb.ReplyCommentReply{
-		Comment: &comment,
+		Comment: comment,
 	}, nil
 }
 
 func (s *CommentServiceServer) ListReply(ctx context.Context, req *pb.ListReplyRequest) (*pb.ListReplyReply, error) {
+	// check comment if exist
+	commentReq := &momentv1.GetCommentRequest{
+		Id: req.GetCommentId(),
+	}
+	_, err := s.commentRPC.GetComment(ctx, commentReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrCommentNotFound
+		}
+		return nil, err
+	}
+
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	if limit == 0 {
@@ -414,6 +455,8 @@ func convertComment(p *momentv1.Comment) (*pb.Comment, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	comment.Id = cast.ToString(p.Id)
+	comment.CreatedAt = cast.ToInt64(p.CreatedAt)
 	return &comment, nil
 }

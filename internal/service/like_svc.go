@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-microservice/ins-api/internal/ecode"
+
 	"github.com/jinzhu/copier"
 
 	"github.com/go-eagle/eagle/pkg/log"
@@ -31,24 +33,47 @@ var (
 type LikeServiceServer struct {
 	pb.UnimplementedLikeServiceServer
 
-	momentRPC momentv1.LikeServiceClient
-	userRPC   userv1.UserServiceClient
+	likeRPC    momentv1.LikeServiceClient
+	postRPC    momentv1.PostServiceClient
+	commentRPC momentv1.CommentServiceClient
+	userRPC    userv1.UserServiceClient
 }
 
-func NewLikeServiceServer(repo momentv1.LikeServiceClient, userRepo userv1.UserServiceClient) *LikeServiceServer {
+func NewLikeServiceServer(
+	repo momentv1.LikeServiceClient,
+	postRepo momentv1.PostServiceClient,
+	commentRepo momentv1.CommentServiceClient,
+	userRepo userv1.UserServiceClient,
+) *LikeServiceServer {
 	return &LikeServiceServer{
-		momentRPC: repo,
-		userRPC:   userRepo,
+		likeRPC:    repo,
+		postRPC:    postRepo,
+		commentRPC: commentRepo,
+		userRPC:    userRepo,
 	}
 }
 
 func (s *LikeServiceServer) CreatePostLike(ctx context.Context, req *pb.CreatePostLikeRequest) (*pb.CreatePostLikeReply, error) {
+	// check post if exist
+	postReq := &momentv1.GetPostRequest{
+		Id: req.GetPostId(),
+	}
+	_, err := s.postRPC.GetPost(ctx, postReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrPostNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.CreateLikeRequest{
 		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypePost,
 		ObjId:   req.GetPostId(),
 	}
-	_, err := s.momentRPC.CreateLike(ctx, in)
+	_, err = s.likeRPC.CreateLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -63,12 +88,26 @@ func (s *LikeServiceServer) CreatePostLike(ctx context.Context, req *pb.CreatePo
 }
 
 func (s *LikeServiceServer) DeletePostLike(ctx context.Context, req *pb.DeletePostLikeRequest) (*pb.DeletePostLikeReply, error) {
+	// check post if exist
+	postReq := &momentv1.GetPostRequest{
+		Id: req.GetPostId(),
+	}
+	_, err := s.postRPC.GetPost(ctx, postReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrPostNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.DeleteLikeRequest{
 		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypePost,
 		ObjId:   req.GetPostId(),
 	}
-	_, err := s.momentRPC.DeleteLike(ctx, in)
+	_, err = s.likeRPC.DeleteLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -83,6 +122,20 @@ func (s *LikeServiceServer) DeletePostLike(ctx context.Context, req *pb.DeletePo
 }
 
 func (s *LikeServiceServer) ListPostLike(ctx context.Context, req *pb.ListPostLikeRequest) (*pb.ListPostLikeReply, error) {
+	// check post if exist
+	postReq := &momentv1.GetPostRequest{
+		Id: req.GetPostId(),
+	}
+	_, err := s.postRPC.GetPost(ctx, postReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrPostNotFound
+		}
+		return nil, err
+	}
+
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	in := &momentv1.ListPostLikeRequest{
@@ -90,7 +143,7 @@ func (s *LikeServiceServer) ListPostLike(ctx context.Context, req *pb.ListPostLi
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}
-	ret, err := s.momentRPC.ListPostLike(ctx, in)
+	ret, err := s.likeRPC.ListPostLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -102,6 +155,9 @@ func (s *LikeServiceServer) ListPostLike(ctx context.Context, req *pb.ListPostLi
 	}
 
 	likes := ret.GetItems()
+	if len(likes) == 0 {
+		return &pb.ListPostLikeReply{}, nil
+	}
 	var (
 		hasMore bool
 		lastId  string
@@ -124,12 +180,26 @@ func (s *LikeServiceServer) ListPostLike(ctx context.Context, req *pb.ListPostLi
 }
 
 func (s *LikeServiceServer) CreateCommentLike(ctx context.Context, req *pb.CreateCommentLikeRequest) (*pb.CreateCommentLikeReply, error) {
+	// check post if exist
+	commentReq := &momentv1.GetCommentRequest{
+		Id: req.GetCommentId(),
+	}
+	_, err := s.commentRPC.GetComment(ctx, commentReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrCommentNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.CreateLikeRequest{
 		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypeComment,
 		ObjId:   req.GetCommentId(),
 	}
-	_, err := s.momentRPC.CreateLike(ctx, in)
+	_, err = s.likeRPC.CreateLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -144,12 +214,26 @@ func (s *LikeServiceServer) CreateCommentLike(ctx context.Context, req *pb.Creat
 }
 
 func (s *LikeServiceServer) DeleteCommentLike(ctx context.Context, req *pb.DeleteCommentLikeRequest) (*pb.DeleteCommentLikeReply, error) {
+	// check post if exist
+	commentReq := &momentv1.GetCommentRequest{
+		Id: req.GetCommentId(),
+	}
+	_, err := s.commentRPC.GetComment(ctx, commentReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrCommentNotFound
+		}
+		return nil, err
+	}
+
 	in := &momentv1.DeleteLikeRequest{
 		UserId:  GetCurrentUserID(ctx),
 		ObjType: LikeTypeComment,
 		ObjId:   req.GetCommentId(),
 	}
-	_, err := s.momentRPC.DeleteLike(ctx, in)
+	_, err = s.likeRPC.DeleteLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -163,6 +247,20 @@ func (s *LikeServiceServer) DeleteCommentLike(ctx context.Context, req *pb.Delet
 }
 
 func (s *LikeServiceServer) ListCommentLike(ctx context.Context, req *pb.ListCommentLikeRequest) (*pb.ListCommentLikeReply, error) {
+	// check comment if exist
+	commentReq := &momentv1.GetCommentRequest{
+		Id: req.GetCommentId(),
+	}
+	_, err := s.commentRPC.GetComment(ctx, commentReq)
+	if err != nil {
+		// check err if not found
+		statusErr, ok := status.FromError(err)
+		if ok && statusErr.Code() == codes.NotFound {
+			return nil, ecode.ErrCommentNotFound
+		}
+		return nil, err
+	}
+
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	in := &momentv1.ListCommentLikeRequest{
@@ -170,7 +268,7 @@ func (s *LikeServiceServer) ListCommentLike(ctx context.Context, req *pb.ListCom
 		LastId:    cast.ToInt64(req.GetLastId()),
 		Limit:     limit + 1,
 	}
-	ret, err := s.momentRPC.ListCommentLike(ctx, in)
+	ret, err := s.likeRPC.ListCommentLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -182,6 +280,9 @@ func (s *LikeServiceServer) ListCommentLike(ctx context.Context, req *pb.ListCom
 	}
 
 	likes := ret.GetItems()
+	if len(likes) == 0 {
+		return &pb.ListCommentLikeReply{}, nil
+	}
 	var (
 		hasMore bool
 		lastId  string
