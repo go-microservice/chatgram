@@ -4,6 +4,7 @@ package api.micro.moment.v1;
 
 import "google/api/annotations.proto";
 import "api/micro/user/v1/user.proto";
+import "gogo/protobuf/gogo.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
 option java_multiple_files = true;
@@ -107,10 +108,10 @@ message ListCommentRequest {
 	int64 post_id = 3;
 }
 message ListCommentReply {
-	repeated Comment items = 1;
-	int64 count = 2;
-	bool has_more = 3;
-	string last_id = 4;
+	repeated Comment items = 1 [(gogoproto.jsontag) = "items"];
+	int64 count = 2 [(gogoproto.jsontag) = "count"];
+	bool has_more = 3 [(gogoproto.jsontag) = "has_more"];
+	string last_id = 4 [(gogoproto.jsontag) = "last_id"];
 }
 
 message ReplyCommentRequest {
@@ -136,8 +137,8 @@ message ListReplyRequest {
 }
 
 message ListReplyReply {
-	repeated Comment items = 1;
-	int64 count = 2;
-	bool has_more = 3;
-	string last_id = 4;
+	repeated Comment items = 1 [(gogoproto.jsontag) = "items"];
+	int64 count = 2 [(gogoproto.jsontag) = "count"];
+	bool has_more = 3 [(gogoproto.jsontag) = "has_more"];
+	string last_id = 4 [(gogoproto.jsontag) = "last_id"];
 }

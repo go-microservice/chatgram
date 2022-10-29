@@ -146,9 +146,11 @@ init:
 	go get -v github.com/google/gnostic
 	go get -v github.com/google/gnostic/cmd/protoc-gen-openapi
 	go get -v github.com/favadi/protoc-go-inject-tag
+	go get -v github.com/gogo/protobuf/protoc-gen-gogo
+	go get -v github.com/gogo/protobuf/protoc-gen-gogofaster
 
 .PHONY: proto
-# generate proto struct only
+# generate proto struct to pb.go only
 proto:
 	protoc --proto_path=. \
            --proto_path=./third_party \
@@ -156,13 +158,17 @@ proto:
            $(API_PROTO_FILES)
 
 .PHONY: grpc
-# generate grpc code
+# generate grpc code with remove omitempty from json tag
 grpc:
-	protoc --proto_path=. \
-           --proto_path=./third_party \
-           --go_out=. --go_opt=paths=source_relative \
-           --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-           $(API_PROTO_FILES)
+# --gogofaster_out full replace --go_out=. --go_opt=paths=source_relative
+	@for v in $(API_PROTO_FILES); do \
+  		echo "./$$v"; \
+		protoc --proto_path=. \
+			   --proto_path=./third_party \
+			   --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+			   --gogofaster_out=. --gogofaster_opt=paths=source_relative\
+			   "./$$v"; \
+    done
 
 .PHONY: http
 # generate http code
@@ -173,13 +179,12 @@ http:
            $(API_PROTO_FILES)
 
 .PHONY: tag
-# add tag to pb struct
+# add tag to pb struct for *.pb.go by using gotags, not include *_grpc.pb.go and *_gin.pb.go
 tag: grpc http
-	protoc-go-inject-tag -input=./api/micro/user/v1/user.pb.go
-	protoc-go-inject-tag -input=./api/micro/relation/v1/relation.pb.go
-	protoc-go-inject-tag -input=./api/micro/moment/v1/post.pb.go
-	protoc-go-inject-tag -input=./api/micro/moment/v1/comment.pb.go
-	protoc-go-inject-tag -input=./api/micro/moment/v1/like.pb.go
+	@for v in $(API_PROTO_PB_FILES); do \
+  		echo "./$$v"; \
+  		protoc-go-inject-tag -input="./$$v"; \
+  	done
 
 .PHONY: openapi
 # generate openapi

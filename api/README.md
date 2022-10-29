@@ -25,7 +25,7 @@ proto 文件存放位置
 
 `eagle proto server api/user/v1/user.proto`
 
-执行该命令后，会在 `internal/service` 下 多一个 `user_grpc.go` 文件。
+执行该命令后，会在 `internal/service` 下 多一个 `user_svc.go` 文件。
 
 ### 4. 编写业务逻辑
 
@@ -33,7 +33,7 @@ proto 文件存放位置
 
 ### 5. 转换service输出到pb
 
-在 `internal/service/user_grpc.go` 中将 `user_grpc.go` 转为pb输出的方式。
+在 `internal/service/user_svc.go` 中将 `user_svc.go` 转为pb输出的方式。
 
 ### 6. 将业务注册到gRPC server 中
 
