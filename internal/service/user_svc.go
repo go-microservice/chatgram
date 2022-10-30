@@ -65,6 +65,7 @@ func (s *UserServiceServer) Login(ctx context.Context, req *pb.LoginRequest) (*p
 		return nil, err
 	}
 	return &pb.LoginReply{
+		Uid:   out.GetId(),
 		Token: out.GetToken(),
 	}, nil
 }
