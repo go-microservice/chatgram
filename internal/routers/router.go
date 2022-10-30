@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -26,11 +28,12 @@ func NewRouter() *gin.Engine {
 	g.Use(middleware.RequestID())
 	g.Use(middleware.Metrics(app.Conf.Name))
 	g.Use(middleware.Tracing(app.Conf.Name))
-	g.Use(middleware.Auth("/v1/auth/register", "/v1/auth/login"))
+	g.Use(middleware.Auth("/v1/auth/register", "/v1/auth/login", "/docs"))
 
 	// 404 Handler.
 	g.NoRoute(app.RouteNotFound)
 	g.NoMethod(app.RouteNotFound)
+	g.StaticFS("/docs", http.Dir("./docs"))
 
 	// swagger api docs
 	g.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

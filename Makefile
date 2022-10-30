@@ -191,7 +191,7 @@ tag: grpc http
 openapi:
 	protoc --proto_path=. \
           --proto_path=./third_party \
-          --openapi_out=. \
+          --openapi_out=./docs \
           $(API_PROTO_FILES)
 
 # show help
