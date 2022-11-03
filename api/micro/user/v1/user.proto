@@ -94,7 +94,7 @@ message LoginRequest {
 }
 
 message LoginReply {
-  int64 uid = 1;
+  string uid = 1;
   string token = 2;
 }
 
