@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.micro.user.v1;
 
 import "google/api/annotations.proto";
+import "gogo/protobuf/gogo.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/user/v1;v1";
 
@@ -61,19 +62,18 @@ enum GenderType {
 
 // user info
 message User {
-  string id = 1;
-  string username = 2;
-  string email =3;
-  string phone = 4;
-  int64  login_at = 5;
-  StatusType status = 6;
-  string nickname = 7;
-  string avatar = 8;
-  GenderType gender = 9;
-  string birthday = 10;
-  string bio = 11;
-  int64 created_at = 12;
-  int64 updated_at = 13;
+  string id = 1 [(gogoproto.jsontag) = "id"];
+  string username = 2 [(gogoproto.jsontag) = "username"];
+  string email =3 [(gogoproto.jsontag) = "email"];
+  string phone = 4 [(gogoproto.jsontag) = "phone"];
+  int64  login_at = 5 [(gogoproto.jsontag) = "login_at"];
+  StatusType status = 6 [(gogoproto.jsontag) = "status"];
+  string nickname = 7 [(gogoproto.jsontag) = "nickname"];
+  string avatar = 8 [(gogoproto.jsontag) = "avatar"];
+  GenderType gender = 9 [(gogoproto.jsontag) = "gender"];
+  string birthday = 10 [(gogoproto.jsontag) = "birthday"];
+  string bio = 11 [(gogoproto.jsontag) = "bio"];
+  int64 created_at = 12 [(gogoproto.jsontag) = "created_at"];
 }
 
 message RegisterRequest {

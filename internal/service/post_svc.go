@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-eagle/eagle/pkg/sync/errgroup"
+
 	"github.com/go-eagle/eagle/pkg/log"
 	momentv1 "github.com/go-microservice/moment-service/api/moment/v1"
 	userv1 "github.com/go-microservice/user-service/api/user/v1"
@@ -24,14 +26,19 @@ var (
 type PostServiceServer struct {
 	pb.UnimplementedPostServiceServer
 
-	momentRPC momentv1.PostServiceClient
-	userRPC   userv1.UserServiceClient
+	postRPC momentv1.PostServiceClient
+	likeRPC momentv1.LikeServiceClient
+	userRPC userv1.UserServiceClient
 }
 
-func NewPostServiceServer(repo momentv1.PostServiceClient, userRepo userv1.UserServiceClient) *PostServiceServer {
+func NewPostServiceServer(
+	repo momentv1.PostServiceClient,
+	likeRepo momentv1.LikeServiceClient,
+	userRepo userv1.UserServiceClient) *PostServiceServer {
 	return &PostServiceServer{
-		momentRPC: repo,
-		userRPC:   userRepo,
+		postRPC: repo,
+		likeRPC: likeRepo,
+		userRPC: userRepo,
 	}
 }
 
@@ -50,7 +57,7 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRe
 		Latitude:      req.Latitude,
 		Position:      req.Position,
 	}
-	out, err := s.momentRPC.CreatePost(ctx, in)
+	out, err := s.postRPC.CreatePost(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -93,7 +100,7 @@ func (s *PostServiceServer) DeletePost(ctx context.Context, req *pb.DeletePostRe
 		UserId:  GetCurrentUserID(ctx),
 		DelFlag: req.GetDelFlag(),
 	}
-	_, err := s.momentRPC.DeletePost(ctx, in)
+	_, err := s.postRPC.DeletePost(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -109,7 +116,7 @@ func (s *PostServiceServer) GetPost(ctx context.Context, req *pb.GetPostRequest)
 	in := &momentv1.GetPostRequest{
 		Id: cast.ToInt64(req.GetId()),
 	}
-	out, err := s.momentRPC.GetPost(ctx, in)
+	out, err := s.postRPC.GetPost(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -149,7 +156,7 @@ func (s *PostServiceServer) ListHotPost(ctx context.Context, req *pb.ListPostReq
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}
-	ret, err := s.momentRPC.ListHotPost(ctx, in)
+	ret, err := s.postRPC.ListHotPost(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +193,7 @@ func (s *PostServiceServer) ListLatestPost(ctx context.Context, req *pb.ListPost
 		LastId: cast.ToInt64(req.GetLastId()),
 		Limit:  limit + 1,
 	}
-	ret, err := s.momentRPC.ListLatestPost(ctx, in)
+	ret, err := s.postRPC.ListLatestPost(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -218,20 +225,46 @@ func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.
 	// batch get user data
 	var (
 		userIDs []int64
+		postIDs []int64
 	)
 	for _, v := range posts {
 		userIDs = append(userIDs, v.UserId)
+		postIDs = append(postIDs, v.Id)
 	}
 
-	userReply, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
-	if err != nil {
-		return nil, err
-	}
-	users := userReply.GetUsers()
-	// to map
+	g := errgroup.WithContext(ctx)
+
+	// batch get user info
 	userMap := make(map[int64]*userv1.User)
-	for _, v := range users {
-		userMap[v.Id] = v
+	g.Go(func(ctx context.Context) error {
+		userReply, err := s.userRPC.BatchGetUsers(ctx, &userv1.BatchGetUsersRequest{Ids: userIDs})
+		if err != nil {
+			return err
+		}
+		users := userReply.GetUsers()
+		for _, v := range users {
+			userMap[v.Id] = v
+		}
+		return nil
+	})
+
+	// batch get user like status
+	likeStatus := make(map[int64]int32)
+	g.Go(func(ctx context.Context) error {
+		in := &momentv1.BatchGetLikeRequest{UserId: GetCurrentUserID(ctx), ObjType: LikeTypePost, ObjIds: postIDs}
+		userLikeReply, err := s.likeRPC.BatchGetLike(ctx, in)
+		if err != nil {
+			return err
+		}
+		for _, pid := range postIDs {
+			likeStatus[pid] = userLikeReply.GetData()[pid]
+		}
+		return nil
+	})
+
+	if err := g.Wait(); err != nil {
+		// add log
+		err = nil
 	}
 
 	var (
@@ -281,6 +314,11 @@ func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.
 			pbPost.User, err = convertUser(user)
 			if err != nil {
 				errChan <- err
+			}
+
+			isLike, ok := likeStatus[post.Id]
+			if ok {
+				pbPost.IsLike = isLike
 			}
 
 			m.Store(info.Id, pbPost)

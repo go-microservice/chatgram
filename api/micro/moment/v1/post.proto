@@ -47,21 +47,21 @@ service PostService {
 }
 
 message Post {
-	string id = 1;
-	int32 post_type = 2;
+	string id = 1 [(gogoproto.jsontag) = "id"];
+	int32 post_type = 2 [(gogoproto.jsontag) = "post_type"];
 	api.micro.user.v1.User user = 3;
-	string title = 4;
-	string content = 5;
-	int64 view_count = 6;
-	int64 like_count = 7;
-	int64 comment_count = 8;
-	int64 collect_count = 9;
-	int64 share_count = 10;
-	float longitude = 11;
-	float latitude = 12;
-	float position = 13;
-	int64 created_at = 14;
-	int64 updated_at = 15;
+	string title = 4 [(gogoproto.jsontag) = "title"];
+	string content = 5 [(gogoproto.jsontag) = "content"];
+	int64 view_count = 6 [(gogoproto.jsontag) = "view_count"];
+	int64 like_count = 7 [(gogoproto.jsontag) = "like_count"];
+	int64 comment_count = 8 [(gogoproto.jsontag) = "comment_count"];
+	int64 collect_count = 9 [(gogoproto.jsontag) = "collect_count"];
+	int64 share_count = 10 [(gogoproto.jsontag) = "share_count"];
+	float longitude = 11 [(gogoproto.jsontag) = "longitude"];
+	float latitude = 12 [(gogoproto.jsontag) = "latitude"];
+	float position = 13 [(gogoproto.jsontag) = "position"];
+	int64 created_at = 14 [(gogoproto.jsontag) = "created_at"];
+	int32 is_like = 15 [(gogoproto.jsontag) = "is_like"];
 }
 
 message CreatePostRequest {

@@ -3,14 +3,12 @@ module github.com/go-microservice/ins-api
 go 1.16
 
 require (
-	github.com/favadi/protoc-go-inject-tag v1.4.0 // indirect
 	github.com/gin-gonic/gin v1.7.3
-	github.com/go-eagle/eagle v1.6.1-0.20221015135241-6c521297801a
-	github.com/go-microservice/moment-service v0.0.0-20220516144530-1451ecbcdc37
+	github.com/go-eagle/eagle v1.6.1-0.20221112042225-79bd57dfb32a
+	github.com/go-microservice/moment-service v0.0.0-20221113100953-376b047285b1
 	github.com/go-microservice/relation-service v0.0.0-20220615144835-aa0a69fbee93
 	github.com/go-microservice/user-service v0.0.0-20220910042840-7d4aa0f70888
-	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/google/gnostic v0.6.9 // indirect
+	github.com/gogo/protobuf v1.3.2
 	github.com/google/wire v0.5.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.1
 	github.com/hibiken/asynq v0.23.0
@@ -22,7 +20,6 @@ require (
 	go.uber.org/automaxprocs v1.5.1
 	google.golang.org/genproto v0.0.0-20220519153652-3a47de7e79bd
 	google.golang.org/grpc v1.46.2
-	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0 // indirect
-	google.golang.org/protobuf v1.28.1
+	google.golang.org/protobuf v1.28.1 // indirect
 	gorm.io/gorm v1.22.4
 )
