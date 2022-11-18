@@ -4,6 +4,7 @@ package api.micro.user.v1;
 
 import "google/api/annotations.proto";
 import "gogo/protobuf/gogo.proto";
+import "openapiv3/annotations.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/user/v1;v1";
 
@@ -28,7 +29,7 @@ option (openapi.v3.document) = {
     security_schemes: {
       additional_properties: [
         {
-          name: "BearerAuth";
+          name: "bearerAuth";
           value: {
             security_scheme: {
               type: "http";
@@ -40,6 +41,18 @@ option (openapi.v3.document) = {
       ]
     }
   }
+  security: [
+    {
+      additional_properties: [
+        {
+          name: "bearerAuth";
+          value: {
+            value: []
+          }
+        }
+      ]
+    }
+  ]
 };
 
 service UserService {
