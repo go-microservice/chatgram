@@ -39,6 +39,11 @@ build: dep
 dep:
 	@go mod download
 
+.PHONY: dev
+# make dev
+dev:
+	@air -c .air.toml
+
 .PHONY: fmt
 # make fmt
 fmt:
@@ -148,6 +153,7 @@ init:
 	go get -v github.com/favadi/protoc-go-inject-tag
 	go get -v github.com/gogo/protobuf/protoc-gen-gogo
 	go get -v github.com/gogo/protobuf/protoc-gen-gogofaster
+	go install -v github.com/cosmtrek/air@latest
 
 .PHONY: proto
 # generate proto struct to pb.go only
