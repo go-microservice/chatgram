@@ -92,20 +92,16 @@ message DeleteCommentRequest {
 message DeleteCommentReply {}
 
 message GetCommentRequest {
-	// @gotags: uri:"id"
-	string id = 1;
+	string id = 1 [(gogoproto.moretags) = 'uri:"id"'];
 }
 message GetCommentReply {
 	Comment comment = 1;
 }
 
 message ListCommentRequest {
-	// @gotags: form:"last_id"
-	int64 last_id = 1;
-	// @gotags: form:"limit"
-	int32 limit = 2;
-	// @gotags: form:"post_id"
-	int64 post_id = 3;
+	int64 last_id = 1 [(gogoproto.moretags) = 'form:"last_id"'];
+	int32 limit = 2 [(gogoproto.moretags) = 'form:"limit"'];
+	int64 post_id = 3 [(gogoproto.moretags) = 'form:"post_id"'];
 }
 message ListCommentReply {
 	repeated Comment items = 1 [(gogoproto.jsontag) = "items"];
@@ -128,12 +124,9 @@ message ReplyCommentReply {
 }
 
 message ListReplyRequest {
-	// @gotags: form:"last_id"
-	int64 last_id = 1;
-	// @gotags: form:"limit"
-	int32 limit = 2;
-	// @gotags: form:"comment_id"
-	int64 comment_id = 3;
+	int64 last_id = 1 [(gogoproto.moretags) = 'form:"last_id"'];
+	int32 limit = 2 [(gogoproto.moretags) = 'form:"limit"'];
+	int64 comment_id = 3 [(gogoproto.moretags) = 'form:"comment_id"'];
 }
 
 message ListReplyReply {

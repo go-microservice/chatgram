@@ -92,18 +92,15 @@ message DeletePostRequest {
 message DeletePostReply {}
 
 message GetPostRequest {
-	// @gotags: uri:"id"
-	string id = 1;
+	string id = 1 [(gogoproto.moretags) = 'uri:"id"'];
 }
 message GetPostReply {
 	Post post = 1;
 }
 
 message ListPostRequest {
-	// @gotags: form:"last_id"
-	int64 last_id = 1;
-	// @gotags: form:"limit"
-	int32 limit = 2;
+	int64 last_id = 1 [(gogoproto.moretags) = 'form:"last_id"'];
+	int32 limit = 2 [(gogoproto.moretags) = 'form:"limit"'];
 }
 message ListPostReply {
 	repeated Post items = 1 [(gogoproto.jsontag) = "items"];

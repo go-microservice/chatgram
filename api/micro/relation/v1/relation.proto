@@ -4,6 +4,7 @@ package api.micro.relation.v1;
 
 import "google/api/annotations.proto";
 import "api/micro/user/v1/user.proto";
+import "gogo/protobuf/gogo.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/relation/v1;v1";
@@ -70,32 +71,26 @@ message UnfollowReply {
 }
 
 message GetFollowingUserListRequest {
-  // @gotags: form:"user_id"
-  string id = 1;
-  // @gotags: form:"last_id"
-  string last_id = 2;
-  // @gotags: form:"limit"
-  string limit = 3;
+  string id = 1 [(gogoproto.moretags) = 'form:"user_id"'];
+  string last_id = 2 [(gogoproto.moretags) = 'form:"last_id"'];
+  string limit = 3 [(gogoproto.moretags) = 'form:"limit"'];
 }
 
 message GetFollowingUserListReply {
-  int32 has_more = 1;
-  string last_id = 2;
-  repeated micro.user.v1.User items = 3;
+  int32 has_more = 1 [(gogoproto.jsontag) = "has_more"];
+  string last_id = 2 [(gogoproto.jsontag) = "last_id"];
+  repeated micro.user.v1.User items = 3 [(gogoproto.jsontag) = "items"];
 
 }
 
 message GetFollowerUserListRequest {
-  // @gotags: form:"user_id"
-  string user_id = 1;
-  // @gotags: form:"last_id"
-  string last_id = 2;
-  // @gotags: form:"limit"
-  string limit = 3;
+  string user_id = 1 [(gogoproto.moretags) = 'form:"user_id"'];
+  string last_id = 2 [(gogoproto.moretags) = 'form:"last_id"'];
+  string limit = 3 [(gogoproto.moretags) = 'form:"limit"'];
 }
 
 message GetFollowerUserListReply {
-  int32 has_more = 1;
-  string last_id = 2;
-  repeated micro.user.v1.User items = 3;
+  int32 has_more = 1 [(gogoproto.jsontag) = "has_more"];
+  string last_id = 2 [(gogoproto.jsontag) = "last_id"];
+  repeated micro.user.v1.User items = 3 [(gogoproto.jsontag) = "items"];
 }

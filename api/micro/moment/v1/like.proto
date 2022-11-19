@@ -65,12 +65,9 @@ message DeletePostLikeRequest {
 message DeletePostLikeReply {}
 
 message ListPostLikeRequest {
-	// @gotags: form:"post_id"
-	int64 post_id = 1;
-	// @gotags: form:"last_id"
-	int64 last_id = 2;
-	// @gotags: form:"limit"
-	int32 limit = 3;
+	int64 post_id = 1 [(gogoproto.moretags) = 'form:"post_id"'];
+	int64 last_id = 2 [(gogoproto.moretags) = 'form:"last_id"'];
+	int32 limit = 3 [(gogoproto.moretags) = 'form:"limit"'];
 }
 message ListPostLikeReply {
 	repeated Like items = 1 [(gogoproto.jsontag) = "items"];
@@ -92,12 +89,9 @@ message DeleteCommentLikeRequest {
 message DeleteCommentLikeReply {}
 
 message ListCommentLikeRequest {
-	// @gotags: form:"comment_id"
-	int64 comment_id = 1;
-	// @gotags: form:"last_id"
-	int64 last_id = 2;
-	// @gotags: form:"limit"
-	int32 limit = 3;
+	int64 comment_id = 1 [(gogoproto.moretags) = 'form:"comment_id"'];
+	int64 last_id = 2 [(gogoproto.moretags) = 'form:"last_id"'];
+	int32 limit = 3 [(gogoproto.moretags) = 'form:"limit"'];
 }
 message ListCommentLikeReply {
 	repeated Like items = 1 [(gogoproto.jsontag) = "items"];

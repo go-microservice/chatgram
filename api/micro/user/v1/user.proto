@@ -197,8 +197,7 @@ message UpdatePasswordReply {
 }
 
 message GetUserRequest {
-  // @gotags: uri:"id"
-  string id = 1;
+  string id = 1 [(gogoproto.moretags) = 'uri:"id"'];
 }
 
 message GetUserReply {
