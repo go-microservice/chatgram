@@ -25,21 +25,36 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// 评论结构
 type Comment struct {
-	Id         string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	PostId     int64    `protobuf:"varint,2,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
-	User       *v1.User `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
-	Content    string   `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
-	RootId     int64    `protobuf:"varint,5,opt,name=root_id,json=rootId,proto3" json:"root_id,omitempty"`
-	ParentId   int64    `protobuf:"varint,6,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
-	LikeCount  int32    `protobuf:"varint,7,opt,name=like_count,json=likeCount,proto3" json:"like_count,omitempty"`
-	ReplyCount int32    `protobuf:"varint,8,opt,name=reply_count,json=replyCount,proto3" json:"reply_count,omitempty"`
-	Score      int64    `protobuf:"varint,9,opt,name=score,proto3" json:"score,omitempty"`
-	DelFlag    int32    `protobuf:"varint,10,opt,name=del_flag,json=delFlag,proto3" json:"del_flag,omitempty"`
-	CreatedAt  int64    `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt  int64    `protobuf:"varint,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	DeviceType string   `protobuf:"bytes,13,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
-	Ip         string   `protobuf:"bytes,14,opt,name=ip,proto3" json:"ip,omitempty"`
+	// 评论id
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// 帖子id
+	PostId int64 `protobuf:"varint,2,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
+	// 用户信息
+	User *v1.User `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
+	// 评论内容
+	Content string `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	// 根评论id
+	RootId int64 `protobuf:"varint,5,opt,name=root_id,json=rootId,proto3" json:"root_id,omitempty"`
+	// 父评论id
+	ParentId int64 `protobuf:"varint,6,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	// 点赞数
+	LikeCount int32 `protobuf:"varint,7,opt,name=like_count,json=likeCount,proto3" json:"like_count,omitempty"`
+	// 回复数
+	ReplyCount int32 `protobuf:"varint,8,opt,name=reply_count,json=replyCount,proto3" json:"reply_count,omitempty"`
+	// 分数
+	Score int64 `protobuf:"varint,9,opt,name=score,proto3" json:"score,omitempty"`
+	// 删除标记
+	DelFlag int32 `protobuf:"varint,10,opt,name=del_flag,json=delFlag,proto3" json:"del_flag,omitempty"`
+	// 创建时间
+	CreatedAt int64 `protobuf:"varint,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// 更新时间
+	UpdatedAt int64 `protobuf:"varint,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// 设备类型 iOS/Android
+	DeviceType string `protobuf:"bytes,13,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
+	// 用户id
+	Ip string `protobuf:"bytes,14,opt,name=ip,proto3" json:"ip,omitempty"`
 }
 
 func (m *Comment) Reset()         { *m = Comment{} }

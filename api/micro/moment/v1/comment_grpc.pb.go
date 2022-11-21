@@ -22,12 +22,19 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommentServiceClient interface {
+	// 创建评论
 	CreateComment(ctx context.Context, in *CreateCommentRequest, opts ...grpc.CallOption) (*CreateCommentReply, error)
+	// 删除评论
 	DeleteComment(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentReply, error)
+	// 查看评论
 	GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentReply, error)
+	// 热门评论列表
 	ListHotComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error)
+	// 最新评论列表
 	ListLatestComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error)
+	// 回复评论
 	ReplyComment(ctx context.Context, in *ReplyCommentRequest, opts ...grpc.CallOption) (*ReplyCommentReply, error)
+	// 回复列表
 	ListReply(ctx context.Context, in *ListReplyRequest, opts ...grpc.CallOption) (*ListReplyReply, error)
 }
 
@@ -106,12 +113,19 @@ func (c *commentServiceClient) ListReply(ctx context.Context, in *ListReplyReque
 // All implementations must embed UnimplementedCommentServiceServer
 // for forward compatibility
 type CommentServiceServer interface {
+	// 创建评论
 	CreateComment(context.Context, *CreateCommentRequest) (*CreateCommentReply, error)
+	// 删除评论
 	DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentReply, error)
+	// 查看评论
 	GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error)
+	// 热门评论列表
 	ListHotComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	// 最新评论列表
 	ListLatestComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
+	// 回复评论
 	ReplyComment(context.Context, *ReplyCommentRequest) (*ReplyCommentReply, error)
+	// 回复列表
 	ListReply(context.Context, *ListReplyRequest) (*ListReplyReply, error)
 	mustEmbedUnimplementedCommentServiceServer()
 }

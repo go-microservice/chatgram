@@ -11,39 +11,46 @@ option java_multiple_files = true;
 option java_package = "api.micro.moment.v1";
 
 service CommentService {
+	// 创建评论
 	rpc CreateComment (CreateCommentRequest) returns (CreateCommentReply) {
 		option (google.api.http) = {
 			post: "/v1/comments"
 			body: "*"
 		};
 	};
+	// 删除评论
 	rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply) {
 		option (google.api.http) = {
 			delete: "/v1/comments"
 			body: "*"
 		};
 	};
+	// 查看评论
 	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
 		option (google.api.http) = {
 			get: "/v1/comments/{id}"
 		};
 	};
+	// 热门评论列表
 	rpc ListHotComment (ListCommentRequest) returns (ListCommentReply) {
 		option (google.api.http) = {
 			get: "/v1/comments/hot"
 		};
 	};
+	// 最新评论列表
 	rpc ListLatestComment (ListCommentRequest) returns (ListCommentReply) {
 		option (google.api.http) = {
 			get: "/v1/comments/latest"
 		};
 	};
+	// 回复评论
 	rpc ReplyComment (ReplyCommentRequest) returns (ReplyCommentReply) {
 		option (google.api.http) = {
 			post: "/v1/comments/reply"
 			body: "*"
 		};
 	};
+	// 回复列表
 	rpc ListReply (ListReplyRequest) returns (ListReplyReply) {
 		option (google.api.http) = {
 			get: "/v1/comments/reply"
@@ -51,21 +58,35 @@ service CommentService {
 	};
 }
 
-
+// 评论结构
 message Comment {
+	// 评论id
 	string id = 1;
+	// 帖子id
 	int64 post_id = 2;
+	// 用户信息
 	api.micro.user.v1.User user = 3;
+	// 评论内容
 	string content = 4;
+	// 根评论id
 	int64 root_id = 5;
+	// 父评论id
 	int64 parent_id = 6;
+	// 点赞数
 	int32 like_count = 7;
+	// 回复数
 	int32 reply_count = 8;
+	// 分数
 	int64 score = 9;
+	// 删除标记
 	int32 del_flag = 10;
+	// 创建时间
 	int64 created_at = 11;
+	// 更新时间
 	int64 updated_at = 12;
+	// 设备类型 iOS/Android
 	string device_type = 13;
+	// 用户id
 	string ip = 14;
 }
 

@@ -90,6 +90,7 @@ paths:
         post:
             tags:
                 - CommentService
+            description: 创建评论
             operationId: CommentService_CreateComment
             requestBody:
                 content:
@@ -113,6 +114,7 @@ paths:
         delete:
             tags:
                 - CommentService
+            description: 删除评论
             operationId: CommentService_DeleteComment
             requestBody:
                 content:
@@ -161,23 +163,21 @@ paths:
         get:
             tags:
                 - CommentService
+            description: 热门评论列表
             operationId: CommentService_ListHotComment
             parameters:
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
                 - name: postId
                   in: query
-                  description: '@gotags: form:"post_id"'
                   schema:
                     type: integer
                     format: int64
@@ -198,23 +198,21 @@ paths:
         get:
             tags:
                 - CommentService
+            description: 最新评论列表
             operationId: CommentService_ListLatestComment
             parameters:
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
                 - name: postId
                   in: query
-                  description: '@gotags: form:"post_id"'
                   schema:
                     type: integer
                     format: int64
@@ -263,19 +261,16 @@ paths:
             parameters:
                 - name: commentId
                   in: query
-                  description: '@gotags: form:"comment_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
@@ -296,23 +291,21 @@ paths:
         get:
             tags:
                 - CommentService
+            description: 回复列表
             operationId: CommentService_ListReply
             parameters:
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
                 - name: commentId
                   in: query
-                  description: '@gotags: form:"comment_id"'
                   schema:
                     type: integer
                     format: int64
@@ -332,6 +325,7 @@ paths:
         post:
             tags:
                 - CommentService
+            description: 回复评论
             operationId: CommentService_ReplyComment
             requestBody:
                 content:
@@ -356,11 +350,11 @@ paths:
         get:
             tags:
                 - CommentService
+            description: 查看评论
             operationId: CommentService_GetComment
             parameters:
                 - name: id
                   in: path
-                  description: '@gotags: uri:"id"'
                   required: true
                   schema:
                     type: string
@@ -479,13 +473,11 @@ paths:
             parameters:
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
@@ -510,13 +502,11 @@ paths:
             parameters:
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
@@ -565,19 +555,16 @@ paths:
             parameters:
                 - name: postId
                   in: query
-                  description: '@gotags: form:"post_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: integer
                     format: int64
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: integer
                     format: int32
@@ -602,7 +589,6 @@ paths:
             parameters:
                 - name: id
                   in: path
-                  description: '@gotags: uri:"id"'
                   required: true
                   schema:
                     type: string
@@ -651,17 +637,14 @@ paths:
             parameters:
                 - name: userId
                   in: query
-                  description: '@gotags: form:"user_id"'
                   schema:
                     type: string
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: string
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: string
             responses:
@@ -685,17 +668,14 @@ paths:
             parameters:
                 - name: id
                   in: query
-                  description: '@gotags: form:"user_id"'
                   schema:
                     type: string
                 - name: lastId
                   in: query
-                  description: '@gotags: form:"last_id"'
                   schema:
                     type: string
                 - name: limit
                   in: query
-                  description: '@gotags: form:"limit"'
                   schema:
                     type: string
             responses:
@@ -775,7 +755,6 @@ paths:
             parameters:
                 - name: id
                   in: path
-                  description: '@gotags: uri:"id"'
                   required: true
                   schema:
                     type: string
@@ -828,41 +807,55 @@ components:
             properties:
                 id:
                     type: string
+                    description: 评论id
                 postId:
                     type: integer
+                    description: 帖子id
                     format: int64
                 user:
                     $ref: '#/components/schemas/User'
                 content:
                     type: string
+                    description: 评论内容
                 rootId:
                     type: integer
+                    description: 根评论id
                     format: int64
                 parentId:
                     type: integer
+                    description: 父评论id
                     format: int64
                 likeCount:
                     type: integer
+                    description: 点赞数
                     format: int32
                 replyCount:
                     type: integer
+                    description: 回复数
                     format: int32
                 score:
                     type: integer
+                    description: 分数
                     format: int64
                 delFlag:
                     type: integer
+                    description: 删除标记
                     format: int32
                 createdAt:
                     type: integer
+                    description: 创建时间
                     format: int64
                 updatedAt:
                     type: integer
+                    description: 更新时间
                     format: int64
                 deviceType:
                     type: string
+                    description: 设备类型 iOS/Android
                 ip:
                     type: string
+                    description: 用户id
+            description: 评论结构
         CreateCommentLikeReply:
             type: object
             properties: {}
