@@ -10,6 +10,7 @@ option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.micro.moment.v1";
 
+// 评论接口
 service CommentService {
 	// 创建评论
 	rpc CreateComment (CreateCommentRequest) returns (CreateCommentReply) {

@@ -12,6 +12,11 @@ info:
         name: MIT License
         url: https://github.com/go-microservice/ins-api/blob/main/LICENSE
     version: v1.0.0
+servers:
+    - url: http://localhost:8081
+      description: 测试环境
+    - url: http://ins-api.cool.io
+      description: 线上环境
 paths:
     /v1/auth/login:
         post:
@@ -1344,6 +1349,13 @@ components:
                     type: integer
                     format: int64
             description: user info
+    requestBodies:
+        requestBody:
+            content:
+                application/json:
+                    schema:
+                application/x-www-form-urlencoded:
+                    schema:
     securitySchemes:
         bearerAuth:
             type: http
@@ -1353,6 +1365,7 @@ security:
     - bearerAuth: []
 tags:
     - name: CommentService
+      description: 评论接口
     - name: LikeService
     - name: PostService
     - name: RelationService

@@ -10,6 +10,7 @@ option go_package = "github.com/go-microservice/ins-api/api/micro/user/v1;v1";
 
 // 定义参考：https://github.com/google/gnostic/blob/main/openapiv3/OpenAPIv3.proto
 // demo参考：https://github.com/google/gnostic/blob/main/cmd/protoc-gen-openapi/examples/tests/openapiv3annotations/message.proto
+// spec: https://swagger.io/docs/specification/basic-structure/
 option (openapi.v3.document) = {
   info: {
     title: "ins-api";
@@ -25,6 +26,16 @@ option (openapi.v3.document) = {
       url: "https://github.com/go-microservice/ins-api/blob/main/LICENSE";
     }
   }
+  servers: [
+    {
+      url: "http://localhost:8081";
+      description: "测试环境";
+    },
+    {
+      url: "http://ins-api.cool.io";
+      description: "线上环境";
+    }
+  ]
   components: {
     security_schemes: {
       additional_properties: [
