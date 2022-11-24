@@ -157,5 +157,6 @@ func convertUser(u *userv1.User) (*pb.User, error) {
 		return nil, err
 	}
 	user.Id = cast.ToString(u.Id)
+	user.Avatar = u.Avatar
 	return &user, nil
 }

@@ -61,6 +61,7 @@ func NewUserClient() userv1.UserServiceClient {
 		grpc.WithEndpoint(endpoint),
 		grpc.WithDiscovery(getConsulDiscovery()),
 		grpc.WithLog(),
+		grpc.WithTracing(),
 	)
 	if err != nil {
 		panic(err)
@@ -94,6 +95,7 @@ func NewPostClient() momentv1.PostServiceClient {
 	conn, err := grpc.DialInsecure(
 		ctx,
 		grpc.WithEndpoint(endpoint),
+		grpc.WithTracing(),
 		grpc.WithDiscovery(getConsulDiscovery()),
 	)
 	if err != nil {

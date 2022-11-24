@@ -9,7 +9,7 @@ SSL: true
 CtxDefaultTimeout: 12
 CSRF: true
 Debug: false
-EnableTrace: false
+EnableTrace: true
 EnablePprof: true
 
 HTTP:

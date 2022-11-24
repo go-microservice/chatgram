@@ -6,9 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-eagle/eagle/pkg/sync/errgroup"
+	"github.com/go-eagle/eagle/pkg/trace/plugins/function"
 
 	"github.com/go-eagle/eagle/pkg/log"
+	"github.com/go-eagle/eagle/pkg/sync/errgroup"
 	momentv1 "github.com/go-microservice/moment-service/api/moment/v1"
 	userv1 "github.com/go-microservice/user-service/api/user/v1"
 	"github.com/jinzhu/copier"
@@ -184,6 +185,9 @@ func (s *PostServiceServer) ListHotPost(ctx context.Context, req *pb.ListPostReq
 }
 
 func (s *PostServiceServer) ListLatestPost(ctx context.Context, req *pb.ListPostRequest) (*pb.ListPostReply, error) {
+	ctx, span := function.StartFromContext(ctx)
+	defer span.End()
+
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
 	if limit == 0 {
@@ -222,6 +226,9 @@ func (s *PostServiceServer) ListLatestPost(ctx context.Context, req *pb.ListPost
 }
 
 func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.Post) ([]*pb.Post, error) {
+	ctx, span := function.StartFromContext(ctx)
+	defer span.End()
+
 	// batch get user data
 	var (
 		userIDs []int64
