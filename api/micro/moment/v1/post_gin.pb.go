@@ -5,9 +5,11 @@ package v1
 
 import (
 	context "context"
+
 	gin "github.com/gin-gonic/gin"
 	app "github.com/go-eagle/eagle/pkg/app"
 	errcode "github.com/go-eagle/eagle/pkg/errcode"
+	"github.com/go-eagle/eagle/pkg/trace/plugins/function"
 	metadata "google.golang.org/grpc/metadata"
 )
 
@@ -41,6 +43,9 @@ type PostService struct {
 }
 
 func (s *PostService) CreatePost_0(ctx *gin.Context) {
+	c, span := function.StartFromContext(ctx.Request.Context())
+	defer span.End()
+
 	var in CreatePostRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
@@ -52,7 +57,7 @@ func (s *PostService) CreatePost_0(ctx *gin.Context) {
 	for k, v := range ctx.Request.Header {
 		md.Set(k, v...)
 	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
+	newCtx := metadata.NewIncomingContext(c, md)
 	out, err := s.server.(PostServiceHTTPServer).CreatePost(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
@@ -63,6 +68,9 @@ func (s *PostService) CreatePost_0(ctx *gin.Context) {
 }
 
 func (s *PostService) UpdatePost_0(ctx *gin.Context) {
+	c, span := function.StartFromContext(ctx.Request.Context())
+	defer span.End()
+
 	var in UpdatePostRequest
 
 	if err := ctx.ShouldBindJSON(&in); err != nil {
@@ -74,7 +82,7 @@ func (s *PostService) UpdatePost_0(ctx *gin.Context) {
 	for k, v := range ctx.Request.Header {
 		md.Set(k, v...)
 	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
+	newCtx := metadata.NewIncomingContext(c, md)
 	out, err := s.server.(PostServiceHTTPServer).UpdatePost(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
@@ -107,6 +115,9 @@ func (s *PostService) DeletePost_0(ctx *gin.Context) {
 }
 
 func (s *PostService) GetPost_0(ctx *gin.Context) {
+	c, span := function.StartFromContext(ctx.Request.Context())
+	defer span.End()
+
 	var in GetPostRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
@@ -121,7 +132,7 @@ func (s *PostService) GetPost_0(ctx *gin.Context) {
 	for k, v := range ctx.Request.Header {
 		md.Set(k, v...)
 	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
+	newCtx := metadata.NewIncomingContext(c, md)
 	out, err := s.server.(PostServiceHTTPServer).GetPost(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
@@ -132,6 +143,9 @@ func (s *PostService) GetPost_0(ctx *gin.Context) {
 }
 
 func (s *PostService) ListHotPost_0(ctx *gin.Context) {
+	c, span := function.StartFromContext(ctx.Request.Context())
+	defer span.End()
+
 	var in ListPostRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
@@ -143,7 +157,7 @@ func (s *PostService) ListHotPost_0(ctx *gin.Context) {
 	for k, v := range ctx.Request.Header {
 		md.Set(k, v...)
 	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
+	newCtx := metadata.NewIncomingContext(c, md)
 	out, err := s.server.(PostServiceHTTPServer).ListHotPost(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
@@ -154,6 +168,9 @@ func (s *PostService) ListHotPost_0(ctx *gin.Context) {
 }
 
 func (s *PostService) ListLatestPost_0(ctx *gin.Context) {
+	c, span := function.StartFromContext(ctx.Request.Context())
+	defer span.End()
+
 	var in ListPostRequest
 
 	if err := ctx.ShouldBindQuery(&in); err != nil {
@@ -165,7 +182,7 @@ func (s *PostService) ListLatestPost_0(ctx *gin.Context) {
 	for k, v := range ctx.Request.Header {
 		md.Set(k, v...)
 	}
-	newCtx := metadata.NewIncomingContext(ctx, md)
+	newCtx := metadata.NewIncomingContext(c, md)
 	out, err := s.server.(PostServiceHTTPServer).ListLatestPost(newCtx, &in)
 	if err != nil {
 		app.Error(ctx, err)
