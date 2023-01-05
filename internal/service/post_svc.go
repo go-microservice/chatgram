@@ -44,11 +44,20 @@ func NewPostServiceServer(
 }
 
 func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRequest) (*pb.CreatePostReply, error) {
+	var images []*momentv1.PostImage
+	for _, v := range req.Images {
+		images = append(images, &momentv1.PostImage{
+			ImageKey:  v.ImageKey,
+			ImageType: v.ImageType,
+			Width:     v.Width,
+			Height:    v.Height,
+		})
+	}
 	in := &momentv1.CreatePostRequest{
 		UserId:        GetCurrentUserID(ctx),
 		Title:         req.Title,
 		Text:          req.Text,
-		PicKeys:       req.PicKeys,
+		Images:        images,
 		VideoKey:      req.VideoKey,
 		VideoDuration: req.VideoDuration,
 		CoverKey:      req.CoverKey,

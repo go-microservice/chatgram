@@ -221,6 +221,9 @@ paths:
                   schema:
                     type: integer
                     format: int64
+                - name: post_id
+                  in: query
+                  description: 帖子id
             responses:
                 "200":
                     description: OK
@@ -1349,13 +1352,6 @@ components:
                     type: integer
                     format: int64
             description: user info
-    requestBodies:
-        requestBody:
-            content:
-                application/json:
-                    schema:
-                application/x-www-form-urlencoded:
-                    schema:
     securitySchemes:
         bearerAuth:
             type: http

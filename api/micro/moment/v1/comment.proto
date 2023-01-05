@@ -5,6 +5,7 @@ package api.micro.moment.v1;
 import "google/api/annotations.proto";
 import "api/micro/user/v1/user.proto";
 import "gogo/protobuf/gogo.proto";
+import "openapiv3/annotations.proto";
 
 option go_package = "github.com/go-microservice/ins-api/api/micro/moment/v1;v1";
 option java_multiple_files = true;
@@ -27,11 +28,11 @@ service CommentService {
 		};
 	};
 	// 查看评论
-	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
-		option (google.api.http) = {
-			get: "/v1/comments/{id}"
-		};
-	};
+//	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
+//		option (google.api.http) = {
+//			get: "/v1/comments/{id}"
+//		};
+//	};
 	// 热门评论列表
 	rpc ListHotComment (ListCommentRequest) returns (ListCommentReply) {
 		option (google.api.http) = {
@@ -42,6 +43,17 @@ service CommentService {
 	rpc ListLatestComment (ListCommentRequest) returns (ListCommentReply) {
 		option (google.api.http) = {
 			get: "/v1/comments/latest"
+		};
+		option (openapi.v3.operation) = {
+			parameters: [
+				{
+					parameter: {
+						name: "post_id";
+						in: "query";
+						description: "帖子id";
+					}
+				}
+			]
 		};
 	};
 	// 回复评论

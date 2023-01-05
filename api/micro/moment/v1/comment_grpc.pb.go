@@ -27,7 +27,11 @@ type CommentServiceClient interface {
 	// 删除评论
 	DeleteComment(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentReply, error)
 	// 查看评论
-	GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentReply, error)
+	//	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
+	//		option (google.api.http) = {
+	//			get: "/v1/comments/{id}"
+	//		};
+	//	};
 	// 热门评论列表
 	ListHotComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentReply, error)
 	// 最新评论列表
@@ -58,15 +62,6 @@ func (c *commentServiceClient) CreateComment(ctx context.Context, in *CreateComm
 func (c *commentServiceClient) DeleteComment(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentReply, error) {
 	out := new(DeleteCommentReply)
 	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/DeleteComment", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *commentServiceClient) GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentReply, error) {
-	out := new(GetCommentReply)
-	err := c.cc.Invoke(ctx, "/api.micro.moment.v1.CommentService/GetComment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +113,11 @@ type CommentServiceServer interface {
 	// 删除评论
 	DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentReply, error)
 	// 查看评论
-	GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error)
+	//	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
+	//		option (google.api.http) = {
+	//			get: "/v1/comments/{id}"
+	//		};
+	//	};
 	// 热门评论列表
 	ListHotComment(context.Context, *ListCommentRequest) (*ListCommentReply, error)
 	// 最新评论列表
@@ -139,9 +138,6 @@ func (UnimplementedCommentServiceServer) CreateComment(context.Context, *CreateC
 }
 func (UnimplementedCommentServiceServer) DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
-}
-func (UnimplementedCommentServiceServer) GetComment(context.Context, *GetCommentRequest) (*GetCommentReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetComment not implemented")
 }
 func (UnimplementedCommentServiceServer) ListHotComment(context.Context, *ListCommentRequest) (*ListCommentReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListHotComment not implemented")
@@ -200,24 +196,6 @@ func _CommentService_DeleteComment_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CommentServiceServer).DeleteComment(ctx, req.(*DeleteCommentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CommentService_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCommentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CommentServiceServer).GetComment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.micro.moment.v1.CommentService/GetComment",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentServiceServer).GetComment(ctx, req.(*GetCommentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -308,10 +286,6 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteComment",
 			Handler:    _CommentService_DeleteComment_Handler,
-		},
-		{
-			MethodName: "GetComment",
-			Handler:    _CommentService_GetComment_Handler,
 		},
 		{
 			MethodName: "ListHotComment",

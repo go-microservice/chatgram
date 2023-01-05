@@ -64,11 +64,19 @@ message Post {
 	int32 is_like = 15 [(gogoproto.jsontag) = "is_like"];
 }
 
+message PostImage {
+	string image_key = 1;
+	string image_type = 2;
+	int32 width = 3;
+	int32 height = 4;
+}
+
 message CreatePostRequest {
 	int64 user_id = 1;
 	string title = 2;
 	string text = 3;
-	string pic_keys = 4;
+	// json格式：[{"image_key":"/abc/a.jpg","image_type":"jpg","width":200,"height":200}]
+	repeated PostImage images = 4;
 	string video_key = 5;
 	int32 video_duration = 6;
 	string cover_key = 7;
