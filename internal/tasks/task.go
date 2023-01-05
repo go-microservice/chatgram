@@ -2,6 +2,7 @@ package tasks
 
 import (
 	"log"
+	"os"
 	"sync"
 	"time"
 
@@ -37,7 +38,7 @@ type Config struct {
 
 func GetClient() *asynq.Client {
 	once.Do(func() {
-		c := config.New("config", config.WithEnv("local"))
+		c := config.New("config", config.WithEnv(os.Getenv("APP_ENV")))
 		var cfg Config
 		if err := c.Load("cron", &cfg); err != nil {
 			panic(err)
