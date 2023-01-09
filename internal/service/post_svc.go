@@ -53,19 +53,22 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRe
 			Height:    v.Height,
 		})
 	}
+	video := &momentv1.Video{
+		VideoKey: req.VideoKey,
+		CoverKey: req.CoverKey,
+		Duration: req.VideoDuration,
+		Width:    req.CoverWidth,
+		Height:   req.CoverHeight,
+	}
 	in := &momentv1.CreatePostRequest{
-		UserId:        GetCurrentUserID(ctx),
-		Title:         req.Title,
-		Text:          req.Text,
-		Images:        images,
-		VideoKey:      req.VideoKey,
-		VideoDuration: req.VideoDuration,
-		CoverKey:      req.CoverKey,
-		CoverWidth:    req.CoverWidth,
-		CoverHeight:   req.CoverHeight,
-		Longitude:     req.Longitude,
-		Latitude:      req.Latitude,
-		Position:      req.Position,
+		UserId:    GetCurrentUserID(ctx),
+		Title:     req.Title,
+		Text:      req.Text,
+		Images:    images,
+		Video:     video,
+		Longitude: req.Longitude,
+		Latitude:  req.Latitude,
+		Position:  req.Position,
 	}
 	out, err := s.postRPC.CreatePost(ctx, in)
 	if err != nil {
@@ -78,8 +81,7 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRe
 		return nil, err
 	}
 
-	post := pb.Post{}
-	err = copier.Copy(&post, &out.Post)
+	post, err := convertPost(out.Post)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +98,7 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *pb.CreatePostRe
 	}
 
 	return &pb.CreatePostReply{
-		Post: &post,
+		Post: post,
 	}, nil
 }
 

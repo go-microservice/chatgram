@@ -46,12 +46,36 @@ service PostService {
 	};
 }
 
+message Content {
+	string text = 1;
+	repeated PostImage images = 2;
+	Video video = 3;
+}
+
+message PostImage {
+	string image_key = 1;
+	string image_url = 2;
+	string image_type = 3;
+	int32 width = 4;
+	int32 height = 5;
+}
+
+message Video {
+	string video_key = 1;
+	string video_url = 2;
+	string cover_key = 3;
+	string cover_url = 4;
+	float duration = 5;
+	int32 width = 6;
+	int32 height = 7;
+}
+
 message Post {
 	string id = 1 [(gogoproto.jsontag) = "id"];
 	int32 post_type = 2 [(gogoproto.jsontag) = "post_type"];
 	api.micro.user.v1.User user = 3;
 	string title = 4 [(gogoproto.jsontag) = "title"];
-	string content = 5 [(gogoproto.jsontag) = "content"];
+	Content content = 5 [(gogoproto.jsontag) = "content"];
 	int64 view_count = 6 [(gogoproto.jsontag) = "view_count"];
 	int64 like_count = 7 [(gogoproto.jsontag) = "like_count"];
 	int64 comment_count = 8 [(gogoproto.jsontag) = "comment_count"];
@@ -64,7 +88,7 @@ message Post {
 	int32 is_like = 15 [(gogoproto.jsontag) = "is_like"];
 }
 
-message PostImage {
+message PostImageRequest {
 	string image_key = 1;
 	string image_type = 2;
 	int32 width = 3;
@@ -76,9 +100,9 @@ message CreatePostRequest {
 	string title = 2;
 	string text = 3;
 	// json格式：[{"image_key":"/abc/a.jpg","image_type":"jpg","width":200,"height":200}]
-	repeated PostImage images = 4;
+	repeated PostImageRequest images = 4;
 	string video_key = 5;
-	int32 video_duration = 6;
+	float video_duration = 6;
 	string cover_key = 7;
 	int32 cover_width = 8;
 	int32 cover_height = 9;

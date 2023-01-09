@@ -5,11 +5,10 @@ go 1.16
 require (
 	github.com/gin-gonic/gin v1.7.3
 	github.com/go-eagle/eagle v1.6.1-0.20221124123443-81ba6ce046c4
-	github.com/go-microservice/moment-service v0.0.0-20221203105429-b40855cd42ac
+	github.com/go-microservice/moment-service v0.0.0-20221218101659-e4af5930e877
 	github.com/go-microservice/relation-service v0.0.0-20220615144835-aa0a69fbee93
 	github.com/go-microservice/user-service v0.0.0-20220910042840-7d4aa0f70888
 	github.com/gogo/protobuf v1.3.2
-	github.com/golang/protobuf v1.5.2
 	github.com/google/gnostic v0.6.9
 	github.com/google/wire v0.5.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.1
