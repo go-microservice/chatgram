@@ -74,33 +74,33 @@ service CommentService {
 // 评论结构
 message Comment {
 	// 评论id
-	string id = 1;
+	string id = 1 [(gogoproto.jsontag) = "id"];
 	// 帖子id
-	int64 post_id = 2;
+	int64 post_id = 2 [(gogoproto.jsontag) = "post_id"];
 	// 用户信息
-	api.micro.user.v1.User user = 3;
+	api.micro.user.v1.User user = 3 [(gogoproto.jsontag) = "user"];
 	// 评论内容
-	string content = 4;
+	string content = 4 [(gogoproto.jsontag) = "content"];
 	// 根评论id
-	int64 root_id = 5;
+	int64 root_id = 5 [(gogoproto.jsontag) = "root_id"];
 	// 父评论id
-	int64 parent_id = 6;
+	int64 parent_id = 6 [(gogoproto.jsontag) = "parent_id"];
 	// 点赞数
-	int32 like_count = 7;
+	int32 like_count = 7 [(gogoproto.jsontag) = "like_count"];
 	// 回复数
-	int32 reply_count = 8;
+	int32 reply_count = 8 [(gogoproto.jsontag) = "reply_count"];
 	// 分数
-	int64 score = 9;
+	int64 score = 9 [(gogoproto.jsontag) = "score"];
 	// 删除标记
-	int32 del_flag = 10;
+	int32 del_flag = 10 [(gogoproto.jsontag) = "del_flag"];
 	// 创建时间
-	int64 created_at = 11;
+	int64 created_at = 11 [(gogoproto.jsontag) = "created_at"];
 	// 更新时间
-	int64 updated_at = 12;
+	int64 updated_at = 12 [(gogoproto.jsontag) = "updated_at"];
 	// 设备类型 iOS/Android
-	string device_type = 13;
+	string device_type = 13 [(gogoproto.jsontag) = "device_type"];
 	// 用户id
-	string ip = 14;
+	string ip = 14 [(gogoproto.jsontag) = "ip"];
 }
 
 message CreateCommentRequest {
