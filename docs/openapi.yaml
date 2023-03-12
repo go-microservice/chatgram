@@ -168,7 +168,14 @@ paths:
         get:
             tags:
                 - CommentService
-            description: 热门评论列表
+            description: |-
+                查看评论
+                	rpc GetComment (GetCommentRequest) returns (GetCommentReply) {
+                		option (google.api.http) = {
+                			get: "/v1/comments/{id}"
+                		};
+                	};
+                 热门评论列表
             operationId: CommentService_ListHotComment
             parameters:
                 - name: lastId
@@ -348,31 +355,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ReplyCommentReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/comments/{id}:
-        get:
-            tags:
-                - CommentService
-            description: 查看评论
-            operationId: CommentService_GetComment
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/GetCommentReply'
                 default:
                     description: Default error response
                     content:
@@ -864,6 +846,17 @@ components:
                     type: string
                     description: 用户id
             description: 评论结构
+        Content:
+            type: object
+            properties:
+                text:
+                    type: string
+                images:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PostImage'
+                video:
+                    $ref: '#/components/schemas/Video'
         CreateCommentLikeReply:
             type: object
             properties: {}
@@ -886,22 +879,29 @@ components:
             properties:
                 postId:
                     type: integer
+                    description: 帖子id
                     format: int64
                 userId:
                     type: integer
+                    description: 发布评论的uid
                     format: int64
                 content:
                     type: string
+                    description: 评论的具体内容
                 rootId:
                     type: integer
+                    description: 评论的根id
                     format: int64
                 parentId:
                     type: integer
+                    description: 评论的上一级id
                     format: int64
                 deviceType:
                     type: string
+                    description: 设备类型，比如iOS, Android
                 ip:
                     type: string
+                    description: 评论人的ip地址
         CreatePostLikeReply:
             type: object
             properties: {}
@@ -929,13 +929,16 @@ components:
                     type: string
                 text:
                     type: string
-                picKeys:
-                    type: string
+                images:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PostImageRequest'
+                    description: json格式：[{"image_key":"/abc/a.jpg","image_type":"jpg","width":200,"height":200}]
                 videoKey:
                     type: string
                 videoDuration:
-                    type: integer
-                    format: int32
+                    type: number
+                    format: float
                 coverKey:
                     type: string
                 coverWidth:
@@ -1008,11 +1011,6 @@ components:
                     type: integer
                     description: 被关注人uid
                     format: int64
-        GetCommentReply:
-            type: object
-            properties:
-                comment:
-                    $ref: '#/components/schemas/Comment'
         GetFollowerUserListReply:
             type: object
             properties:
@@ -1173,7 +1171,7 @@ components:
                 title:
                     type: string
                 content:
-                    type: string
+                    $ref: '#/components/schemas/Content'
                 viewCount:
                     type: integer
                     format: int64
@@ -1202,6 +1200,34 @@ components:
                     type: integer
                     format: int64
                 isLike:
+                    type: integer
+                    format: int32
+        PostImage:
+            type: object
+            properties:
+                imageKey:
+                    type: string
+                imageUrl:
+                    type: string
+                imageType:
+                    type: string
+                width:
+                    type: integer
+                    format: int32
+                height:
+                    type: integer
+                    format: int32
+        PostImageRequest:
+            type: object
+            properties:
+                imageKey:
+                    type: string
+                imageType:
+                    type: string
+                width:
+                    type: integer
+                    format: int32
+                height:
                     type: integer
                     format: int32
         RegisterReply:
@@ -1352,6 +1378,26 @@ components:
                     type: integer
                     format: int64
             description: user info
+        Video:
+            type: object
+            properties:
+                videoKey:
+                    type: string
+                videoUrl:
+                    type: string
+                coverKey:
+                    type: string
+                coverUrl:
+                    type: string
+                duration:
+                    type: number
+                    format: float
+                width:
+                    type: integer
+                    format: int32
+                height:
+                    type: integer
+                    format: int32
     securitySchemes:
         bearerAuth:
             type: http

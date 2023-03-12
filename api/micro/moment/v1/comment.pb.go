@@ -190,13 +190,20 @@ func (m *Comment) GetIp() string {
 }
 
 type CreateCommentRequest struct {
-	PostId     int64  `protobuf:"varint,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
-	UserId     int64  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Content    string `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	RootId     int64  `protobuf:"varint,4,opt,name=root_id,json=rootId,proto3" json:"root_id,omitempty"`
-	ParentId   int64  `protobuf:"varint,5,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	// 帖子id
+	PostId int64 `protobuf:"varint,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
+	// 发布评论的uid
+	UserId int64 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	// 评论的具体内容
+	Content string `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	// 评论的根id
+	RootId int64 `protobuf:"varint,4,opt,name=root_id,json=rootId,proto3" json:"root_id,omitempty"`
+	// 评论的上一级id
+	ParentId int64 `protobuf:"varint,5,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`
+	// 设备类型，比如iOS, Android
 	DeviceType string `protobuf:"bytes,6,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
-	Ip         string `protobuf:"bytes,7,opt,name=ip,proto3" json:"ip,omitempty"`
+	// 评论人的ip地址
+	Ip string `protobuf:"bytes,7,opt,name=ip,proto3" json:"ip,omitempty"`
 }
 
 func (m *CreateCommentRequest) Reset()         { *m = CreateCommentRequest{} }

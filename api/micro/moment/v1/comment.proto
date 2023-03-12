@@ -104,12 +104,19 @@ message Comment {
 }
 
 message CreateCommentRequest {
+    // 帖子id
 	int64 post_id = 1;
+	// 发布评论的uid
 	int64 user_id = 2;
+	// 评论的具体内容
 	string content = 3;
+	// 评论的根id
 	int64 root_id = 4;
+	// 评论的上一级id
 	int64 parent_id = 5;
+	// 设备类型，比如iOS, Android
 	string device_type = 6;
+	// 评论人的ip地址
 	string ip = 7;
 }
 message CreateCommentReply {
