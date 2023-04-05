@@ -180,6 +180,7 @@ paths:
             parameters:
                 - name: lastId
                   in: query
+                  description: 分页id
                   schema:
                     type: integer
                     format: int64
@@ -215,6 +216,7 @@ paths:
             parameters:
                 - name: lastId
                   in: query
+                  description: 分页id
                   schema:
                     type: integer
                     format: int64

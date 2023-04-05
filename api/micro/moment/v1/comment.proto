@@ -19,6 +19,8 @@ service CommentService {
 			post: "/v1/comments"
 			body: "*"
 		};
+		// https://swagger.io/specification/v3/
+		// https://github.com/google/gnostic/blob/main/openapiv3/OpenAPIv3.proto
 	};
 	// 删除评论
 	rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply) {
@@ -105,19 +107,19 @@ message Comment {
 
 message CreateCommentRequest {
     // 帖子id
-	int64 post_id = 1;
+	int64 post_id = 1 [(gogoproto.jsontag) = "post_id"];
 	// 发布评论的uid
-	int64 user_id = 2;
+	int64 user_id = 2 [(gogoproto.jsontag) = "user_id"];
 	// 评论的具体内容
-	string content = 3;
+	string content = 3 [(gogoproto.moretags) = 'json:"content"'];
 	// 评论的根id
-	int64 root_id = 4;
+	int64 root_id = 4 [(gogoproto.moretags) = 'form:"root_id"'];
 	// 评论的上一级id
-	int64 parent_id = 5;
+	int64 parent_id = 5 [(gogoproto.moretags) = 'form:"parent_id"'];
 	// 设备类型，比如iOS, Android
-	string device_type = 6;
+	string device_type = 6 [(gogoproto.moretags) = 'form:"device_type"'];
 	// 评论人的ip地址
-	string ip = 7;
+	string ip = 7 [(gogoproto.moretags) = 'form:"ip"'];
 }
 message CreateCommentReply {
 	Comment comment = 1;
@@ -140,6 +142,7 @@ message GetCommentReply {
 }
 
 message ListCommentRequest {
+    // 分页id
 	int64 last_id = 1 [(gogoproto.moretags) = 'form:"last_id"'];
 	int32 limit = 2 [(gogoproto.moretags) = 'form:"limit"'];
 	int64 post_id = 3 [(gogoproto.moretags) = 'form:"post_id"'];
