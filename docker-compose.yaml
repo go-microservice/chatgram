@@ -30,7 +30,7 @@ services:
 
   user-svc:
     container_name: user_container
-    image: qloog/user-service:latest
+    image: registry.cn-hangzhou.aliyuncs.com/go-microservices/user-service:latest
     restart: on-failure
     depends_on:
       - mysql
@@ -56,7 +56,7 @@ services:
 
   moment-svc:
     container_name: moment_container
-    image: qloog/moment-service:latest
+    image: registry.cn-hangzhou.aliyuncs.com/go-microservices/moment-service:latest
     restart: on-failure
     depends_on:
       - mysql
@@ -82,7 +82,7 @@ services:
 
   relation-svc:
     container_name: relation_container
-    image: qloog/relation-service:latest
+    image: registry.cn-hangzhou.aliyuncs.com/go-microservices/relation-service:latest
     restart: on-failure
     depends_on:
       - mysql
