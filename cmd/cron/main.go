@@ -7,13 +7,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/go-microservice/ins-api/internal/model"
-	"github.com/go-microservice/ins-api/internal/tasks"
 	eagle "github.com/go-eagle/eagle/pkg/app"
 	"github.com/go-eagle/eagle/pkg/config"
 	logger "github.com/go-eagle/eagle/pkg/log"
 	"github.com/go-eagle/eagle/pkg/redis"
 	v "github.com/go-eagle/eagle/pkg/version"
+	"github.com/go-microservice/chatgram/internal/model"
+	"github.com/go-microservice/chatgram/internal/tasks"
 	"github.com/spf13/pflag"
 
 	"github.com/hibiken/asynq"

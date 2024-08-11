@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "gogo/protobuf/gogo.proto";
 import "openapiv3/annotations.proto";
 
-option go_package = "github.com/go-microservice/ins-api/api/micro/user/v1;v1";
+option go_package = "github.com/go-microservice/chatgram/api/micro/user/v1;v1";
 
 // 定义参考：https://github.com/google/gnostic/blob/main/openapiv3/OpenAPIv3.proto
 // demo参考：https://github.com/google/gnostic/blob/main/cmd/protoc-gen-openapi/examples/tests/openapiv3annotations/message.proto
@@ -18,15 +18,19 @@ option (openapi.v3.document) = {
     description: "Description from annotation";
     contact: {
       name: "Contact Name";
-      url: "https://github.com/go-microservice/ins-api";
+      url: "https://github.com/go-microservice/chatgram";
       email: "";
     }
     license: {
       name: "MIT License";
-      url: "https://github.com/go-microservice/ins-api/blob/main/LICENSE";
+      url: "https://github.com/go-microservice/chatgram/blob/main/LICENSE";
     }
   }
   servers: [
+    {
+      url: "http://localhost:8081";
+      description: "本地环境";
+    },
     {
       url: "http://localhost:8081";
       description: "测试环境";
@@ -66,20 +70,26 @@ option (openapi.v3.document) = {
   ]
 };
 
+// 用户服务
 service UserService {
   // auth
+  // 注册
   rpc Register(RegisterRequest) returns (RegisterReply) {
     option (google.api.http) = {
       post: "/v1/auth/register"
       body: "*"
     };
   }
+
+  // 登录
   rpc Login(LoginRequest) returns (LoginReply) {
     option (google.api.http) = {
       post: "/v1/auth/login"
       body: "*"
     };
   }
+
+  // 退出
   rpc Logout(LogoutRequest) returns (LogoutReply) {
     option (google.api.http) = {
       post: "/v1/auth/logout"
@@ -87,18 +97,22 @@ service UserService {
     };
   }
 
-  // user
+  // 获取用户信息
   rpc GetUser(GetUserRequest) returns (GetUserReply) {
     option (google.api.http) = {
       get: "/v1/users/{id}"
     };
   }
+
+  // 更新用户信息
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserReply) {
     option (google.api.http) = {
       put: "/v1/users/{id}"
       body: "*"
     };
   }
+
+  // 修改用户密码
   rpc UpdatePassword(UpdatePasswordRequest) returns (UpdatePasswordReply) {
     option (google.api.http) = {
       patch: "/v1/users/password/{id}"
@@ -154,12 +168,12 @@ message LoginRequest {
 
 message LoginReply {
   string uid = 1;
-  string token = 2;
+  string access_token = 2;
 }
 
 message LogoutRequest {
   int64 id = 1;
-  string token = 2;
+  string access_token = 2;
 }
 
 message LogoutReply {
@@ -198,7 +212,7 @@ message UpdateUserReply {
 
 message UpdatePasswordRequest {
   string id = 1;
-  string old_password = 2;
+  string password = 2;
   string new_password = 3;
   string confirm_password = 4;
 }

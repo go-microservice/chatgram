@@ -7,7 +7,7 @@ import "api/micro/user/v1/user.proto";
 import "gogo/protobuf/gogo.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
-option go_package = "github.com/go-microservice/ins-api/api/micro/relation/v1;v1";
+option go_package = "github.com/go-microservice/chatgram/api/micro/relation/v1;v1";
 // see: https://github.com/grpc-ecosystem/grpc-gateway/blob/2ce32afe5735d0bfa28ee3369e5975dfb8192313/protoc-gen-openapiv2/options/openapiv2.proto
 // https://github.com/grpc-ecosystem/grpc-gateway/blob/2ce32afe5735d0bfa28ee3369e5975dfb8192313/examples/internal/proto/examplepb/a_bit_of_everything.proto
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {

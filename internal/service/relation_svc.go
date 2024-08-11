@@ -10,8 +10,8 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/spf13/cast"
 
-	pb "github.com/go-microservice/ins-api/api/micro/relation/v1"
-	pbuser "github.com/go-microservice/ins-api/api/micro/user/v1"
+	pb "github.com/go-microservice/chatgram/api/micro/relation/v1"
+	pbuser "github.com/go-microservice/chatgram/api/micro/user/v1"
 )
 
 var (

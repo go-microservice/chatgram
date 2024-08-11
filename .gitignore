@@ -16,4 +16,7 @@
 # Dependency directories (remove the comment below to include it)
 vendor/
 log
-ins-api
+chatgram
+build
+deploy
+docker-compose.yaml

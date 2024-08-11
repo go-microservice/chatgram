@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/go-microservice/ins-api/api/micro/moment/v1"
+	pb "github.com/go-microservice/chatgram/api/micro/moment/v1"
 )
 
 var (
@@ -164,16 +164,16 @@ func (s *PostServiceServer) ListHotPost(ctx context.Context, req *pb.ListPostReq
 	if limit == 0 {
 		limit = 10
 	}
-	in := &momentv1.ListHotPostRequest{
-		LastId: cast.ToInt64(req.GetLastId()),
-		Limit:  limit + 1,
+	in := &momentv1.ListHotPostsRequest{
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
 	ret, err := s.postRPC.ListHotPost(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	posts := ret.GetItems()
+	posts := ret.GetPosts()
 	var (
 		hasMore bool
 		lastId  string
@@ -204,16 +204,16 @@ func (s *PostServiceServer) ListLatestPost(ctx context.Context, req *pb.ListPost
 	if limit == 0 {
 		limit = 10
 	}
-	in := &momentv1.ListLatestPostRequest{
-		LastId: cast.ToInt64(req.GetLastId()),
-		Limit:  limit + 1,
+	in := &momentv1.ListLatestPostsRequest{
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
 	ret, err := s.postRPC.ListLatestPost(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	posts := ret.GetItems()
+	posts := ret.GetPosts()
 	var (
 		hasMore bool
 		lastId  string
@@ -269,8 +269,8 @@ func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.
 	// batch get user like status
 	likeStatus := make(map[int64]int32)
 	g.Go(func(ctx context.Context) error {
-		in := &momentv1.BatchGetLikeRequest{UserId: GetCurrentUserID(ctx), ObjType: LikeTypePost, ObjIds: postIDs}
-		userLikeReply, err := s.likeRPC.BatchGetLike(ctx, in)
+		in := &momentv1.BatchGetLikesRequest{UserId: GetCurrentUserID(ctx), ObjType: LikeTypePost, ObjIds: postIDs}
+		userLikeReply, err := s.likeRPC.BatchGetLikes(ctx, in)
 		if err != nil {
 			return err
 		}

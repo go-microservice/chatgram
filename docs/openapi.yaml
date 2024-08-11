@@ -7,12 +7,14 @@ info:
     description: Description from annotation
     contact:
         name: Contact Name
-        url: https://github.com/go-microservice/ins-api
+        url: https://github.com/go-microservice/chatgram
     license:
         name: MIT License
-        url: https://github.com/go-microservice/ins-api/blob/main/LICENSE
+        url: https://github.com/go-microservice/chatgram/blob/main/LICENSE
     version: v1.0.0
 servers:
+    - url: http://localhost:8081
+      description: 本地环境
     - url: http://localhost:8081
       description: 测试环境
     - url: http://ins-api.cool.io
@@ -22,6 +24,7 @@ paths:
         post:
             tags:
                 - UserService
+            description: 登录
             operationId: UserService_Login
             requestBody:
                 content:
@@ -46,6 +49,7 @@ paths:
         post:
             tags:
                 - UserService
+            description: 退出
             operationId: UserService_Logout
             requestBody:
                 content:
@@ -70,7 +74,9 @@ paths:
         post:
             tags:
                 - UserService
-            description: auth
+            description: |-
+                auth
+                 注册
             operationId: UserService_Register
             requestBody:
                 content:
@@ -182,8 +188,7 @@ paths:
                   in: query
                   description: 分页id
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -192,8 +197,7 @@ paths:
                 - name: postId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -218,8 +222,7 @@ paths:
                   in: query
                   description: 分页id
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -228,8 +231,7 @@ paths:
                 - name: postId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: post_id
                   in: query
                   description: 帖子id
@@ -279,13 +281,11 @@ paths:
                 - name: commentId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: lastId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -314,8 +314,7 @@ paths:
                 - name: lastId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -324,8 +323,7 @@ paths:
                 - name: commentId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -466,8 +464,7 @@ paths:
                 - name: lastId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -495,8 +492,7 @@ paths:
                 - name: lastId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -548,13 +544,11 @@ paths:
                 - name: postId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: lastId
                   in: query
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -693,8 +687,7 @@ paths:
                   in: query
                   description: 被取消关注人uid
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -712,6 +705,7 @@ paths:
         patch:
             tags:
                 - UserService
+            description: 修改用户密码
             operationId: UserService_UpdatePassword
             parameters:
                 - name: id
@@ -742,7 +736,7 @@ paths:
         get:
             tags:
                 - UserService
-            description: user
+            description: 获取用户信息
             operationId: UserService_GetUser
             parameters:
                 - name: id
@@ -766,6 +760,7 @@ paths:
         put:
             tags:
                 - UserService
+            description: 更新用户信息
             operationId: UserService_UpdateUser
             parameters:
                 - name: id
@@ -801,22 +796,21 @@ components:
                     type: string
                     description: 评论id
                 postId:
-                    type: integer
+                    type: string
                     description: 帖子id
-                    format: int64
                 user:
-                    $ref: '#/components/schemas/User'
+                    allOf:
+                        - $ref: '#/components/schemas/User'
+                    description: 用户信息
                 content:
                     type: string
                     description: 评论内容
                 rootId:
-                    type: integer
+                    type: string
                     description: 根评论id
-                    format: int64
                 parentId:
-                    type: integer
+                    type: string
                     description: 父评论id
-                    format: int64
                 likeCount:
                     type: integer
                     description: 点赞数
@@ -826,21 +820,18 @@ components:
                     description: 回复数
                     format: int32
                 score:
-                    type: integer
+                    type: string
                     description: 分数
-                    format: int64
                 delFlag:
                     type: integer
                     description: 删除标记
                     format: int32
                 createdAt:
-                    type: integer
+                    type: string
                     description: 创建时间
-                    format: int64
                 updatedAt:
-                    type: integer
+                    type: string
                     description: 更新时间
-                    format: int64
                 deviceType:
                     type: string
                     description: 设备类型 iOS/Android
@@ -866,11 +857,9 @@ components:
             type: object
             properties:
                 userId:
-                    type: integer
-                    format: int64
+                    type: string
                 commentId:
-                    type: integer
-                    format: int64
+                    type: string
         CreateCommentReply:
             type: object
             properties:
@@ -880,24 +869,20 @@ components:
             type: object
             properties:
                 postId:
-                    type: integer
+                    type: string
                     description: 帖子id
-                    format: int64
                 userId:
-                    type: integer
+                    type: string
                     description: 发布评论的uid
-                    format: int64
                 content:
                     type: string
                     description: 评论的具体内容
                 rootId:
-                    type: integer
+                    type: string
                     description: 评论的根id
-                    format: int64
                 parentId:
-                    type: integer
+                    type: string
                     description: 评论的上一级id
-                    format: int64
                 deviceType:
                     type: string
                     description: 设备类型，比如iOS, Android
@@ -911,11 +896,9 @@ components:
             type: object
             properties:
                 userId:
-                    type: integer
-                    format: int64
+                    type: string
                 postId:
-                    type: integer
-                    format: int64
+                    type: string
         CreatePostReply:
             type: object
             properties:
@@ -925,8 +908,7 @@ components:
             type: object
             properties:
                 userId:
-                    type: integer
-                    format: int64
+                    type: string
                 title:
                     type: string
                 text:
@@ -964,11 +946,9 @@ components:
             type: object
             properties:
                 userId:
-                    type: integer
-                    format: int64
+                    type: string
                 commentId:
-                    type: integer
-                    format: int64
+                    type: string
         DeleteCommentReply:
             type: object
             properties: {}
@@ -987,11 +967,9 @@ components:
             type: object
             properties:
                 userId:
-                    type: integer
-                    format: int64
+                    type: string
                 postId:
-                    type: integer
-                    format: int64
+                    type: string
         DeletePostReply:
             type: object
             properties: {}
@@ -1010,9 +988,8 @@ components:
             type: object
             properties:
                 userId:
-                    type: integer
+                    type: string
                     description: 被关注人uid
-                    format: int64
         GetFollowerUserListReply:
             type: object
             properties:
@@ -1059,8 +1036,7 @@ components:
             type: object
             properties:
                 id:
-                    type: integer
-                    format: int64
+                    type: string
                 user:
                     $ref: '#/components/schemas/User'
         ListCommentLikeReply:
@@ -1071,8 +1047,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Like'
                 count:
-                    type: integer
-                    format: int64
+                    type: string
                 hasMore:
                     type: boolean
                 lastId:
@@ -1085,8 +1060,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Comment'
                 count:
-                    type: integer
-                    format: int64
+                    type: string
                 hasMore:
                     type: boolean
                 lastId:
@@ -1099,8 +1073,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Like'
                 count:
-                    type: integer
-                    format: int64
+                    type: string
                 hasMore:
                     type: boolean
                 lastId:
@@ -1113,8 +1086,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Post'
                 count:
-                    type: integer
-                    format: int64
+                    type: string
                 hasMore:
                     type: boolean
                 lastId:
@@ -1127,8 +1099,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Comment'
                 count:
-                    type: integer
-                    format: int64
+                    type: string
                 hasMore:
                     type: boolean
                 lastId:
@@ -1138,7 +1109,7 @@ components:
             properties:
                 uid:
                     type: string
-                token:
+                accessToken:
                     type: string
         LoginRequest:
             type: object
@@ -1156,9 +1127,8 @@ components:
             type: object
             properties:
                 id:
-                    type: integer
-                    format: int64
-                token:
+                    type: string
+                accessToken:
                     type: string
         Post:
             type: object
@@ -1175,20 +1145,15 @@ components:
                 content:
                     $ref: '#/components/schemas/Content'
                 viewCount:
-                    type: integer
-                    format: int64
+                    type: string
                 likeCount:
-                    type: integer
-                    format: int64
+                    type: string
                 commentCount:
-                    type: integer
-                    format: int64
+                    type: string
                 collectCount:
-                    type: integer
-                    format: int64
+                    type: string
                 shareCount:
-                    type: integer
-                    format: int64
+                    type: string
                 longitude:
                     type: number
                     format: float
@@ -1199,8 +1164,7 @@ components:
                     type: number
                     format: float
                 createdAt:
-                    type: integer
-                    format: int64
+                    type: string
                 isLike:
                     type: integer
                     format: int32
@@ -1236,8 +1200,7 @@ components:
             type: object
             properties:
                 id:
-                    type: integer
-                    format: int64
+                    type: string
                 username:
                     type: string
         RegisterRequest:
@@ -1258,19 +1221,15 @@ components:
             type: object
             properties:
                 commentId:
-                    type: integer
-                    format: int64
+                    type: string
                 userId:
-                    type: integer
-                    format: int64
+                    type: string
                 content:
                     type: string
                 rootId:
-                    type: integer
-                    format: int64
+                    type: string
                 parentId:
-                    type: integer
-                    format: int64
+                    type: string
                 deviceType:
                     type: string
                 ip:
@@ -1302,7 +1261,7 @@ components:
             properties:
                 id:
                     type: string
-                oldPassword:
+                password:
                     type: string
                 newPassword:
                     type: string
@@ -1329,8 +1288,7 @@ components:
                 phone:
                     type: string
                 loginAt:
-                    type: integer
-                    format: int64
+                    type: string
                 status:
                     type: integer
                     format: enum
@@ -1346,8 +1304,7 @@ components:
                 bio:
                     type: string
                 updatedAt:
-                    type: integer
-                    format: int64
+                    type: string
         User:
             type: object
             properties:
@@ -1360,8 +1317,7 @@ components:
                 phone:
                     type: string
                 loginAt:
-                    type: integer
-                    format: int64
+                    type: string
                 status:
                     type: integer
                     format: enum
@@ -1377,8 +1333,7 @@ components:
                 bio:
                     type: string
                 createdAt:
-                    type: integer
-                    format: int64
+                    type: string
             description: user info
         Video:
             type: object
@@ -1409,8 +1364,11 @@ security:
     - bearerAuth: []
 tags:
     - name: CommentService
-      description: 评论接口
+      description: 评论服务
     - name: LikeService
+      description: 点赞服务
     - name: PostService
+      description: 帖子服务
     - name: RelationService
     - name: UserService
+      description: 用户服务

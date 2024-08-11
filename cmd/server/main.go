@@ -14,8 +14,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
-	"net/http"
 	"os"
 
 	"github.com/go-eagle/eagle/pkg/trace"
@@ -24,13 +22,9 @@ import (
 	eagle "github.com/go-eagle/eagle/pkg/app"
 	"github.com/go-eagle/eagle/pkg/config"
 	logger "github.com/go-eagle/eagle/pkg/log"
-	"github.com/go-eagle/eagle/pkg/redis"
-	transHttp "github.com/go-eagle/eagle/pkg/transport/http"
 	v "github.com/go-eagle/eagle/pkg/version"
 	"github.com/spf13/pflag"
 	_ "go.uber.org/automaxprocs"
-
-	"github.com/go-microservice/ins-api/internal/model"
 )
 
 var (
@@ -64,10 +58,6 @@ func main() {
 
 	// -------------- init resource -------------
 	logger.Init()
-	// init db
-	model.Init()
-	// init redis
-	redis.Init()
 
 	gin.SetMode(cfg.Mode)
 
@@ -88,21 +78,4 @@ func main() {
 	if err := app.Run(); err != nil {
 		panic(err)
 	}
-}
-
-func newApp(cfg *eagle.Config, httpSrv *transHttp.Server) *eagle.App {
-	// init pprof server
-	go func() {
-		fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)
-		if err := http.ListenAndServe(cfg.PprofPort, http.DefaultServeMux); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("listen ListenAndServe for PProf, err: %s", err.Error())
-		}
-	}()
-
-	return eagle.New(
-		eagle.WithName(cfg.Name),
-		eagle.WithVersion(cfg.Version),
-		eagle.WithLogger(logger.GetLogger()),
-		eagle.WithServer(httpSrv),
-	)
 }
