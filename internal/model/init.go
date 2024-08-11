@@ -1,39 +1,38 @@
 package model
 
 import (
-	"fmt"
-
 	"gorm.io/gorm"
 
-	"github.com/go-eagle/eagle/pkg/config"
 	"github.com/go-eagle/eagle/pkg/storage/orm"
 )
 
-// DB 数据库全局变量
-var DB *gorm.DB
+var (
+	// DB define a gloabl db
+	DB *gorm.DB
+)
 
-// Init 初始化数据库
-func Init() *gorm.DB {
-	cfg, err := loadConf()
+// Init init db
+func Init() (*gorm.DB, func(), error) {
+	err := orm.New([]string{"default"}...)
 	if err != nil {
-		panic(fmt.Sprintf("load orm conf err: %v", err))
+		return nil, nil, err
 	}
 
-	DB = orm.NewMySQL(cfg)
-	return DB
-}
-
-// GetDB 返回默认的数据库
-func GetDB() *gorm.DB {
-	return DB
-}
-
-// loadConf load gorm config
-func loadConf() (ret *orm.Config, err error) {
-	var cfg orm.Config
-	if err := config.Load("database", &cfg); err != nil {
-		return nil, err
+	// get first db
+	DB, err := orm.GetDB("default")
+	if err != nil {
+		return nil, nil, err
+	}
+	sqlDB, err := DB.DB()
+	if err != nil {
+		return nil, nil, err
 	}
 
-	return &cfg, nil
+	// here you can add second or more db, and remember to add close to below cleanFunc
+	// ...
+
+	cleanFunc := func() {
+		sqlDB.Close()
+	}
+	return DB, cleanFunc, nil
 }

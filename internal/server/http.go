@@ -5,11 +5,11 @@ import (
 	"github.com/go-eagle/eagle/pkg/transport/http"
 	"github.com/google/wire"
 
-	momentv1 "github.com/go-microservice/ins-api/api/micro/moment/v1"
-	relationv1 "github.com/go-microservice/ins-api/api/micro/relation/v1"
-	userv1 "github.com/go-microservice/ins-api/api/micro/user/v1"
-	"github.com/go-microservice/ins-api/internal/routers"
-	"github.com/go-microservice/ins-api/internal/service"
+	momentv1 "github.com/go-microservice/chatgram/api/micro/moment/v1"
+	relationv1 "github.com/go-microservice/chatgram/api/micro/relation/v1"
+	userv1 "github.com/go-microservice/chatgram/api/micro/user/v1"
+	"github.com/go-microservice/chatgram/internal/routers"
+	"github.com/go-microservice/chatgram/internal/service"
 )
 
 // ProviderSet is server providers.

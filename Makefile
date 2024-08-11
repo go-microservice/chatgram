@@ -1,6 +1,10 @@
 SHELL := /bin/bash
 BASEDIR = $(shell pwd)
 
+# 可在make是带入参数进行替换
+# eg: make SERVICE_NAME=chargram build
+SERVICE_NAME?=chargram
+
 # build with version infos
 versionDir = "github.com/go-eagle/eagle/pkg/version"
 gitTag = $(shell if [ "`git describe --tags --abbrev=0 2>/dev/null`" != "" ];then git describe --tags --abbrev=0; else git log --pretty=format:'%h' -n 1; fi)
@@ -10,7 +14,7 @@ gitTreeState = $(shell if git status|grep -q 'clean';then echo clean; else echo 
 
 ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}"
 
-PROJECT_NAME := "github.com/go-microservice/ins-api"
+PROJECT_NAME := "github.com/go-microservice/chatgram"
 PKG := "$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
@@ -31,8 +35,18 @@ all: lint test build
 
 .PHONY: build
 # make build, Build the binary file
-build: dep
-	@go build -v -ldflags ${ldflags} .
+build: 
+	GOOS=linux GOARCH=amd64 go build -v -ldflags ${ldflags} -o build/$(SERVICE_NAME) cmd/server/main.go cmd/server/wire_gen.go
+
+.PHONY: run
+# make run, run current project
+run: wire
+	go run cmd/server/main.go cmd/server/wire_gen.go
+
+.PHONY: wire
+# make wire, generate wire_gen.go
+wire: 
+	cd cmd/server && wire
 
 .PHONY: dep
 # make dep Get the dependencies
@@ -106,22 +120,6 @@ clean:
 	@go mod tidy
 	@echo "clean finished"
 
-.PHONY: docs
-# gen swagger doc
-docs:
-	@if ! which swag &>/dev/null; then \
-  		echo "downloading swag"; \
-  		go get -u github.com/swaggo/swag/cmd/swag; \
-  	fi
-	protoc --proto_path=. \
-		  --proto_path=./third_party \
-		  --openapiv2_out ./docs \
-		  --openapiv2_opt logtostderr=true \
-		  $(API_PROTO_FILES)
-	@#swag init
-	@echo "gen-docs done"
-	@echo "see docs by: http://localhost:8080/swagger/index.html"
-
 .PHONY: graph
 # make graph 生成交互式的可视化Go程序调用图(会在浏览器自动打开)
 graph:
@@ -146,13 +144,16 @@ mockgen:
 .PHONY: init
 # init env
 init:
-	go get -u google.golang.org/protobuf/cmd/protoc-gen-go
-	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
-	go get -v github.com/google/gnostic
-	go get -v github.com/google/gnostic/cmd/protoc-gen-openapi
-	go get -v github.com/favadi/protoc-go-inject-tag
-	go get -v github.com/gogo/protobuf/protoc-gen-gogo
-	go get -v github.com/gogo/protobuf/protoc-gen-gogofaster
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
+	go install github.com/google/gnostic@latest
+	go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
+	go install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@latest
+	go install github.com/golang/mock/mockgen@latest
+	go install github.com/favadi/protoc-go-inject-tag@latest
+	go install github.com/envoyproxy/protoc-gen-validate@latest
+	go install github.com/gogo/protobuf/protoc-gen-gogo@latest
+	go install github.com/gogo/protobuf/protoc-gen-gogofaster@latest
 	go install -v github.com/cosmtrek/air@latest
 
 .PHONY: proto
@@ -166,7 +167,7 @@ proto:
 .PHONY: grpc
 # generate grpc code with remove omitempty from json tag
 grpc:
-# --gogofaster_out full replace --go_out=. --go_opt=paths=source_relative
+# note: --gogofaster_out full replace --go_out=. --go_opt=paths=source_relative
 	@for v in $(API_PROTO_FILES); do \
   		echo "./$$v"; \
 		protoc --proto_path=. \
@@ -199,6 +200,22 @@ openapi:
           --proto_path=./third_party \
           --openapi_out=./docs \
           $(API_PROTO_FILES)
+
+.PHONY: docs
+# gen swagger doc
+docs:
+	@if ! which swag &>/dev/null; then \
+  		echo "downloading swag"; \
+  		go get -u github.com/swaggo/swag/cmd/swag; \
+  	fi
+	protoc --proto_path=. \
+		  --proto_path=./third_party \
+		  --openapiv2_out ./docs \
+		  --openapiv2_opt logtostderr=true \
+		  $(API_PROTO_FILES)
+	@#swag init
+	@echo "gen-docs done"
+	@echo "see docs by: http://localhost:8080/swagger/index.html"
 
 # show help
 help:

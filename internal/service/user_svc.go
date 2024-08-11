@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/go-microservice/ins-api/api/micro/user/v1"
+	pb "github.com/go-microservice/chatgram/api/micro/user/v1"
 )
 
 var (
@@ -65,15 +65,15 @@ func (s *UserServiceServer) Login(ctx context.Context, req *pb.LoginRequest) (*p
 		return nil, err
 	}
 	return &pb.LoginReply{
-		Uid:   cast.ToString(out.GetId()),
-		Token: out.GetToken(),
+		Uid:         cast.ToString(out.GetId()),
+		AccessToken: out.GetAccessToken(),
 	}, nil
 }
 
 func (s *UserServiceServer) Logout(ctx context.Context, req *pb.LogoutRequest) (*pb.LogoutReply, error) {
 	in := &userv1.LogoutRequest{
-		Id:    req.Id,
-		Token: req.Token,
+		Id:          req.Id,
+		AccessToken: req.AccessToken,
 	}
 	_, err := s.userRPC.Logout(ctx, in)
 	if err != nil {
@@ -134,7 +134,7 @@ func (s *UserServiceServer) UpdateUser(ctx context.Context, req *pb.UpdateUserRe
 func (s *UserServiceServer) UpdatePassword(ctx context.Context, req *pb.UpdatePasswordRequest) (*pb.UpdatePasswordReply, error) {
 	in := &userv1.UpdatePasswordRequest{
 		Id:              cast.ToString(req.GetId()),
-		OldPassword:     req.GetOldPassword(),
+		Password:        req.GetPassword(),
 		NewPassword:     req.GetNewPassword(),
 		ConfirmPassword: req.GetConfirmPassword(),
 	}

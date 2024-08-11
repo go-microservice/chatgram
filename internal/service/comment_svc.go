@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-microservice/ins-api/internal/ecode"
+	"github.com/go-microservice/chatgram/internal/ecode"
 
 	"github.com/go-eagle/eagle/pkg/log"
 	"github.com/spf13/cast"
@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/go-microservice/ins-api/api/micro/moment/v1"
+	pb "github.com/go-microservice/chatgram/api/micro/moment/v1"
 )
 
 var (
@@ -181,12 +181,12 @@ func (s *CommentServiceServer) ListHotComment(ctx context.Context, req *pb.ListC
 	if limit == 0 {
 		limit = 10
 	}
-	in := &momentv1.ListCommentRequest{
-		PostId: req.GetPostId(),
-		LastId: cast.ToInt64(req.GetLastId()),
-		Limit:  limit + 1,
+	in := &momentv1.ListCommentsRequest{
+		PostId:    req.GetPostId(),
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
-	ret, err := s.commentRPC.ListHotComment(ctx, in)
+	ret, err := s.commentRPC.ListHotComments(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -232,12 +232,12 @@ func (s *CommentServiceServer) ListLatestComment(ctx context.Context, req *pb.Li
 	if limit == 0 {
 		limit = 10
 	}
-	in := &momentv1.ListCommentRequest{
-		PostId: req.GetPostId(),
-		LastId: cast.ToInt64(req.GetLastId()),
-		Limit:  limit + 1,
+	in := &momentv1.ListCommentsRequest{
+		PostId:    req.GetPostId(),
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
-	ret, err := s.commentRPC.ListLatestComment(ctx, in)
+	ret, err := s.commentRPC.ListLatestComments(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -328,12 +328,12 @@ func (s *CommentServiceServer) ListReply(ctx context.Context, req *pb.ListReplyR
 	if limit == 0 {
 		limit = 10
 	}
-	in := &momentv1.ListReplyCommentRequest{
+	in := &momentv1.ListReplyCommentsRequest{
 		CommentId: req.GetCommentId(),
-		LastId:    cast.ToInt64(req.GetLastId()),
-		Limit:     limit + 1,
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
-	ret, err := s.commentRPC.ListReplyComment(ctx, in)
+	ret, err := s.commentRPC.ListReplyComments(ctx, in)
 	if err != nil {
 		return nil, err
 	}

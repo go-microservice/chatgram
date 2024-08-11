@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-microservice/ins-api/internal/ecode"
+	"github.com/go-microservice/chatgram/internal/ecode"
 
 	"github.com/jinzhu/copier"
 
@@ -18,7 +18,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/go-microservice/ins-api/api/micro/moment/v1"
+	pb "github.com/go-microservice/chatgram/api/micro/moment/v1"
 )
 
 const (
@@ -138,12 +138,12 @@ func (s *LikeServiceServer) ListPostLike(ctx context.Context, req *pb.ListPostLi
 
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
-	in := &momentv1.ListPostLikeRequest{
-		PostId: req.GetPostId(),
-		LastId: cast.ToInt64(req.GetLastId()),
-		Limit:  limit + 1,
+	in := &momentv1.ListPostLikesRequest{
+		PostId:    req.GetPostId(),
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
-	ret, err := s.likeRPC.ListPostLike(ctx, in)
+	ret, err := s.likeRPC.ListPostLikes(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
@@ -263,12 +263,12 @@ func (s *LikeServiceServer) ListCommentLike(ctx context.Context, req *pb.ListCom
 
 	// get data, support pagination
 	limit := cast.ToInt32(req.GetLimit())
-	in := &momentv1.ListCommentLikeRequest{
+	in := &momentv1.ListCommentLikesRequest{
 		CommentId: req.GetCommentId(),
-		LastId:    cast.ToInt64(req.GetLastId()),
-		Limit:     limit + 1,
+		PageToken: cast.ToInt64(req.GetLastId()),
+		PageSize:  limit + 1,
 	}
-	ret, err := s.likeRPC.ListCommentLike(ctx, in)
+	ret, err := s.likeRPC.ListCommentsLike(ctx, in)
 	if err != nil {
 		// check client if deadline exceeded
 		statusErr, ok := status.FromError(err)
