@@ -41,12 +41,12 @@ FROM alpine:3.20
 
 WORKDIR /bin
 
-ENV APP_ENV docker
+ENV APP_ENV prod
 
 # 从builder镜像中把 /build 拷贝到当前目录
-COPY --from=builder /go/bin/chatgram          /bin/chatgram
-COPY --from=builder /go/src/chatgram/config   /data/conf/chatgram/config
-COPY --from=builder /go/bin/grpc_health_probe /bin/grpc_health_probe
+COPY --from=builder /go/src/chatgram/build/chatgram   /bin/chatgram
+COPY --from=builder /go/src/chatgram/config           /data/conf/chatgram/config
+COPY --from=builder /go/bin/grpc_health_probe         /bin/grpc_health_probe
 
 
 RUN apk update \
