@@ -2,8 +2,8 @@ SHELL := /bin/bash
 BASEDIR = $(shell pwd)
 
 # 可在make是带入参数进行替换
-# eg: make SERVICE_NAME=chargram build
-SERVICE_NAME?=chargram
+# eg: make SERVICE_NAME=chatgram build
+SERVICE_NAME?=chatgram
 
 # build with version infos
 versionDir = "github.com/go-eagle/eagle/pkg/version"
