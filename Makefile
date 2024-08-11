@@ -109,7 +109,7 @@ gen-coverage:
 .PHONY: docker
 # make docker  生成docker镜像
 docker:
-	docker build -t eagle:$(versionDir) -f Dockeffile .
+	sh deploy/docker_image.sh $(GIT_TAG)
 
 .PHONY: clean
 # make clean
