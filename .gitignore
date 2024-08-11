@@ -18,5 +18,3 @@ vendor/
 log
 chatgram
 build
-deploy
-docker-compose.yaml

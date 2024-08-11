@@ -9,7 +9,7 @@ etcd:
   AutoSyncInterval: 1s
   TTL:
 consul:
-  Addr: "localhost:8500"
+  Addr: "consul:8500"
   Scheme: http
   Datacenter:
   WaitTime: 5s
