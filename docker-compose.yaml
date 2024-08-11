@@ -1,0 +1,221 @@
+# yaml 配置
+# 官方文档：https://docs.docker.com/compose/compose-file/
+version: "3.7"
+
+services:
+  chatgram:
+    container_name: chatgram_container
+    build: .
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - jaeger
+    links:
+      - mysql
+      - redis
+      - jaeger
+    ports:
+      - "8081:8081"
+    environment:
+      APP_ENV: docker
+    networks:
+      - microservices
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"] # 用于健康检查的指令
+      interval: 1m30s # 间隔时间
+      timeout: 10s # 超时时间
+      retries: 3 # 重试次数
+      start_period: 40s # 启动多久后开始检查
+
+  user-svc:
+    container_name: user_container
+    image: qloog/user-service:latest
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - jaeger
+    links:
+      - mysql
+      - redis
+      - jaeger
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      APP_ENV: docker
+    networks:
+      - microservices
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # 用于健康检查的指令
+      interval: 1m30s # 间隔时间
+      timeout: 10s # 超时时间
+      retries: 3 # 重试次数
+      start_period: 40s # 启动多久后开始检查
+
+  moment-svc:
+    container_name: moment_container
+    image: qloog/moment-service:latest
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - jaeger
+    links:
+      - mysql
+      - redis
+      - jaeger
+    ports:
+      - "8082:8082"
+      - "9092:9092"
+    environment:
+      APP_ENV: docker
+    networks:
+      - microservices
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"] # 用于健康检查的指令
+      interval: 1m30s # 间隔时间
+      timeout: 10s # 超时时间
+      retries: 3 # 重试次数
+      start_period: 40s # 启动多久后开始检查
+
+  relation-svc:
+    container_name: relation_container
+    image: qloog/relation-service:latest
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - jaeger
+    links:
+      - mysql
+      - redis
+      - jaeger
+    ports:
+      - "8088:8088"
+      - "9099:9099"
+    environment:
+      APP_ENV: docker
+    networks:
+      - microservices
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/health"] # 用于健康检查的指令
+      interval: 1m30s # 间隔时间
+      timeout: 10s # 超时时间
+      retries: 3 # 重试次数
+      start_period: 40s # 启动多久后开始检查
+
+  mysql:
+    container_name: mysql_container
+    image: mysql:5.7.33
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: eagle
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: 123456
+      TZ: Asia/Shanghai
+    # 解决外部无法访问 for mysql8
+    command:
+      [
+        "--character-set-server=utf8",
+        "--collation-server=utf8_unicode_ci",
+        "--default-authentication-plugin=mysql_native_password",
+      ]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] # 用于健康检查的指令
+      timeout: 20s # 超时时间
+      retries: 10 # 重试次数
+      start_period: 40s # 启动多久后开始检查
+    stdin_open: true
+    tty: true
+    # 修复问题 mbind: Operation not permitted
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./deploy/docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./deploy/docker/mysql/my.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./deploy/docker/mysql/:/docker-entrypoint-initdb.d/
+    networks:
+      - microservices
+
+  redis:
+    container_name: redis_container
+    image: redis:6.0.9-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - microservices
+    volumes:
+      - redis_data:/var/lib/redis
+
+  consul:
+    image: consul:1.6.1
+    command:
+      [
+        "consul",
+        "agent",
+        "-config-file=/config/config.hcl",
+        "-config-dir=/config",
+      ]
+    volumes:
+      - "./consul_config:/config"
+    ports:
+      - 8500:8500
+    networks:
+      - microservices
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.13
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "9411:9411"
+    networks:
+      - microservices
+
+  prometheus:
+    image: prom/prometheus:v2.26.0
+    container_name: prometheus
+    restart: always
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus.yml
+    entrypoint:
+      - /bin/prometheus
+      - --config.file=/etc/prometheus.yml
+    networks:
+      - microservices
+    ports:
+      - "9092:9090"
+
+  grafana:
+    image: grafana/grafana:7.5.3
+    container_name: grafana
+    restart: always
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    networks:
+      - microservices
+    ports:
+      - "3000:3000"
+
+networks:
+  microservices:
+    driver: "bridge"
+
+volumes:
+  mysql_data:
+  redis_data:
