@@ -5,7 +5,7 @@ version: "3.7"
 services:
   chatgram:
     container_name: chatgram_container
-    build: .
+    build: ./deploy/docker
     restart: on-failure
     depends_on:
       - mysql
