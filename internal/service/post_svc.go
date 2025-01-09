@@ -309,11 +309,16 @@ func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.
 		}
 	}()
 
+	// 控制并发数
+	concurrentNum := 10
+	concurrentChan := make(chan struct{}, concurrentNum)
 	for _, post := range posts {
 		wg.Add(1)
+		concurrentChan <- struct{}{}
 		post := post
 		go func(info *momentv1.Post) {
 			defer func() {
+				<-concurrentChan
 				wg.Done()
 			}()
 
@@ -345,6 +350,7 @@ func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.
 	}
 
 	wg.Wait()
+	close(concurrentChan)
 	close(errChan)
 	close(finished)
 
