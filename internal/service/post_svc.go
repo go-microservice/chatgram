@@ -345,6 +345,7 @@ func (s *PostServiceServer) assembleData(ctx context.Context, posts []*momentv1.
 			}
 
 			m.Store(info.Id, pbPost)
+			// 结果的存储也可以先使用chan, 然后使用 for range 转为map
 		}(post)
 
 	}
